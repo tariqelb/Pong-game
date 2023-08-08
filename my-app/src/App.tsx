@@ -1,10 +1,10 @@
 import React from 'react';
 import './App.css';
-import Canvas from './Canvas'
+import sketch from './sketch'
 
 function App() {
   return (
-    <Canvas width={500} height={500}/>
+    <P5Wrapper sketck={sketch}/>
   );
 }
 
