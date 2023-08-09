@@ -55,12 +55,24 @@ function setup(p5 : p5Types) {
   };
 }
 
-let lSquare = (p5 : p5Types )  =>
+let lRectangle = (p5 : p5Types )  =>
 {
-  //p5.line((canvasWidth / 2) , (0 - (canvasHeight / 10)) , (canvasWidth / 2), (canvasHeight / 10));
-  //p5.line(100 , 150 , 150, 200);
-  //p5.stroke(200);
-  //p5.strokeWeight(15);
+  let recX : number = (canvasWidth / 2) - (canvasWidth / 80); 
+  let recY : number = (0 - (canvasHeight / 2)); 
+  let recW : number = (canvasWidth / 80); 
+  let recH : number = (canvasHeight / 10); 
+  p5.rect(recX, recY , recW,  recH);
+
+}
+
+let rRectangle = (p5 : p5Types )  =>
+{
+  let recX : number = 0 - (canvasWidth / 2); 
+  let recY : number = (0 - (canvasHeight / 2)); 
+  let recW : number = (canvasWidth / 80); 
+  let recH : number = (canvasHeight / 10); 
+  
+  p5.rect(recX, recY , recW,  recH);
 
 }
 
@@ -78,21 +90,14 @@ function draw(p5 : p5Types) {
   }
 
   return () => {
-    lSquare(p5);
     p5.background(25, 25, 25);
     //console.log("Canvas height : ", (0 - (  canvasHeight / 2) + 10 ) , (canvasHeight / 2 - 10), canvasHeight);
-    p5.line(0, (0 - (canvasHeight / 2 ) + 10), 0, (canvasHeight / 2 - 10)); 
     p5.stroke(100);
     p5.strokeWeight(5);
-    //p5.fill(159);
-
-    /*p5.normalMaterial();
-    p5.push();
-    p5.rotateZ(p5.frameCount * 0.01);
-    p5.rotateX(p5.frameCount * 0.01);
-    p5.rotateY(p5.frameCount * 0.01);
-    p5.plane(100);
-    p5.pop();*/
+    p5.line(0, (0 - (canvasHeight / 2 ) + 10), 0, (canvasHeight / 2 - 10)); 
+    p5.strokeWeight(0);
+    lRectangle(p5);
+    rRectangle(p5);
   };
 }
 
