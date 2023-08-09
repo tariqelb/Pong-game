@@ -8,10 +8,7 @@ import { ReactP5Wrapper } from "@p5-wrapper/react";
 
 function App() {
   return (
-    <div className="App">
-      <ReactP5Wrapper sketch={MySketch} /> 
-    </div>
-
+      <ReactP5Wrapper  sketch={MySketch} /> 
   );
 }
 //<P5Wrapper sketch={MySketch} /> 
