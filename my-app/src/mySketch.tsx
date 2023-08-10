@@ -41,7 +41,7 @@ let MoveRRacetteWithKeyBoard = (p5 : p5Types)  =>
       else
         recY= (0 - ((canvasHeight / 10) / 2)) - 5;
     }
-    else if ((p5.keyCode === 40 || p5.keyCode === 38) && lastPossitionOfRectY != undefined)
+    else if ((p5.keyCode === 40 || p5.keyCode === 38) && lastPossitionOfRectY !== undefined)
     {
       if (p5.keyCode === 40)
         recY = lastPossitionOfRectY + 5;
@@ -165,18 +165,10 @@ function draw(p5 : p5Types)
     }
     else 
     {
-      //console.log("Key code : " , p5.keyCode, keyIspress);
-      if (keyIspress == false)
+      if (keyIspress === false)
           drawInitRacette(p5Cpy);//draw the racette
       else
-      {
-        //if (p5.keyCode === 40 || p5.keyCode === 38)
-        {
           MoveRRacetteWithKeyBoard(p5Cpy); // move the right rectangle 'racette' 
-        }
-      }
-        
-
     }
       //
   };
