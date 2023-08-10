@@ -21,7 +21,7 @@ let previewsMouseX : number;
 let previewsMouseY : number;
 let currentMouseX : number;
 let currentMouseY : number;
-let lastPossitionOfRectY : number = 0; //used for keyboard move
+let lastPossitionOfRectY : number; //used for keyboard move
 
 
 /* draw the right rectangle 'racette' */
@@ -30,41 +30,48 @@ let MoveRRacetteWithKeyBoard = (p5 : p5Types)  =>
   let recX : number = (canvasWidth / 2) - (canvasWidth / 80); 
   let recW : number = (canvasWidth / 80); 
   let recH : number = (canvasHeight / 7); 
-  let recY : number = 0;
+  let recY : number | undefined = undefined;
  
   if (p5.keyIsPressed)
   {
-    if ((p5.keyCode === 40 || p5.keyCode === 38) && lastPossitionOfRectY === 0) // first time press arrow key
+    if ((p5.keyCode === 40 || p5.keyCode === 38) && lastPossitionOfRectY === undefined) // first time press arrow key
     {
-      console.log("First : ", lastPossitionOfRectY);
       if (p5.keyCode === 40)
         recY= (0 - ((canvasHeight / 10) / 2)) + 5; 
       else
         recY= (0 - ((canvasHeight / 10) / 2)) - 5;
     }
-    else if ((p5.keyCode === 40 || p5.keyCode === 38) && lastPossitionOfRectY != 0)
+    else if ((p5.keyCode === 40 || p5.keyCode === 38) && lastPossitionOfRectY != undefined)
     {
-      console.log("other : ", lastPossitionOfRectY);
       if (p5.keyCode === 40)
         recY = lastPossitionOfRectY + 5;
       else
         recY = lastPossitionOfRectY - 5;
     }
   }
-  else if (lastPossitionOfRectY === 0) // press other key in the first time
-  {
-    console.log("first other : ", lastPossitionOfRectY);
+  else if (lastPossitionOfRectY === undefined) // press other key in the first time
     recY  = (0 - ((canvasHeight / 10) / 2));
-  }
   else
     recY = lastPossitionOfRectY;
-  if (recY === 0)
+  if (recY === undefined)
     p5.rect(recX, lastPossitionOfRectY , recW,  recH);
   else
-  p5.rect(recX, recY , recW,  recH);
-  if (recY != 0)
+  {
+    if (recY <= (0 - canvasHeight / 2))
+    {
+      p5.rect(recX, (0 - canvasHeight / 2) , recW,  recH);
+      recY = (0 - canvasHeight / 2);
+    }
+    else if (recY >= ((canvasHeight / 2) - recH))
+    {
+      p5.rect(recX, (canvasHeight / 2 - recH) , recW,  recH);
+      recY = (canvasHeight / 2 - recH);
+    }
+    else
+      p5.rect(recX, recY , recW,  recH);
+  }
+  if (recY !== undefined)
     lastPossitionOfRectY = recY;
-  console.log("Val of last press  ", recY, lastPossitionOfRectY);
 }
 /*Draw the racette in the midlle when no key is pressed yet */
 let drawInitRacette = (p5 : p5Types )  =>
@@ -158,7 +165,7 @@ function draw(p5 : p5Types)
     }
     else 
     {
-      console.log("Key code : " , p5.keyCode, keyIspress);
+      //console.log("Key code : " , p5.keyCode, keyIspress);
       if (keyIspress == false)
           drawInitRacette(p5Cpy);//draw the racette
       else
