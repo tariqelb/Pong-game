@@ -1,10 +1,12 @@
 import p5Types from 'p5';
 //import { scryRenderedDOMComponentsWithTag } from 'react-dom/test-utils';
 //import {useLayoutEffect, useRef, useState} from 'react';
+
 /* The canvas variable */
 let cnv  : p5Types.Renderer; 
 let p5Cpy : p5Types;
-
+let PlayWithMouse : boolean = false;//1; /* play with mouse or keyboard */
+let keyIspress : boolean = false;
 //let for the canvas the x0 and y0 is the center of it so x0 = canvas width / 2 and y0= canvasHeight / 2
 let X0 : number;
 let Y0 : number;
@@ -13,41 +15,83 @@ let Y0 : number;
 let canvasWidth : number ; //this var hold the width of the canvas
 let canvasHeight : number ;//this var hold the height of the canvas
 let gameBorederPixel : number = 15;
+
 //last coordinates of the mouse.
 let previewsMouseX : number;
 let previewsMouseY : number;
+let currentMouseX : number;
+let currentMouseY : number;
+let lastPossitionOfRectY : number = 0; //used for keyboard move
 
-//The top and bottom border of the canvas
-let topBorder : number;
-let bottomBorder : number;
-//last rectangle (racette) y position for not cross the the border
 
 /* draw the right rectangle 'racette' */
-let rRectangle = (p5 : p5Types )  =>
+let MoveRRacetteWithKeyBoard = (p5 : p5Types)  =>
+{
+  let recX : number = (canvasWidth / 2) - (canvasWidth / 80); 
+  let recW : number = (canvasWidth / 80); 
+  let recH : number = (canvasHeight / 7); 
+  let recY : number = 0;
+ 
+  if (p5.keyIsPressed)
+  {
+    if ((p5.keyCode === 40 || p5.keyCode === 38) && lastPossitionOfRectY === 0) // first time press arrow key
+    {
+      console.log("First : ", lastPossitionOfRectY);
+      if (p5.keyCode === 40)
+        recY= (0 - ((canvasHeight / 10) / 2)) + 5; 
+      else
+        recY= (0 - ((canvasHeight / 10) / 2)) - 5;
+    }
+    else if ((p5.keyCode === 40 || p5.keyCode === 38) && lastPossitionOfRectY != 0)
+    {
+      console.log("other : ", lastPossitionOfRectY);
+      if (p5.keyCode === 40)
+        recY = lastPossitionOfRectY + 5;
+      else
+        recY = lastPossitionOfRectY - 5;
+    }
+  }
+  else if (lastPossitionOfRectY === 0) // press other key in the first time
+  {
+    console.log("first other : ", lastPossitionOfRectY);
+    recY  = (0 - ((canvasHeight / 10) / 2));
+  }
+  else
+    recY = lastPossitionOfRectY;
+  if (recY === 0)
+    p5.rect(recX, lastPossitionOfRectY , recW,  recH);
+  else
+  p5.rect(recX, recY , recW,  recH);
+  if (recY != 0)
+    lastPossitionOfRectY = recY;
+  console.log("Val of last press  ", recY, lastPossitionOfRectY);
+}
+/*Draw the racette in the midlle when no key is pressed yet */
+let drawInitRacette = (p5 : p5Types )  =>
 {
   let recX : number = (canvasWidth / 2) - (canvasWidth / 80); 
   let recY : number = (0 - ((canvasHeight / 10) / 2)); 
   let recW : number = (canvasWidth / 80); 
   let recH : number = (canvasHeight / 7); 
+
   p5.rect(recX, recY , recW,  recH);
+  keyIspress = true;
 }
 
 /* drwa the left rectangle 'racette' */
-let lRectangle = (p5 : p5Types )  =>
+let drawAndMoveLRacetteWithMouse = (p5 : p5Types )  =>
 {
   let recX : number ;
   let recY : number ;
   let recW : number ;
   let recH : number ;
-  let move : number = 0; 
-  console.log("The previewsMouseY : ", previewsMouseY);
-  if (previewsMouseY === undefined)
+
+  if (currentMouseY === undefined)
   {
     recX = 0 - (canvasWidth / 2); 
     recY = (0 - ((canvasHeight / 10) /2)); 
     recW = (canvasWidth / 80); 
     recH = (canvasHeight / 7);
-    console.log("init The recY: ", recY);
     p5.rect(recX, recY , recW,  recH);
   }
   else
@@ -55,21 +99,14 @@ let lRectangle = (p5 : p5Types )  =>
     recH = (canvasHeight / 7); //the height of the racette
     recW = (canvasWidth / 80); //the width of the racette
     recX = 0 - (canvasWidth / 2); 
-    recY = (previewsMouseY - Y0) - (recH / 2); //(Y0 :x = 0 y = 0 occure in the middle of the canvas not the top left)//(0 - ((canvasHeight / 10) /2));//lrecY + move; 
-    console.log("Re The recY: ", recY, (recH / 2) , (canvasHeight - (recH / 2)), canvasHeight);
-    if ((previewsMouseY > (recH / 2)) && (previewsMouseY < (canvasHeight - (recH / 2))))
-    {
+    recY = (currentMouseY - Y0) - (recH / 2); //(Y0 :x = 0 y = 0 occure in the middle of the canvas not the top left)//(0 - ((canvasHeight / 10) /2));//lrecY + move; 
+    if ((currentMouseY > (recH / 2)) && (currentMouseY < (canvasHeight - (recH / 2))))
       p5.rect(recX, recY , recW,  recH);
-    }
-    else if ((previewsMouseY < (recH / 2)))
-    {
+    else if ((currentMouseY < (recH / 2)))
       p5.rect(recX, (0 - canvasHeight / 2), recW,  recH); // reach the top border
-    }
-    else if ((previewsMouseY > (canvasHeight - (recH / 2))))
-    {
+    else if ((currentMouseY > (canvasHeight - (recH / 2))))
       p5.rect(recX, (canvasHeight / 2 - recH) , recW,  recH); // reach the bottom border
-    }
-
+    //previewsMouseY = currentMouseY;
   }
 }
 
@@ -88,7 +125,6 @@ let resizeCanvas = (p5 : p5Types) =>
   let container : p5Types.Element | null = p5.select('#root');
   if (container)
   {
-    //console.log("w : " , container.elt.clientWidth - 15, " h : ", container.elt.clientHeight - 15);
     canvasWidth = container.elt.clientWidth - gameBorederPixel; //the game..xel is the number of pixel give to canvas borders 
     canvasHeight = container.elt.clientHeight - gameBorederPixel;
     p5.resizeCanvas(canvasWidth, canvasHeight);
@@ -99,11 +135,11 @@ let resizeCanvas = (p5 : p5Types) =>
   }
 }
 
-let hello = () : void =>
+let getCurrentMoussecoordinate = () : void =>
 {
-    previewsMouseX = p5Cpy.mouseX;
-    previewsMouseY = p5Cpy.mouseY;
-    console.log('hi', previewsMouseX, previewsMouseY);
+    currentMouseX = p5Cpy.mouseX;
+    currentMouseY = p5Cpy.mouseY;
+    console.log('hi', currentMouseX, currentMouseY);
 }
 
 /* draw functon , run continously and draw on the canvas */
@@ -115,9 +151,27 @@ function draw(p5 : p5Types)
     p5.background(25, 25, 25);
     line(p5); /* Draw the middle line */
     p5Cpy = p5;
-    cnv.mouseMoved(hello);
-    rRectangle(p5Cpy); /* draw the right rectangle 'racette' */
-    lRectangle(p5Cpy); /* drwa the left rectangle 'racette' */
+    if (PlayWithMouse) 
+    {
+      cnv.mouseMoved(getCurrentMoussecoordinate);
+      drawAndMoveLRacetteWithMouse(p5Cpy); /* draw and move the left rectangle 'racette' */
+    }
+    else 
+    {
+      console.log("Key code : " , p5.keyCode, keyIspress);
+      if (keyIspress == false)
+          drawInitRacette(p5Cpy);//draw the racette
+      else
+      {
+        //if (p5.keyCode === 40 || p5.keyCode === 38)
+        {
+          MoveRRacetteWithKeyBoard(p5Cpy); // move the right rectangle 'racette' 
+        }
+      }
+        
+
+    }
+      //
   };
 }
 
