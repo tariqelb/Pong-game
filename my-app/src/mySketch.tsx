@@ -1,12 +1,23 @@
 import p5Types from 'p5';
 //import { scryRenderedDOMComponentsWithTag } from 'react-dom/test-utils';
 //import {useLayoutEffect, useRef, useState} from 'react';
+/* The canvas variable */
+let cnv  : p5Types.Renderer; 
+let p5Cpy : p5Types;
+//let mouseXy : p5Types.Element;
+let X0 : number;
+let Y0 : number;
 
 /* Set global variable */ 
 let canvasWidth : number ; //this var hold the width of the canvas
 let canvasHeight : number ;//this var hold the height of the canvas
-
-
+let gameBorederPixel : number = 15;
+//last coordinates of the mouse.
+let previewsMouseX : number;
+let previewsMouseY : number;
+//left and right rectungle y coordinate
+let lrecY : number = 0;
+//let RrecY : number = 0;
 /* draw the right rectangle 'racette' */
 let rRectangle = (p5 : p5Types )  =>
 {
@@ -20,10 +31,27 @@ let rRectangle = (p5 : p5Types )  =>
 /* drwa the left rectangle 'racette' */
 let lRectangle = (p5 : p5Types )  =>
 {
-  let recX : number = 0 - (canvasWidth / 2); 
-  let recY : number = (0 - ((canvasHeight / 10) /2)); 
-  let recW : number = (canvasWidth / 80); 
-  let recH : number = (canvasHeight / 7); 
+  let recX : number ;
+  let recY : number ;
+  let recW : number ;
+  let recH : number ;
+  let move : number = 0; 
+  console.log("The previewsMouseY : ", previewsMouseY);
+  if (previewsMouseY === undefined)
+  {
+    recX = 0 - (canvasWidth / 2); 
+    recY = (0 - ((canvasHeight / 10) /2)); 
+    recW = (canvasWidth / 80); 
+    recH = (canvasHeight / 7);
+  }
+  else
+  {
+    recH = (canvasHeight / 7);
+    recW = (canvasWidth / 80); 
+    recX = 0 - (canvasWidth / 2); 
+    recY = (previewsMouseY - Y0) - (recH / 2); //(Y0 :x = 0 y = 0 occure in the middle of the canvas not the top left)//(0 - ((canvasHeight / 10) /2));//lrecY + move; 
+  }
+  console.log("The recY: ", recY);
   p5.rect(recX, recY , recW,  recH);
 }
 
@@ -39,27 +67,39 @@ let line = (p5 : p5Types) =>
 /* resize the canvas window to be responsive */
 let resizeCanvas = (p5 : p5Types) => 
 {
-  const container : p5Types.Element | null = p5.select('#root');
+  let container : p5Types.Element | null = p5.select('#root');
   if (container)
   {
-    console.log(container);
-    canvasWidth = container.elt.clientWidth - 15; //the 15 for border pixel
-    canvasHeight = container.elt.clientHeight - 15;
+    //console.log("w : " , container.elt.clientWidth - 15, " h : ", container.elt.clientHeight - 15);
+    canvasWidth = container.elt.clientWidth - gameBorederPixel; //the game..xel is the number of pixel give to canvas borders 
+    canvasHeight = container.elt.clientHeight - gameBorederPixel;
     p5.resizeCanvas(canvasWidth, canvasHeight);
+  }
+  else
+  {
+      console.log("The game div selector return null.");
   }
 }
 
-/* draw functon , run continously and draw on the canvas  */
+let hello = () : void =>
+{
+    previewsMouseX = p5Cpy.mouseX;
+    previewsMouseY = p5Cpy.mouseY;
+    console.log('hi', previewsMouseX, previewsMouseY);
+}
+
+/* draw functon , run continously and draw on the canvas */
 function draw(p5 : p5Types) 
 {
-  resizeCanvas(p5);
   return () => 
   {
+    resizeCanvas(p5);
     p5.background(25, 25, 25);
-    //console.log("Canvas height : ", (0 - (  canvasHeight / 2) + 10 ) , (canvasHeight / 2 - 10), canvasHeight);
     line(p5); /* Draw the middle line */
-    rRectangle(p5); /* draw the right rectangle 'racette' */
-    lRectangle(p5); /* drwa the left rectangle 'racette' */
+    p5Cpy = p5;
+    cnv.mouseMoved(hello);
+    rRectangle(p5Cpy); /* draw the right rectangle 'racette' */
+    lRectangle(p5Cpy); /* drwa the left rectangle 'racette' */
   };
 }
 
@@ -70,11 +110,13 @@ function setup(p5 : p5Types)
     const container : p5Types.Element | null = p5.select('#root');
     if (container)
     {
-      console.log(container);
+      //console.log(container);
       canvasWidth  = container.elt.clientWidth - 15;//the 15 for border pixel
       canvasHeight = container.elt.clientHeight - 15;
-      let cnv : p5Types.Renderer = p5.createCanvas( canvasWidth ,  canvasHeight, p5.WEBGL);
+      cnv = p5.createCanvas( canvasWidth ,  canvasHeight, p5.WEBGL);
       cnv.parent('root');
+      X0 = (canvasWidth / 2);
+      Y0 = (canvasHeight / 2);
     }
     else
     {
@@ -88,6 +130,7 @@ function MySketch(p5 : p5Types)
 {
   p5.setup = setup(p5);
   p5.draw = draw(p5);
+
 }
 
 
