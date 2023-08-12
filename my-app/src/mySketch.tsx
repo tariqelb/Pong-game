@@ -178,6 +178,8 @@ let setFirstMouseMove = () : void =>
     fistMouseMove = true;
 }
 
+let hiThere = () => console.log("A canvas event.");
+
 /* drwa the left rectangle 'racette' */
 let drawAndMoveLeftRacetteWithMouse = (p5 : p5Types ) : void  =>
 {
@@ -198,18 +200,25 @@ let drawAndMoveLeftRacetteWithMouse = (p5 : p5Types ) : void  =>
     if (lrecY === undefined)
     {
       lrecY = (p5.height / 2) - rrecH / 2; 
-      p5.rect(rrecX, lrecY , rrecW,  rrecH);
+      p5.rect(lrecX, lrecY , lrecW,  lrecH);
     }  
     else
     {
       let mY = p5.constrain(p5.mouseY, 0, p5.height - lrecH);
-      if (p5.mouseX > 0 && p5.mouseX < p5.width)
+      if ((p5.mouseX > 0 && p5.mouseX < p5.width))// && cnv.mouseMoved(hiThere))
       {
-        lrecY = mY;
+        if (lastPossitionOfLeftRectY === p5.height - lrecH && mY === 0)
+          lrecY = lastPossitionOfLeftRectY;
+        else if (lastPossitionOfLeftRectY === 0 && mY === p5.height - lrecH)
+          lrecY = lastPossitionOfLeftRectY;
+        else
+          lrecY = mY;
         p5.rect(lrecX, lrecY , lrecW,  lrecH);
       }
       else
+      {
         p5.rect(lrecX, lastPossitionOfLeftRectY , lrecW,  lrecH);
+      }
     }
   }
   if (lrecY !== undefined)
@@ -243,7 +252,12 @@ let drawAndMoveRightRacetteWithMouse = (p5 : p5Types ) : void  =>
       let mY = p5.constrain(p5.mouseY, 0, p5.height - rrecH);//mY is mouse Y coordinate after constrain
       if (p5.mouseX > 0 && p5.mouseX < p5.width)
       {
-        rrecY = mY; 
+        if (lastPossitionOfRightRectY === p5.height - rrecH && mY === 0)
+          rrecY = lastPossitionOfRightRectY;
+        else if (lastPossitionOfRightRectY === 0 && mY === p5.height - rrecH)
+          rrecY = lastPossitionOfRightRectY;
+        else
+          rrecY = mY; 
         p5.rect(rrecX, rrecY , rrecW,  rrecH);
       }
       else
