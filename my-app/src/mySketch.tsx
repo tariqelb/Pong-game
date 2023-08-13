@@ -1,9 +1,9 @@
 import p5Types from 'p5';
-import ballMove from './ballMove';
+import drawAndMoveTheBall from './ballMove';
 //import { scryRenderedDOMComponentsWithTag } from 'react-dom/test-utils';
 //import {useLayoutEffect, useRef, useState} from 'react';
 //import  *  as globalVar from './globalVariables';
-
+import {restart} from './ballMove'
 // The canvas variable 
 let cnv  : p5Types.Renderer; 
 let PlayWithMouse : boolean = true; // play with mouse or keyboard 
@@ -11,7 +11,7 @@ let PlayWithMouse : boolean = true; // play with mouse or keyboard
 let keyIspress : boolean = false;
 
 // Set global variable 
-let speed : number = 10;// speed the number of pixel i add to racette to move it
+let racetteSpeed : number = 10;// speed the number of pixel i add to racette to move it
 let gameBorederPixel : number = 15; //Borders size of the div in which the canvas is rendred 
 
 //last coordinates of the mouse.
@@ -31,22 +31,7 @@ let lrecW : number ;
 let lrecH : number ; 
 let lrecY : number | undefined ;
 
-//set the ball  variable ballX ballY ballWH  (ellipse) 
-let ballX : number ;
-let ballY : number ;
-let ballWH : number ; // ball width and height 
 
-
-// Draw the ball 
-let drawBall = (p5 : p5Types) : void =>
-{
-  let ballWH = p5.height / 25;
-  p5.beginShape();
-  p5.stroke(1)
-  p5.ellipse(0,0, ballWH, ballWH);
-  
-  p5.endShape();
-}
 
 
 /* draw the right rectangle 'racette' */
@@ -62,16 +47,16 @@ let MoveRightRacetteWithKeyBoard = (p5 : p5Types) : void =>
     if ((p5.keyCode === 40 || p5.keyCode === 38) && lastPossitionOfRightRectY === undefined) // first time press arrow key
     {
       if (p5.keyCode === 40)
-        rrecY = ((p5.height / 2) - (rrecH / 2)) + speed; 
+        rrecY = ((p5.height / 2) - (rrecH / 2)) + racetteSpeed; 
       else
-        rrecY = ((p5.height / 2) - (rrecH / 2)) - speed;
+        rrecY = ((p5.height / 2) - (rrecH / 2)) - racetteSpeed;
     }
     else if ((p5.keyCode === 40 || p5.keyCode === 38) && lastPossitionOfRightRectY !== undefined)
     {
       if (p5.keyCode === 40)
-        rrecY = lastPossitionOfRightRectY + speed;
+        rrecY = lastPossitionOfRightRectY + racetteSpeed;
       else
-        rrecY = lastPossitionOfRightRectY - speed;
+        rrecY = lastPossitionOfRightRectY - racetteSpeed;
     }
   }
   else if (lastPossitionOfRightRectY === undefined) // press other key in the first time
@@ -112,16 +97,16 @@ let MoveLeftRacetteWithKeyBoard = (p5 : p5Types) : void =>
     if ((p5.keyCode === 40 || p5.keyCode === 38) && lastPossitionOfLeftRectY === undefined) // first time press arrow key
     {
       if (p5.keyCode === 40)
-        lrecY = ((p5.height / 2) - (rrecH / 2)) + speed; 
+        lrecY = ((p5.height / 2) - (rrecH / 2)) + racetteSpeed; 
       else
-        lrecY = ((p5.height / 2) - (rrecH / 2)) - speed;
+        lrecY = ((p5.height / 2) - (rrecH / 2)) - racetteSpeed;
     }
     else if ((p5.keyCode === 40 || p5.keyCode === 38) && lastPossitionOfLeftRectY !== undefined)
     {
       if (p5.keyCode === 40)
-        lrecY = lastPossitionOfLeftRectY + speed;
+        lrecY = lastPossitionOfLeftRectY + racetteSpeed;
       else
-        lrecY = lastPossitionOfLeftRectY - speed;
+        lrecY = lastPossitionOfLeftRectY - racetteSpeed;
     }
   }
   else if (lastPossitionOfLeftRectY === undefined) // press other key in the first time
@@ -325,7 +310,11 @@ function draw(p5 : p5Types)
       }
     }
     //Draw the ball
-    //drawBall(p5);
+    drawAndMoveTheBall(p5);
+    if (restart == true)
+    {
+      fistMouseMove = false;
+    }
     //ballMove(p5);
   };
 }
@@ -347,7 +336,7 @@ function setup(p5 : p5Types)
     }
     else
     {
-      p5.createCanvas( 700 ,  500 , p5.WEBGL);
+      p5.createCanvas( 700 ,  500 );
       console.log("Error: in sketch file, failed to select the canvas element.")
     }
   };
@@ -362,14 +351,13 @@ function MySketch(p5 : p5Types)
 
 export default MySketch;
 
-export {cnv}; 
-export {PlayWithMouse};
-export {keyIspress};
-export {speed};
-export {gameBorederPixel};
-export {fistMouseMove};
+export {rrecX};
+export {rrecW};
+export {rrecH};
+export {rrecY};
+export {lrecX};
+export {lrecW};
+export {lrecH};
+export {lrecY};
 export {lastPossitionOfRightRectY}; 
 export {lastPossitionOfLeftRectY}; 
-export {ballX};
-export {ballY};
-export {ballWH}; 
