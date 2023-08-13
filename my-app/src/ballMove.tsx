@@ -23,19 +23,23 @@ let first50Time : number = 0;
 let castLrecY : number;
 let castRrecY : number;
 let restart : boolean = false;
-
-
+let ballRightTan : number; 
+let ballLeftTan : number;
+let ballTopTan : number; 
+let ballBottomTan : number;
 let calculateRightBallRebound = () : void =>
 {
     let diff : number = ballY - castLrecY;
     let adj : number;
-
+    let radAngle : number;
+    
     if (diff < 0)
         diff = diff * -1;
     ballAngle = diff * 200 / rrecH;
+    radAngle = ballAngle * (Math.PI / 200);
     console.log("The diff right: ", diff, ballAngle, ballDirection);
     ballDirection = !ballDirection;
-    adj = 10 * Math.tan(ballAngle);
+    adj = 10 * Math.tan(radAngle);
     if (ballAngle < 100)
         ballY = ballY + adj;
     else if (ballAngle > 100)
@@ -46,10 +50,12 @@ let calculateLeftBallRebound = () : void =>
 {
     let diff : number = ballY - castRrecY;
     let adj : number;
+    let radAngle : number;
     
     if (diff < 0)
         diff = diff * -1;
     ballAngle = diff * 200 / lrecH;
+    radAngle = ballAngle * (Math.PI / 200);
     console.log("The diff : ", diff, ballAngle);
     ballDirection = !ballDirection;
     adj = 10 * Math.tan(ballAngle);
@@ -72,15 +78,26 @@ let calculateBallOnSpace = () : void =>
 
 let calculateTopAndBottomBallRebound = () : void =>
 {
+    if (ballTopTan <= 0)
+    {
+        if (ballAngle > 0)
+        {
+            
+        }
+    }
+    else
+    {
 
+    }
+    
 }
 
 let ballMove =  (p5 : p5Types) : void =>
 {
-    let ballRightTan : number = ballX + ballWH / 2;
-    let ballLeftTan : number = ballX - ballWH / 2;
-    let ballTopTan : number = ballY + ballWH / 2;
-    let ballBottomTan : number = ballY - ballWH / 2;
+    ballRightTan = ballX + ballWH / 2;
+    ballLeftTan = ballX - ballWH / 2;
+    ballTopTan = ballY + ballWH / 2;
+    ballBottomTan = ballY - ballWH / 2;
     if (ballDirection === undefined)
     {
         ballDirection = (Math.floor(Math.random() * (2))) ? true : false;//generate a random number between 0 ans 1 , 0 for left and 1 for right first move direction
