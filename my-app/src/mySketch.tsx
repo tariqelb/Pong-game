@@ -170,7 +170,7 @@ let drawAndMoveLeftRacetteWithMouse = (p5 : p5Types ) : void  =>
 {
   if (fistMouseMove === false)
   {
-    lrecH = (p5.height / 7);
+    lrecH = (p5.height / 4);
     lrecX = 0; 
     lrecY = (p5.height / 2) - rrecH / 2; 
     lrecW = (p5.width / 80); 
@@ -179,7 +179,7 @@ let drawAndMoveLeftRacetteWithMouse = (p5 : p5Types ) : void  =>
   }
   else
   {
-    lrecH = (p5.height / 7); //the height of the racette
+    lrecH = (p5.height / 4); //the height of the racette
     lrecW = (p5.width / 80); //the width of the racette
     lrecX = 0; 
     if (lrecY === undefined)
@@ -215,7 +215,7 @@ let drawAndMoveRightRacetteWithMouse = (p5 : p5Types ) : void  =>
 {
   if (fistMouseMove === false)
   {
-    rrecH = (p5.height / 7);
+    rrecH = (p5.height / 4);
     rrecX = (p5.width) - (p5.width / 80); 
     rrecY = (p5.height / 2) - rrecH / 2; 
     rrecW = (p5.width / 80); 
@@ -224,7 +224,7 @@ let drawAndMoveRightRacetteWithMouse = (p5 : p5Types ) : void  =>
   }
   else
   {
-    rrecH = (p5.height / 7); //the height of the racette
+    rrecH = (p5.height / 4); //the height of the racette
     rrecW = (p5.width / 80); //the width of the racette
     rrecX = (p5.width) - (p5.width / 80); 
     if (rrecY === undefined)
@@ -311,7 +311,7 @@ function draw(p5 : p5Types)
     }
     //Draw the ball
     drawAndMoveTheBall(p5);
-    if (restart == true)
+    if (restart === true)
     {
       fistMouseMove = false;
     }
