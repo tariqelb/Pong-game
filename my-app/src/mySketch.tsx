@@ -288,7 +288,15 @@ function draw(p5 : p5Types)
   return () => 
   {
     resizeCanvas(p5);
-    p5.background(25, 25, 25);
+    p5.background(25, 150, 150);
+    /*if (The4rd)
+    {
+      console.log("The image is ready"); 
+      p5.image(The4rd, 0, 0, p5.width, p5.height);
+    }
+    else
+      console.log("is not ready")
+   */
     line(p5); /* Draw the middle line */
     if (PlayWithMouse) 
     {
@@ -342,9 +350,16 @@ function setup(p5 : p5Types)
   };
 }
 
+
+let The4rd : p5Types.Image;
+
 function MySketch(p5 : p5Types) 
 {
+  p5.preload = () => {
+    The4rd = p5.loadImage('/ping-pong-2d.png');
+  };
   p5.setup = setup(p5);
+
   p5.draw = draw(p5);
 
 }
