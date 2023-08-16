@@ -6,8 +6,8 @@ import drawAndMoveTheBall from './ballMove';
 import {restart} from './ballMove'
 // The canvas variable 
 let cnv  : p5Types.Renderer; 
-let PlayWithMouse : boolean = true; // play with mouse or keyboard 
-//let PlayWithMouse : boolean = false; // play with mouse or keyboard 
+//let PlayWithMouse : boolean = true; // play with mouse or keyboard 
+let PlayWithMouse : boolean = false; // play with mouse or keyboard 
 let keyIspress : boolean = false;
 
 // Set global variable 
@@ -37,7 +37,7 @@ let lrecY : number | undefined ;
 /* draw the right rectangle 'racette' */
 let MoveRightRacetteWithKeyBoard = (p5 : p5Types) : void =>
 {
-  rrecH = (p5.height / 7);
+  rrecH = (p5.height / 4);
   rrecX = (p5.width) - (p5.width / 80);
   rrecW = (p5.width / 80); 
   rrecY = undefined;
@@ -89,7 +89,7 @@ let MoveLeftRacetteWithKeyBoard = (p5 : p5Types) : void =>
 {
   lrecX = 0; 
   lrecW = (p5.width / 80); 
-  lrecH = (p5.height / 7); 
+  lrecH = (p5.height / 4); 
   lrecY = undefined;
  
   if (p5.keyIsPressed)
@@ -137,7 +137,7 @@ let MoveLeftRacetteWithKeyBoard = (p5 : p5Types) : void =>
 /*Draw the racette in the midlle when no key is pressed yet */
 let drawInitRightRacette = (p5 : p5Types ) : void =>
 {
-  rrecH = (p5.height / 7);
+  rrecH = (p5.height / 4);
   rrecW = (p5.width / 80); 
   rrecX = (p5.width) - (p5.width / 80); 
   rrecY = (p5.height / 2) - (rrecH / 2); 
@@ -148,7 +148,7 @@ let drawInitRightRacette = (p5 : p5Types ) : void =>
 
 let drawInitLeftRacette = (p5 : p5Types ) : void =>
 {
-  lrecH = (p5.height / 7);
+  lrecH = (p5.height / 4);
   lrecX = 0; 
   lrecY = (p5.height / 2) - (rrecH / 2); 
   lrecW = (p5.width / 80); 
@@ -162,8 +162,6 @@ let setFirstMouseMove = () : void =>
 {
     fistMouseMove = true;
 }
-
-let hiThere = () => console.log("A canvas event.");
 
 /* drwa the left rectangle 'racette' */
 let drawAndMoveLeftRacetteWithMouse = (p5 : p5Types ) : void  =>
@@ -288,15 +286,7 @@ function draw(p5 : p5Types)
   return () => 
   {
     resizeCanvas(p5);
-    p5.background(25, 150, 150);
-    /*if (The4rd)
-    {
-      console.log("The image is ready"); 
-      p5.image(The4rd, 0, 0, p5.width, p5.height);
-    }
-    else
-      console.log("is not ready")
-   */
+    p5.background(218, 97, 232);
     line(p5); /* Draw the middle line */
     if (PlayWithMouse) 
     {
@@ -322,6 +312,7 @@ function draw(p5 : p5Types)
     if (restart === true)
     {
       fistMouseMove = false;
+      keyIspress = false;
     }
     //ballMove(p5);
   };
@@ -351,13 +342,9 @@ function setup(p5 : p5Types)
 }
 
 
-let The4rd : p5Types.Image;
 
 function MySketch(p5 : p5Types) 
 {
-  p5.preload = () => {
-    The4rd = p5.loadImage('/ping-pong-2d.png');
-  };
   p5.setup = setup(p5);
 
   p5.draw = draw(p5);

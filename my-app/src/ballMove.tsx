@@ -56,7 +56,7 @@ let calculateRightBallRebound = () : void =>
     radAngle = tmpAngle * (Math.PI / 2 / 200);
     ballDirection = !ballDirection;
     adj = ballSpeed * Math.tan(radAngle);
-    if (tmpAngle == 100 || tmpAngle == 300)
+    if (tmpAngle === 100 || tmpAngle === 300)
         adj = 0;
     if (adj < 0)
         adj *= -1;
@@ -94,7 +94,7 @@ let calculateLeftBallRebound = () : void =>
     ballDirection = !ballDirection;
 
     adj = ballSpeed * Math.tan(radAngle);
-    if (tmpAngle == 100 || tmpAngle == 300)
+    if (tmpAngle === 100 || tmpAngle === 300)
         adj = 0;
     if (adj < 0)
         adj *= -1
@@ -125,9 +125,9 @@ let calculateBallOnSpace = () : void =>
         tmpAngle = ballAngle - 400;
     radAngle = tmpAngle  * (Math.PI / 2 / 200);
     adj = ballSpeed * Math.tan(radAngle);
-    if (ballAngle == 200 || ballAngle == 0)
+    if (ballAngle === 200 || ballAngle === 0)
         console.log("The space : ", ballAngle,  tmpAngle);
-    if (tmpAngle == 100 || tmpAngle == 300)
+    if (tmpAngle === 100 || tmpAngle === 300)
         adj = 0;
     if (adj < 0)
         adj *= -1;
@@ -180,9 +180,9 @@ let calculateTopAndBottomBallRebound = () : void =>
             tmpAngle = ballAngle - 400;
         radAngle = tmpAngle  * (Math.PI / 2 / 200);
         adj = ballSpeed * Math.tan(radAngle); 
-        if (ballAngle == 200 || ballAngle == 0)
+        if (ballAngle === 200 || ballAngle === 0)
             console.log("The space : ", ballAngle,  tmpAngle);
-        if (tmpAngle == 100 || tmpAngle == 300)
+        if (tmpAngle === 100 || tmpAngle === 300)
             adj = 0;
         if (adj < 0)
             adj *= -1;
@@ -212,9 +212,9 @@ let calculateTopAndBottomBallRebound = () : void =>
             tmpAngle = ballAngle - 400;
         radAngle = tmpAngle * (Math.PI / 2 / 200);
         adj = ballSpeed * Math.tan(radAngle);
-        if (ballAngle == 200 || ballAngle == 0)
+        if (ballAngle === 200 || ballAngle === 0)
             console.log("The space : ", ballAngle,  tmpAngle);
-        if (tmpAngle == 100 || tmpAngle == 300)
+        if (tmpAngle === 100 || tmpAngle === 300)
             adj = 0;
         if (adj < 0)
             adj *= -1;
@@ -321,7 +321,6 @@ let drawAndMoveTheBall = (p5 : p5Types) : void =>
     else
     {
         ballMove(p5);
-        p5.fill('red');
     }
 }
 
