@@ -18,14 +18,14 @@ let ballWH : number ; // ball width and height
 let ballFirstMove : boolean = true;
 let ballDirection : boolean | undefined = undefined; // the direction of the ball right == true , left == flase
 let ballAngle : number;
-let ballSpeed : number = 12; // the opposite of the ballAngle // conatant added to ballX;
+let ballSpeed : number = 7; // the opposite of the ballAngle // conatant added to ballX;
 let first50Time : number = 0;//  1 2 3 before the ball start move , just a short time for the player to be ready;
-let castLrecY : number;// left racette Y coordinate read-only import variable cast it to number;
-let castRrecY : number;// right racette Y coordinate read-only import variable cast it to number;
+let castLrecY : number;// left racket Y coordinate read-only import variable cast it to number;
+let castRrecY : number;// right racket Y coordinate read-only import variable cast it to number;
 let restart : boolean = false;// restart the game , set variable to initial value;
-let ballRightTan : number; // ball is a circle from 0 to 400 grade ballRightTan is the x coordinate of the grade 300
-let ballLeftTan : number; // the x coordinate of the grade 100
-let ballTopTan : number; // the y coordinate of the grade 0 (400)
+let ballRightTan  : number; // ball is a circle from 0 to 400 grade ballRightTan is the x coordinate of the grade 300
+let ballLeftTan   : number; // the x coordinate of the grade 100
+let ballTopTan    : number; // the y coordinate of the grade 0 (400)
 let ballBottomTan : number; // the Y coordinate of the grade 200
 let cnvHeight : number ; // p5.height canvas height
 
@@ -97,11 +97,11 @@ let calculateLeftBallRebound = () : void =>
     if (tmpAngle === 100 || tmpAngle === 300)
         adj = 0;
     if (adj < 0)
-        adj *= -1
+        adj *= -1;
     if (ballAngle >= 0 && ballAngle < 100)
         ballY = ballY - adj;
     else if (ballAngle >= 100 && ballAngle <= 200)
-        ballY = ballY + adj; 
+        ballY = ballY + adj;
     if (ballDirection)
         ballX += ballSpeed;
     else
@@ -324,8 +324,13 @@ let drawAndMoveTheBall = (p5 : p5Types) : void =>
     }
 }
 
-
+export { ballX };
+export { ballY };
+export { ballWH };
+export { ballAngle };
+export { ballDirection };
+export { restart };
+export { ballSpeed }
 
 
 export default drawAndMoveTheBall;
-export {restart};

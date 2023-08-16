@@ -1,9 +1,12 @@
 import p5Types from 'p5';
 import drawAndMoveTheBall from './ballMove';
+import automaticRacket from './automaticRacket';
+
 //import { scryRenderedDOMComponentsWithTag } from 'react-dom/test-utils';
 //import {useLayoutEffect, useRef, useState} from 'react';
 //import  *  as globalVar from './globalVariables';
 import {restart} from './ballMove'
+import {restartTwo} from './automaticRacket'
 // The canvas variable 
 let cnv  : p5Types.Renderer; 
 //let PlayWithMouse : boolean = true; // play with mouse or keyboard 
@@ -11,7 +14,7 @@ let PlayWithMouse : boolean = false; // play with mouse or keyboard
 let keyIspress : boolean = false;
 
 // Set global variable 
-let racetteSpeed : number = 10;// speed the number of pixel i add to racette to move it
+let racketSpeed : number = 10;// speed the number of pixel i add to racket to move it
 let gameBorederPixel : number = 15; //Borders size of the div in which the canvas is rendred 
 
 //last coordinates of the mouse.
@@ -34,8 +37,8 @@ let lrecY : number | undefined ;
 
 
 
-/* draw the right rectangle 'racette' */
-let MoveRightRacetteWithKeyBoard = (p5 : p5Types) : void =>
+/* draw the right rectangle 'racket' */
+let MoveRightRacketWithKeyBoard = (p5 : p5Types) : void =>
 {
   rrecH = (p5.height / 4);
   rrecX = (p5.width) - (p5.width / 80);
@@ -47,16 +50,16 @@ let MoveRightRacetteWithKeyBoard = (p5 : p5Types) : void =>
     if ((p5.keyCode === 40 || p5.keyCode === 38) && lastPossitionOfRightRectY === undefined) // first time press arrow key
     {
       if (p5.keyCode === 40)
-        rrecY = ((p5.height / 2) - (rrecH / 2)) + racetteSpeed; 
+        rrecY = ((p5.height / 2) - (rrecH / 2)) + racketSpeed; 
       else
-        rrecY = ((p5.height / 2) - (rrecH / 2)) - racetteSpeed;
+        rrecY = ((p5.height / 2) - (rrecH / 2)) - racketSpeed;
     }
     else if ((p5.keyCode === 40 || p5.keyCode === 38) && lastPossitionOfRightRectY !== undefined)
     {
       if (p5.keyCode === 40)
-        rrecY = lastPossitionOfRightRectY + racetteSpeed;
+        rrecY = lastPossitionOfRightRectY + racketSpeed;
       else
-        rrecY = lastPossitionOfRightRectY - racetteSpeed;
+        rrecY = lastPossitionOfRightRectY - racketSpeed;
     }
   }
   else if (lastPossitionOfRightRectY === undefined) // press other key in the first time
@@ -84,8 +87,8 @@ let MoveRightRacetteWithKeyBoard = (p5 : p5Types) : void =>
     lastPossitionOfRightRectY = rrecY;
 }
 
-/* draw the left rectangle 'racette' */
-let MoveLeftRacetteWithKeyBoard = (p5 : p5Types) : void =>
+/* draw the left rectangle 'racket' */
+let MoveLeftRacketWithKeyBoard = (p5 : p5Types) : void =>
 {
   lrecX = 0; 
   lrecW = (p5.width / 80); 
@@ -97,16 +100,16 @@ let MoveLeftRacetteWithKeyBoard = (p5 : p5Types) : void =>
     if ((p5.keyCode === 40 || p5.keyCode === 38) && lastPossitionOfLeftRectY === undefined) // first time press arrow key
     {
       if (p5.keyCode === 40)
-        lrecY = ((p5.height / 2) - (rrecH / 2)) + racetteSpeed; 
+        lrecY = ((p5.height / 2) - (rrecH / 2)) + racketSpeed; 
       else
-        lrecY = ((p5.height / 2) - (rrecH / 2)) - racetteSpeed;
+        lrecY = ((p5.height / 2) - (rrecH / 2)) - racketSpeed;
     }
     else if ((p5.keyCode === 40 || p5.keyCode === 38) && lastPossitionOfLeftRectY !== undefined)
     {
       if (p5.keyCode === 40)
-        lrecY = lastPossitionOfLeftRectY + racetteSpeed;
+        lrecY = lastPossitionOfLeftRectY + racketSpeed;
       else
-        lrecY = lastPossitionOfLeftRectY - racetteSpeed;
+        lrecY = lastPossitionOfLeftRectY - racketSpeed;
     }
   }
   else if (lastPossitionOfLeftRectY === undefined) // press other key in the first time
@@ -134,8 +137,8 @@ let MoveLeftRacetteWithKeyBoard = (p5 : p5Types) : void =>
     lastPossitionOfLeftRectY = lrecY;
 }
 
-/*Draw the racette in the midlle when no key is pressed yet */
-let drawInitRightRacette = (p5 : p5Types ) : void =>
+/*Draw the racket in the midlle when no key is pressed yet */
+let drawInitRightRacket = (p5 : p5Types ) : void =>
 {
   rrecH = (p5.height / 4);
   rrecW = (p5.width / 80); 
@@ -146,7 +149,7 @@ let drawInitRightRacette = (p5 : p5Types ) : void =>
   lastPossitionOfRightRectY = rrecY;
 }
 
-let drawInitLeftRacette = (p5 : p5Types ) : void =>
+let drawInitLeftRacket = (p5 : p5Types ) : void =>
 {
   lrecH = (p5.height / 4);
   lrecX = 0; 
@@ -163,8 +166,8 @@ let setFirstMouseMove = () : void =>
     fistMouseMove = true;
 }
 
-/* drwa the left rectangle 'racette' */
-let drawAndMoveLeftRacetteWithMouse = (p5 : p5Types ) : void  =>
+/* drwa the left rectangle 'racket' */
+let drawAndMoveLeftRacketWithMouse = (p5 : p5Types ) : void  =>
 {
   if (fistMouseMove === false)
   {
@@ -177,8 +180,8 @@ let drawAndMoveLeftRacetteWithMouse = (p5 : p5Types ) : void  =>
   }
   else
   {
-    lrecH = (p5.height / 4); //the height of the racette
-    lrecW = (p5.width / 80); //the width of the racette
+    lrecH = (p5.height / 4); //the height of the racket
+    lrecW = (p5.width / 80); //the width of the racket
     lrecX = 0; 
     if (lrecY === undefined)
     {
@@ -208,8 +211,8 @@ let drawAndMoveLeftRacetteWithMouse = (p5 : p5Types ) : void  =>
     lastPossitionOfLeftRectY = lrecY;
 }
 
-/* draw the left rectangle 'racette' */
-let drawAndMoveRightRacetteWithMouse = (p5 : p5Types ) : void  =>
+/* draw the left rectangle 'racket' */
+let drawAndMoveRightRacketWithMouse = (p5 : p5Types ) : void  =>
 {
   if (fistMouseMove === false)
   {
@@ -222,8 +225,8 @@ let drawAndMoveRightRacetteWithMouse = (p5 : p5Types ) : void  =>
   }
   else
   {
-    rrecH = (p5.height / 4); //the height of the racette
-    rrecW = (p5.width / 80); //the width of the racette
+    rrecH = (p5.height / 4); //the height of the racket
+    rrecW = (p5.width / 80); //the width of the racket
     rrecX = (p5.width) - (p5.width / 80); 
     if (rrecY === undefined)
     { 
@@ -291,25 +294,26 @@ function draw(p5 : p5Types)
     if (PlayWithMouse) 
     {
       //console.log(p5.mouseX, p5.mouseY);
-      drawAndMoveRightRacetteWithMouse(p5); /* draw and move the left rectangle 'racette' */
-      drawAndMoveLeftRacetteWithMouse(p5); /* draw and move the left rectangle 'racette' */
+      drawAndMoveRightRacketWithMouse(p5); /* draw and move the left rectangle 'racket' */
+      //drawAndMoveLeftRacketWithMouse(p5); /* draw and move the left rectangle 'racket' */
+      automaticRacket(p5);
     }
     else 
     {
       if (keyIspress === false)
       {
-        drawInitRightRacette(p5);//draw the racette
-        drawInitLeftRacette(p5);//draw the racette
+        drawInitRightRacket(p5);//draw the racket
+        drawInitLeftRacket(p5);//draw the racket
       }
       else
       {
-        MoveRightRacetteWithKeyBoard(p5); // move the right rectangle 'racette' 
-        MoveLeftRacetteWithKeyBoard(p5); // move the right rectangle 'racette' 
+        MoveRightRacketWithKeyBoard(p5); // move the right rectangle 'racket' 
+        MoveLeftRacketWithKeyBoard(p5); // move the right rectangle 'racket' 
       }
     }
     //Draw the ball
     drawAndMoveTheBall(p5);
-    if (restart === true)
+    if (restart === true || restartTwo === true)
     {
       fistMouseMove = false;
       keyIspress = false;
