@@ -11,6 +11,13 @@ import {rrecH}  from './mySketch';
 import {rrecW}  from './mySketch'; 
 import {lastPossitionOfRightRectY} from './mySketch'; 
 import {lastPossitionOfLeftRectY} from './mySketch'; 
+//import { automaticRacket } from './automaticRacket';
+import { autoRacketH } from './automaticRacket';
+import { autoRacketW } from './automaticRacket';
+import { autoRacketX } from './automaticRacket';
+import { autoRacketY } from './automaticRacket';
+import { automaticRacketFlag } from './mySketch';
+
 //set the ball  variable ballX ballY ballWH  (circle) 
 let ballX : number ;
 let ballY : number ;
@@ -31,7 +38,7 @@ let cnvHeight : number ; // p5.height canvas height
 
 let calculateRightBallRebound = () : void =>
 {
-    let diff : number = castLrecY - ballY;
+    let diff : number = castRrecY - ballY;
     let adj : number = 0;
     let radAngle : number;
     let tmpAngle : number;
@@ -60,6 +67,7 @@ let calculateRightBallRebound = () : void =>
         adj = 0;
     if (adj < 0)
         adj *= -1;
+    //console.log("diff")
     if (ballAngle >= 300 && ballAngle <= 400)
         ballY = ballY - adj;
     else if (ballAngle >= 200 && ballAngle < 300)
@@ -72,11 +80,15 @@ let calculateRightBallRebound = () : void =>
 
 let calculateLeftBallRebound = () : void =>
 {
-    let diff : number = castRrecY - ballY;
+    let diff : number;
     let adj : number;
     let radAngle : number;
     let tmpAngle : number ;
     
+    if (automaticRacketFlag)
+        diff = autoRacketY - ballY;
+    else
+        diff = castRrecY - ballY;   
     if (diff < 0)
         diff = diff * -1;
 
@@ -125,8 +137,6 @@ let calculateBallOnSpace = () : void =>
         tmpAngle = ballAngle - 400;
     radAngle = tmpAngle  * (Math.PI / 2 / 200);
     adj = ballSpeed * Math.tan(radAngle);
-    if (ballAngle === 200 || ballAngle === 0)
-        console.log("The space : ", ballAngle,  tmpAngle);
     if (tmpAngle === 100 || tmpAngle === 300)
         adj = 0;
     if (adj < 0)
@@ -180,8 +190,6 @@ let calculateTopAndBottomBallRebound = () : void =>
             tmpAngle = ballAngle - 400;
         radAngle = tmpAngle  * (Math.PI / 2 / 200);
         adj = ballSpeed * Math.tan(radAngle); 
-        if (ballAngle === 200 || ballAngle === 0)
-            console.log("The space : ", ballAngle,  tmpAngle);
         if (tmpAngle === 100 || tmpAngle === 300)
             adj = 0;
         if (adj < 0)
@@ -202,18 +210,16 @@ let calculateTopAndBottomBallRebound = () : void =>
             ballAngle -= 100;
         }
         tmpAngle = ballAngle;
-        if (ballAngle > 100 && tmpAngle < 200)
+        if (ballAngle > 100 && ballAngle < 200)
             tmpAngle = ballAngle - 100;
-        else if (ballAngle >= 200 && tmpAngle < 300)
+        else if (ballAngle >= 200 && ballAngle < 300)
             tmpAngle = ballAngle - 200;
-        else if (ballAngle >= 300 && tmpAngle < 400)
+        else if (ballAngle >= 300 && ballAngle < 400)
             tmpAngle = ballAngle - 300;
         else if (ballAngle >= 400)
             tmpAngle = ballAngle - 400;
         radAngle = tmpAngle * (Math.PI / 2 / 200);
         adj = ballSpeed * Math.tan(radAngle);
-        if (ballAngle === 200 || ballAngle === 0)
-            console.log("The space : ", ballAngle,  tmpAngle);
         if (tmpAngle === 100 || tmpAngle === 300)
             adj = 0;
         if (adj < 0)
@@ -238,7 +244,6 @@ let ballMove =  (p5 : p5Types) : void =>
 
     if (ballDirection === undefined)
     {
-        //console.log("ballDirection is undefined");
         ballDirection = (Math.floor(Math.random() * (2))) ? true : false;//generate a random number between 0 ans 1 , 0 for left and 1 for right first move direction
         if (ballDirection === true)
             ballAngle = 100;
@@ -259,18 +264,25 @@ let ballMove =  (p5 : p5Types) : void =>
         {
             ballFirstMove = false; 
         }
+        else if (ballDirection === false && ballLeftTan <= (autoRacketX + autoRacketW / 2) )
+        {
+            ballFirstMove = false; 
+        }
         if (ballDirection && ballX >= p5.width && ballY > castRrecY && ballY < castRrecY + rrecH)
             ballX = p5.width - rrecW + 1;
         if (!ballDirection && ballX <= 0 && ballY > castLrecY && ballY < castLrecY + lrecH)
             ballX = lrecW - 1;
+        if (!ballDirection && ballX <= 0 && ballY > autoRacketY && ballY < autoRacketY + autoRacketH)
+            ballX = autoRacketW - 1;
         p5.ellipse(ballX, ballY, ballWH, ballWH);
     }
     if (ballFirstMove === false)
     {
         if ((ballDirection && ballX > p5.width && (ballY < castRrecY || ballY > castRrecY + rrecH))
-            || (!ballDirection && ballX <= 0 && (ballY < castLrecY || ballY > castLrecY + lrecH)))
+            || (!ballDirection && ballX <= 0 && (ballY < castLrecY || ballY > castLrecY + lrecH)) ||
+            (!ballDirection && ballX <= 0 && (ballY < autoRacketY || ballY > autoRacketY + autoRacketH)))
         {
-            console.log("Yep");
+            console.log("You lose"); 
             restart = true;
             ballFirstMove = true;
             first50Time = 0;
@@ -278,6 +290,7 @@ let ballMove =  (p5 : p5Types) : void =>
         }
         else if (ballDirection === true && ballRightTan >= rrecX && (ballY >= castRrecY && ballY <= castRrecY + rrecH))
         {
+            console.log("Yep");
             calculateRightBallRebound();
             p5.ellipse(ballX, ballY, ballWH, ballWH);
         }
@@ -286,8 +299,14 @@ let ballMove =  (p5 : p5Types) : void =>
             calculateLeftBallRebound();
             p5.ellipse(ballX, ballY, ballWH, ballWH);
         }
+        else if (ballDirection === false && ballLeftTan <= (autoRacketX  + autoRacketW / 2) && (ballY >= autoRacketY && ballY <= autoRacketY + autoRacketH)) 
+        {
+            calculateLeftBallRebound();
+            p5.ellipse(ballX, ballY, ballWH, ballWH);
+        }
         else if (ballTopTan > 0 && ballBottomTan < p5.height /*- ballWH / 2*/)
         {
+           // console.log("Yepi");
             calculateBallOnSpace();
             p5.ellipse(ballX, ballY, ballWH, ballWH);
         }

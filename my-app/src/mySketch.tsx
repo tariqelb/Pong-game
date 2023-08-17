@@ -9,8 +9,8 @@ import {restart} from './ballMove'
 import {restartTwo} from './automaticRacket'
 // The canvas variable 
 let cnv  : p5Types.Renderer; 
-//let PlayWithMouse : boolean = true; // play with mouse or keyboard 
-let PlayWithMouse : boolean = false; // play with mouse or keyboard 
+let PlayWithMouse : boolean = true; // play with mouse or keyboard 
+//let PlayWithMouse : boolean = false; // play with mouse or keyboard 
 let keyIspress : boolean = false;
 
 // Set global variable 
@@ -34,6 +34,8 @@ let lrecW : number ;
 let lrecH : number ; 
 let lrecY : number | undefined ;
 
+//automatic racket flag;
+let automaticRacketFlag : boolean = true;
 
 
 
@@ -252,6 +254,7 @@ let drawAndMoveRightRacketWithMouse = (p5 : p5Types ) : void  =>
       }
     }
   }
+  //console.log("right : racket : " , rrecX, rrecY, rrecW, rrecH);
   if (rrecY !== undefined)
     lastPossitionOfRightRectY = rrecY;
 }
@@ -291,6 +294,8 @@ function draw(p5 : p5Types)
     resizeCanvas(p5);
     p5.background(218, 97, 232);
     line(p5); /* Draw the middle line */
+    //Draw the ball
+    drawAndMoveTheBall(p5);
     if (PlayWithMouse) 
     {
       //console.log(p5.mouseX, p5.mouseY);
@@ -312,7 +317,7 @@ function draw(p5 : p5Types)
       }
     }
     //Draw the ball
-    drawAndMoveTheBall(p5);
+    //drawAndMoveTheBall(p5);
     if (restart === true || restartTwo === true)
     {
       fistMouseMove = false;
@@ -367,3 +372,5 @@ export {lrecH};
 export {lrecY};
 export {lastPossitionOfRightRectY}; 
 export {lastPossitionOfLeftRectY}; 
+export {drawInitLeftRacket};
+export {automaticRacketFlag};
