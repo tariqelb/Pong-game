@@ -17,6 +17,8 @@ import { autoRacketW } from './automaticRacket';
 import { autoRacketX } from './automaticRacket';
 import { autoRacketY } from './automaticRacket';
 import { automaticRacketFlag } from './mySketch';
+import { randomRebound } from './automaticRacket';
+
 
 //set the ball  variable ballX ballY ballWH  (circle) 
 let ballX : number ;
@@ -25,7 +27,7 @@ let ballWH : number ; // ball width and height
 let ballFirstMove : boolean = true;
 let ballDirection : boolean | undefined = undefined; // the direction of the ball right == true , left == flase
 let ballAngle : number;
-let ballSpeed : number = 7; // the opposite of the ballAngle // conatant added to ballX;
+let ballSpeed : number = 14; // the opposite of the ballAngle // conatant added to ballX;
 let first50Time : number = 0;//  1 2 3 before the ball start move , just a short time for the player to be ready;
 let castLrecY : number;// left racket Y coordinate read-only import variable cast it to number;
 let castRrecY : number;// right racket Y coordinate read-only import variable cast it to number;
@@ -67,7 +69,6 @@ let calculateRightBallRebound = () : void =>
         adj = 0;
     if (adj < 0)
         adj *= -1;
-    //console.log("diff")
     if (ballAngle >= 300 && ballAngle <= 400)
         ballY = ballY - adj;
     else if (ballAngle >= 200 && ballAngle < 300)
@@ -76,6 +77,10 @@ let calculateRightBallRebound = () : void =>
         ballX += ballSpeed;
     else
         ballX -= ballSpeed;
+        if (Number.isNaN(adj))
+            console.log("rr is adj");
+        if (Number.isNaN(radAngle))
+            console.log("rr is adj");
 }
 
 let calculateLeftBallRebound = () : void =>
@@ -91,8 +96,10 @@ let calculateLeftBallRebound = () : void =>
         diff = castRrecY - ballY;   
     if (diff < 0)
         diff = diff * -1;
-
-    ballAngle = diff * 200 / lrecH;
+    if (automaticRacketFlag)
+        ballAngle = diff * 200 / autoRacketH;
+    else
+        ballAngle = diff * 200 / lrecH;
     tmpAngle = ballAngle;
     if (ballAngle > 100 && ballAngle < 200)
         tmpAngle = ballAngle - 100;
@@ -104,8 +111,9 @@ let calculateLeftBallRebound = () : void =>
         tmpAngle = ballAngle - 400;
     radAngle = tmpAngle * (Math.PI / 2 / 200);
     ballDirection = !ballDirection;
-
+    
     adj = ballSpeed * Math.tan(radAngle);
+    console.log("data : ", tmpAngle, radAngle , ballAngle, diff, lrecH, adj)
     if (tmpAngle === 100 || tmpAngle === 300)
         adj = 0;
     if (adj < 0)
@@ -118,8 +126,12 @@ let calculateLeftBallRebound = () : void =>
         ballX += ballSpeed;
     else
         ballX -= ballSpeed;
+        if (Number.isNaN(adj))
+            console.log("at is adj");
+        if (Number.isNaN(radAngle))
+            console.log("at is adj");
 }
-
+let ii : number = 0;
 let calculateBallOnSpace = () : void =>
 {
     let adj : number;
@@ -159,6 +171,10 @@ let calculateBallOnSpace = () : void =>
         ballY = 0;
     if (ballY > cnvHeight - ballWH / 2)
         ballY = cnvHeight - ballWH / 2;
+        if (Number.isNaN(adj))
+            console.log("on is adj");
+        if (Number.isNaN(radAngle))
+            console.log("on is adj");
 }
 
 let calculateTopAndBottomBallRebound = () : void =>
@@ -198,6 +214,11 @@ let calculateTopAndBottomBallRebound = () : void =>
             ballY = 0 + adj;
         else
             ballY += adj;
+        console.log("data : ", tmpAngle, radAngle , ballAngle, "diff", lrecH, adj)
+        if (Number.isNaN(adj))
+            console.log("upis adj");
+        if (Number.isNaN(radAngle))
+            console.log("upis adj");
     }
     else if (ballBottomTan >= cnvHeight - ballWH / 2)
     {
@@ -228,11 +249,17 @@ let calculateTopAndBottomBallRebound = () : void =>
             ballY = (cnvHeight - (ballWH / 2)) - adj;
         else
             ballY -= adj;
+        console.log("data : ", tmpAngle, radAngle , ballAngle, "diff", lrecH, adj)
+        if (Number.isNaN(adj))
+            console.log("dwis adj");
+        if (Number.isNaN(radAngle))
+            console.log("dwis adj");
     }
     if (ballDirection)
         ballX += ballSpeed;
     else
         ballX -= ballSpeed;
+    
 }
 
 let ballMove =  (p5 : p5Types) : void =>
@@ -275,14 +302,16 @@ let ballMove =  (p5 : p5Types) : void =>
         if (!ballDirection && ballX <= 0 && ballY > autoRacketY && ballY < autoRacketY + autoRacketH)
             ballX = autoRacketW - 1;
         p5.ellipse(ballX, ballY, ballWH, ballWH);
-    }
+    } 
+    if (Number.isNaN(ballY))
+        console.log(1);
     if (ballFirstMove === false)
     {
         if ((ballDirection && ballX > p5.width && (ballY < castRrecY || ballY > castRrecY + rrecH))
             || (!ballDirection && ballX <= 0 && (ballY < castLrecY || ballY > castLrecY + lrecH)) ||
-            (!ballDirection && ballX <= 0 && (ballY < autoRacketY || ballY > autoRacketY + autoRacketH)))
+            (automaticRacketFlag && !ballDirection && ballX <= 0 && (ballY < autoRacketY || ballY > autoRacketY + autoRacketH)))
         {
-            console.log("You lose"); 
+            console.log("You lose : ", ballX, ballY, autoRacketY, autoRacketY + autoRacketH, randomRebound, autoRacketY + randomRebound);
             restart = true;
             ballFirstMove = true;
             first50Time = 0;
@@ -290,30 +319,55 @@ let ballMove =  (p5 : p5Types) : void =>
         }
         else if (ballDirection === true && ballRightTan >= rrecX && (ballY >= castRrecY && ballY <= castRrecY + rrecH))
         {
-            console.log("Yep");
+            if (Number.isNaN(ballY))
+                console.log(2);
             calculateRightBallRebound();
             p5.ellipse(ballX, ballY, ballWH, ballWH);
+            if (Number.isNaN(ballY))
+                console.log(20);
         }
         else if (ballDirection === false && ballLeftTan <= (lrecX + lrecW / 2) && (ballY >= castLrecY && ballY <= castLrecY + lrecH)) 
         {
+            if (Number.isNaN(ballY))
+                console.log(3);
             calculateLeftBallRebound();
             p5.ellipse(ballX, ballY, ballWH, ballWH);
+            if (Number.isNaN(ballY))
+                console.log(30);
+            console.log("left re ", ballY);
         }
         else if (ballDirection === false && ballLeftTan <= (autoRacketX  + autoRacketW / 2) && (ballY >= autoRacketY && ballY <= autoRacketY + autoRacketH)) 
         {
+            if (Number.isNaN(ballY))
+                console.log(4);
             calculateLeftBallRebound();
             p5.ellipse(ballX, ballY, ballWH, ballWH);
+            if (Number.isNaN(ballY))
+                console.log(40);
+            console.log("left re au ", ballY);
         }
         else if (ballTopTan > 0 && ballBottomTan < p5.height /*- ballWH / 2*/)
         {
-           // console.log("Yepi");
+            if (Number.isNaN(ballY))
+                console.log(5);
             calculateBallOnSpace();
             p5.ellipse(ballX, ballY, ballWH, ballWH);
+            if (Number.isNaN(ballY))
+                console.log(50);
         }
         else if (ballTopTan <= 0 || ballBottomTan >= p5.height)
         {
+            if (Number.isNaN(ballY))
+                console.log(6);
             calculateTopAndBottomBallRebound();
             p5.ellipse(ballX, ballY, ballWH, ballWH);
+            if (Number.isNaN(ballY))
+                console.log(60);
+            console.log("up down ", ballY);
+        }
+        else
+        {
+            console.log("The bug : ", ballX, ballY, p5.width , p5.height, castLrecY, castLrecY + ballWH)
         }
     }
 }
@@ -324,10 +378,16 @@ let drawAndMoveTheBall = (p5 : p5Types) : void =>
     cnvHeight = p5.height;
     if (lrecY !== undefined)
         castLrecY = lrecY;
+    if (automaticRacketFlag)
+    {
+        castLrecY = autoRacketY
+    }
     if (rrecY !== undefined)
         castRrecY = rrecY
     if (first50Time < 50)
     {
+        if (Number.isNaN(ballY))
+            console.log(0);
         restart = false;
         ballWH = p5.height / 25;
         ballX = p5.width / 2;

@@ -295,7 +295,7 @@ function draw(p5 : p5Types)
     p5.background(218, 97, 232);
     line(p5); /* Draw the middle line */
     //Draw the ball
-    drawAndMoveTheBall(p5);
+   // drawAndMoveTheBall(p5);
     if (PlayWithMouse) 
     {
       //console.log(p5.mouseX, p5.mouseY);
@@ -317,7 +317,7 @@ function draw(p5 : p5Types)
       }
     }
     //Draw the ball
-    //drawAndMoveTheBall(p5);
+    drawAndMoveTheBall(p5);
     if (restart === true || restartTwo === true)
     {
       fistMouseMove = false;
