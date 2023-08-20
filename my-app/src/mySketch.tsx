@@ -36,6 +36,7 @@ let lrecY : number | undefined ;
 
 //automatic racket flag;
 let automaticRacketFlag : boolean = true;
+//let automaticRacketFlag : boolean = false;
 
 
 
@@ -295,12 +296,12 @@ function draw(p5 : p5Types)
     p5.background(218, 97, 232);
     line(p5); /* Draw the middle line */
     //Draw the ball
-   // drawAndMoveTheBall(p5);
+    //drawAndMoveTheBall(p5);
     if (PlayWithMouse) 
     {
       //console.log(p5.mouseX, p5.mouseY);
-      drawAndMoveRightRacketWithMouse(p5); /* draw and move the left rectangle 'racket' */
-      //drawAndMoveLeftRacketWithMouse(p5); /* draw and move the left rectangle 'racket' */
+      //drawAndMoveRightRacketWithMouse(p5); /* draw and move the left rectangle 'racket' */
+      // drawAndMoveLeftRacketWithMouse(p5); /* draw and move the left rectangle 'racket' */
       automaticRacket(p5);
     }
     else 
@@ -340,11 +341,12 @@ function setup(p5 : p5Types)
       let canvasHeight : number = container.elt.clientHeight - gameBorederPixel;
       cnv = p5.createCanvas( canvasWidth ,  canvasHeight/*p5.WEBGL*/);
       cnv.parent('root');
+      p5.angleMode('degrees');
+      //p5.rotate(180);
       //cnv.mouseMoved(getCurrentMoussecoordinate);
     }
     else
     {
-      p5.createCanvas( 700 ,  500 );
       console.log("Error: in sketch file, failed to select the canvas element.")
     }
   };

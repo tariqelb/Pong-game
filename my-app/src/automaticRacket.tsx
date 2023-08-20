@@ -23,16 +23,25 @@ let autoRacketX : number;
 let autoRacketY : number;
 let autoRacketH : number;
 let autoRacketW : number;
+let autoRightRacketX : number;
+let autoRightRacketY : number;
+let autoRightRacketH : number;
+let autoRightRacketW : number;
 let virtualBallAngle : number;
 let robotStartMoving : boolean = false; //set to true when the ball come from player and pass the virtual line, so robot racket need to start moving
 let coordinateAlreadyGot : boolean = false;// already get the virtual coordinate of the ball;
+let rightCoordinateAlreadyGot : boolean = false;// already get the virtual coordinate of the ball;
 let startSimulation : boolean = true;
 let lastPossitionOfLeftAutoRectY : number ;
+let lastPossitionOfRightAutoRectY : number ;
+let rightRandomRebound : number; 
 let randomRebound : number; //a distance added to the (up or bottom) of automatic racket where the ball will hit so we get a random rebound of the ball
                             // which point in the automatic racket will track ballY coordinate /
 let edge : number = 10; // when i generate a number that will represent a point in autoracket that will track the ball this point should not be in the egde of autoracket 
                         // it should be between autoracket height - egde * 2 (|*_______*|) the asterisk is the edge and the pipe is the start and the end of the autoracket
 let autoracketSpeed : number = 5; //the speed of autoRacket
+
+let racketInitialPositionIsready : number = 0; // variable used to check in the start of each round the the two auturacket get his initial places
 
 let virtualBallUpbottomRebound = (p5 : p5Types) : void =>
 {
@@ -120,7 +129,7 @@ let getCoordinates = (p5 : p5Types) : void =>
     virtualBallW = ballWH;
     virtualBallH = ballWH;
     let i : number = 0;
-    while ((virtualBallX  > virtualBallW)&& !ballDirection)
+    while ((virtualBallX  > autoRacketW)&& !ballDirection)
     {
         if (virtualBallY - virtualBallH / 2 > 0 &&  virtualBallY + virtualBallH / 2 < p5.height)
         {
@@ -165,32 +174,102 @@ let getCoordinates = (p5 : p5Types) : void =>
                 virtualBallY = 0;
             if (virtualBallY > p5.height - virtualBallH / 2)
                 virtualBallY = p5.height - virtualBallH / 2;
+            virtualBallUpbottomRebound(p5);       
+        }   
+    }
+    while ((virtualBallX  < autoRightRacketX)&& ballDirection)
+    {
+        if (virtualBallY - virtualBallH / 2 > 0 &&  virtualBallY + virtualBallH / 2 < p5.height)
+        {
+            tempAngle = virtualBallAngle;
+            if (virtualBallAngle > 100 && virtualBallAngle < 200)
+                tempAngle = virtualBallAngle - 100;
+            else if (virtualBallAngle >= 200 && virtualBallAngle < 300)
+                tempAngle = virtualBallAngle - 200;
+            else if (virtualBallAngle >= 300 && virtualBallAngle < 400)
+                tempAngle = virtualBallAngle - 300;
+            else if (virtualBallAngle >= 400)
+                tempAngle = virtualBallAngle - 400;
+            radAngle = tempAngle * (Math.PI / 2 / 200);
+            adj = ballSpeed * Math.tan(radAngle);
+            if (tempAngle === 100 || tempAngle === 300)
+                adj = 0;
+            if (adj < 0)
+                adj *= -1;
+            if (virtualBallAngle < 100)
+                virtualBallY -= adj;
+            else if (virtualBallAngle >= 0 && virtualBallAngle < 100)
+                virtualBallY -= adj;
+            else if (virtualBallAngle >= 100 && virtualBallAngle < 200)
+                virtualBallY += adj;
+            else if (virtualBallAngle >= 200 && virtualBallAngle < 300)
+                virtualBallY += adj;
+            else if (virtualBallAngle >= 300 && virtualBallAngle <= 400)
+                virtualBallY -= adj;
+            if (ballDirection)
+            {
+                virtualBallX += ballSpeed;
+            }    
+            else
+            {
+                virtualBallX -= ballSpeed;
+            }
+        }  
+        else if (virtualBallY - ballWH <= 0 || (virtualBallY + ballWH) >= p5.height)
+        {
+            if (virtualBallY < 0)
+                virtualBallY = 0;
+            if (virtualBallY > p5.height - virtualBallH / 2)
+                virtualBallY = p5.height - virtualBallH / 2;
             virtualBallUpbottomRebound(p5);   
                
-        }
-        
+        }     
     }
     if (virtualBallX < 0)
-        virtualBallX = 0;   
+        virtualBallX = 0;
+    if (virtualBallX > p5.width)
+        virtualBallX = p5.width;  
 
 }
 
 let drawAutoInitLeftRacket = (p5 : p5Types ) : void =>
 {
-  autoRacketH = (p5.height / 4);
-  autoRacketX = 0; 
-  autoRacketY = (p5.height / 2) - (autoRacketH / 2); 
-  autoRacketW = (p5.width / 80); 
+    autoRacketH = (p5.height / 4);
+    autoRacketX = 0; 
+    autoRacketY = (p5.height / 2) - (autoRacketH / 2); 
+    autoRacketW = (p5.width / 80); 
+
+    virtualBallH = ballWH
+    virtualBallW = ballWH;
+    virtualBallX = ballX;
+    virtualBallY = ballY;
+    p5.rect(autoRacketX, autoRacketY , autoRacketW,  autoRacketH);
+    racketInitialPositionIsready++;
+    if (racketInitialPositionIsready == 2)
+        startSimulation = false;
+    lastPossitionOfLeftAutoRectY = autoRacketY;
+    console.log("new start");
+}
+
+let drawAutoInitRightRacket = (p5 : p5Types ) : void =>
+{
+  autoRightRacketW = (p5.width / 80); 
+  autoRightRacketH = (p5.height / 4);
+  autoRightRacketX = p5.width - autoRightRacketW; 
+  autoRightRacketY = (p5.height / 2) - (autoRightRacketH / 2); 
 
   virtualBallH = ballWH
   virtualBallW = ballWH;
   virtualBallX = ballX;
   virtualBallY = ballY;
-  p5.rect(autoRacketX, autoRacketY , autoRacketW,  autoRacketH);
-  startSimulation = false;
-  lastPossitionOfLeftAutoRectY = autoRacketY;
+  p5.rect(autoRightRacketX, autoRightRacketY , autoRightRacketW,  autoRightRacketH);
+  racketInitialPositionIsready++;
+  if (racketInitialPositionIsready == 2)
+    startSimulation = false;
+  lastPossitionOfRightAutoRectY = autoRightRacketY;
   console.log("new start");
 }
+
 
 let drawAutomaticRacket = (p5 : p5Types) : void =>
 {
@@ -223,6 +302,37 @@ let drawAutomaticRacket = (p5 : p5Types) : void =>
     p5.rect(autoRacketX, lastPossitionOfLeftAutoRectY , autoRacketW,  autoRacketH);
 }
 
+let drawAutomaticRightRacket = (p5 : p5Types) : void =>
+{
+    if (startSimulation === true)
+    {
+        drawAutoInitRightRacket(p5);
+    }
+    else if (rightCoordinateAlreadyGot)
+    {
+        if (autoRightRacketY + rightRandomRebound + autoracketSpeed > virtualBallY &&
+             autoRightRacketY + rightRandomRebound + 1 - autoracketSpeed < virtualBallY)
+        {
+            // remove vivrooor
+        } 
+        else if (autoRightRacketY + rightRandomRebound > virtualBallY)
+        {
+            autoRightRacketY -= autoracketSpeed;
+        }
+        else if (autoRacketY + rightRandomRebound < virtualBallY)// -+ 1 to move a little bit from the edge
+        {
+            autoRightRacketY += autoracketSpeed;
+        }
+        if (autoRightRacketY < 0)
+            autoRightRacketY = 0;
+        else if (autoRightRacketY + autoRightRacketH > p5.height)
+            autoRightRacketY = p5.height - autoRightRacketH;
+        p5.rect(autoRightRacketX, autoRightRacketY, autoRightRacketW,  autoRightRacketH);
+        lastPossitionOfRightAutoRectY = autoRightRacketY;
+    }
+    //console.log("Is draw.");
+    p5.rect(autoRightRacketX, lastPossitionOfRightAutoRectY , autoRightRacketW,  autoRightRacketH);
+}
 let automaticRacket = (p5 : p5Types) : void =>
 {
     if (restart)
@@ -230,8 +340,11 @@ let automaticRacket = (p5 : p5Types) : void =>
         startSimulation = true;
         coordinateAlreadyGot = false;
         console.log("start again------------------>");
+        racketInitialPositionIsready = 0;
     }
     drawAutomaticRacket(p5);
+    drawAutomaticRightRacket(p5);
+    
     if (ballDirection === false)// || ballDirection === undefined)
     {
         if (coordinateAlreadyGot == false)// && ballX < virtualLineX)
@@ -251,6 +364,25 @@ let automaticRacket = (p5 : p5Types) : void =>
     {
         coordinateAlreadyGot = false;
     }
+    if (ballDirection === true)
+    {
+        if (rightCoordinateAlreadyGot === false)
+        {
+            getCoordinates(p5);
+            rightCoordinateAlreadyGot = true;
+            rightRandomRebound = Math.floor(Math.random() * (autoRacketH - edge)) + edge;// move the random from the corners
+        }
+        else
+        {
+            p5.fill('yellow')
+            p5.ellipse(virtualBallX , virtualBallY, virtualBallH, virtualBallW);
+            p5.fill('white');
+        }
+    }
+    else
+    {
+        rightCoordinateAlreadyGot = false;
+    }
    
 }
 
@@ -259,5 +391,9 @@ export {autoRacketX};
 export {autoRacketY};
 export {autoRacketW};
 export {autoRacketH};
+export {autoRightRacketX};
+export {autoRightRacketY};
+export {autoRightRacketW};
+export {autoRightRacketH};
 export {restartTwo};
 export {randomRebound};
