@@ -51,7 +51,7 @@
 }
 .game {
   width: 60vw;
-  height: 60vh;
+  height: 30vw;
   z-index: 2;
   display: flex;
   justify-content: center;

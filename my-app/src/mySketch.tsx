@@ -1,6 +1,7 @@
 import p5Types from 'p5';
 import drawAndMoveTheBall from './ballMove';
 import automaticRacket from './automaticRacket';
+import animationOne from './animationOne';
 
 //import { scryRenderedDOMComponentsWithTag } from 'react-dom/test-utils';
 //import {useLayoutEffect, useRef, useState} from 'react';
@@ -37,7 +38,8 @@ let lrecY : number | undefined ;
 //automatic racket flag;
 let automaticRacketFlag : boolean = true;
 //let automaticRacketFlag : boolean = false;
-
+let canvasResizedHeight : number; // this variable is used when the cancas is resized so we need to change rackets size
+let canvasResizedWidth : number;
 
 
 /* draw the right rectangle 'racket' */
@@ -278,7 +280,7 @@ let resizeCanvas = (p5 : p5Types) : void =>
   if (container)
   {
     let canvasWidth : number = container.elt.clientWidth - gameBorederPixel; //the game..xel is the number of pixel give to canvas borders 
-    let canvasHeight : number = container.elt.clientHeight - gameBorederPixel;
+    let canvasHeight : number = (container.elt.clientWidth / 2) - gameBorederPixel;
     p5.resizeCanvas(canvasWidth, canvasHeight);
   }
   else
@@ -292,11 +294,14 @@ function draw(p5 : p5Types)
 {
   return () => 
   {
+    canvasResizedHeight = p5.width / 2 ;
+    canvasResizedWidth = p5.width;
     resizeCanvas(p5);
+    //console.log("resize : ", p5.height, p5.width);
     p5.background(218, 97, 232);
     line(p5); /* Draw the middle line */
     //Draw the ball
-    //drawAndMoveTheBall(p5);
+    drawAndMoveTheBall(p5);
     if (PlayWithMouse) 
     {
       //console.log(p5.mouseX, p5.mouseY);
@@ -317,8 +322,7 @@ function draw(p5 : p5Types)
         MoveLeftRacketWithKeyBoard(p5); // move the right rectangle 'racket' 
       }
     }
-    //Draw the ball
-    drawAndMoveTheBall(p5);
+    animationOne(p5);
     if (restart === true || restartTwo === true)
     {
       fistMouseMove = false;
@@ -338,7 +342,7 @@ function setup(p5 : p5Types)
     {
       //console.log(container);
       let canvasWidth : number  = container.elt.clientWidth - gameBorederPixel;//the 15 for border pixel
-      let canvasHeight : number = container.elt.clientHeight - gameBorederPixel;
+      let canvasHeight : number = (container.elt.clientWidth / 2) - gameBorederPixel;
       cnv = p5.createCanvas( canvasWidth ,  canvasHeight/*p5.WEBGL*/);
       cnv.parent('root');
       p5.angleMode('degrees');
@@ -376,3 +380,5 @@ export {lastPossitionOfRightRectY};
 export {lastPossitionOfLeftRectY}; 
 export {drawInitLeftRacket};
 export {automaticRacketFlag};
+export {canvasResizedHeight};
+export {canvasResizedWidth};
