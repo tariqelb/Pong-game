@@ -13,7 +13,7 @@ import { ballSpeed } from './ballMove';
 import { restart } from './ballMove';
 import { canvasResizedHeight } from './mySketch';
 import { canvasResizedWidth } from './mySketch';
-
+import { animationData } from './animationOne';
 
 let restartTwo : boolean = false;
 let virtualLineX : number ;//in the case where the ball start go back to robot from player , virtua_line_X is a vertical line in the canvas where the robot start moving to reach the right point where the ball will hit in the robot wall when the ball pass the virtual line
@@ -296,7 +296,7 @@ let drawAutomaticRacket = (p5 : p5Types) : void =>
     {
         drawAutoInitLeftRacket(p5);
     }
-    else if (coordinateAlreadyGot)
+    else if (coordinateAlreadyGot  && animationData.animOne == false)
     {
         if (p5.height !== canvasResizedHeight || p5.width !== canvasResizedWidth)
         {

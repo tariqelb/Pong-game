@@ -8,6 +8,9 @@ import animationOne from './animationOne';
 //import  *  as globalVar from './globalVariables';
 import {restart} from './ballMove'
 import {restartTwo} from './automaticRacket'
+
+import { ballX, ballY } from './ballMove';
+
 // The canvas variable 
 let cnv  : p5Types.Renderer; 
 let PlayWithMouse : boolean = true; // play with mouse or keyboard 
@@ -268,7 +271,34 @@ let line = (p5 : p5Types) : void =>
   p5.noStroke();
   p5.fill('gray');
   p5.rect(p5.width / 2 - 3, 0 , 6 , p5.height); 
-  p5.rect(0, p5.height / 2 - 3 , p5.width, 6); 
+  p5.rect(0, p5.height / 2 - 3 , p5.width, 6);
+
+
+  /*
+  if (ballX > 0 && ballX < p5.width / 2 && ballY > 0 && ballY < p5.height / 2)
+  {
+    p5.fill('red');
+    p5.rect(0, 0 , p5.width / 2 , p5.height / 2); 
+  }
+  if (ballX > p5.width / 2 && ballX < p5.width && ballY > 0 && ballY < p5.height / 2)
+  {
+    p5.fill('blue');
+    p5.rect(p5.width / 2, 0 , p5.width / 2 , p5.height / 2); 
+  }
+  
+  if (ballX > 0 && ballX < p5.width / 2 && ballY > p5.height / 2 && ballY < p5.height)
+  {
+    p5.fill('purple');
+    p5.rect(0, p5.height / 2 , p5.width / 2 , p5.height / 2); 
+
+  }
+  if (ballX > p5.width / 2 && ballX < p5.width && ballY > p5.height / 2 && ballY < p5.height)
+  {
+    p5.fill('green');
+    p5.rect(p5.width / 2 , p5.height / 2 , p5.width / 2 , p5.height / 2); 
+  }
+  */
+  animationOne(p5);
   p5.fill('white');
 }
 
@@ -298,7 +328,7 @@ function draw(p5 : p5Types)
     canvasResizedWidth = p5.width;
     resizeCanvas(p5);
     //console.log("resize : ", p5.height, p5.width);
-    p5.background(218, 97, 232);
+    //p5.background(218, 97, 232);
     line(p5); /* Draw the middle line */
     //Draw the ball
     drawAndMoveTheBall(p5);
@@ -356,10 +386,17 @@ function setup(p5 : p5Types)
   };
 }
 
-
+let flagImage : p5Types.Image | p5Types.Element;
+let chainImage : p5Types.Image | p5Types.Element;
 
 function MySketch(p5 : p5Types) 
 {
+
+  p5.preload = () => 
+  {
+    chainImage = p5.loadImage('./Chain.png');   
+    flagImage = p5.loadImage('./Flag.png');   
+  }
   p5.setup = setup(p5);
 
   p5.draw = draw(p5);
@@ -382,3 +419,5 @@ export {drawInitLeftRacket};
 export {automaticRacketFlag};
 export {canvasResizedHeight};
 export {canvasResizedWidth};
+export {flagImage};
+export {chainImage};

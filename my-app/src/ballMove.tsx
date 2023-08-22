@@ -24,6 +24,8 @@ import { automaticRacketFlag } from './mySketch';
 import { randomRebound } from './automaticRacket';
 import { rightRandomRebound } from './automaticRacket';
 
+import { animationData } from './animationOne';
+
 let lGoals : number = 0;
 let rGoals : number = 0;
 //set the ball  variable ballX ballY ballWH  (circle) 
@@ -195,10 +197,19 @@ let calculateBallOnSpace = () : void =>
         ballY = 0;
     if (ballY > cnvHeight - ballWH / 2)
         ballY = cnvHeight - ballWH / 2;
-        if (Number.isNaN(adj))
-            console.log("on is adj");
-        if (Number.isNaN(radAngle))
-            console.log("on is adj");
+    if (Number.isNaN(adj))
+        console.log("on is adj");
+    if (Number.isNaN(radAngle))
+        console.log("on is adj");
+
+        
+    if (ballDirection == false && ballX > animationData.animOneX && ballX < animationData.animOneX + animationData.animOneWH && ballY > animationData.animOneY && ballY < animationData.animOneY + animationData.animOneWH)
+    {
+        console.log ("pause it ");
+        animationData.animOne = true;
+    }
+    //console.log("coordinate : ", animOneX, animOneX + animOneWH, animOneY , animOneY + animOneY, animOneWH);
+
 }
 
 let calculateTopAndBottomBallRebound = () : void =>
@@ -352,6 +363,8 @@ let ballMove =  (p5 : p5Types) : void =>
             {
                 lGoals++;
             }
+            //if (animationData.animOne === false)
+            animationData.animOne = false;
             restart = true;
             ballFirstMove = true;
             first50Time = 0;
@@ -425,7 +438,7 @@ let ballMove =  (p5 : p5Types) : void =>
 let drawAndMoveTheBall = (p5 : p5Types) : void =>
 {
     cnvHeight = p5.height;
-    ballSpeed = p5.width / 30;
+    ballSpeed = p5.width / 40;
     if (lrecY !== undefined)
         castLrecY = lrecY;
     if (automaticRacketFlag)
@@ -446,6 +459,7 @@ let drawAndMoveTheBall = (p5 : p5Types) : void =>
         p5.ellipse(ballX, ballY, ballWH, ballWH);
         first50Time++;
         ballFirstMove = true;
+        //console.log("ball ", p5.width/ 2 , p5.height / 2);
     } 
     else
     {
