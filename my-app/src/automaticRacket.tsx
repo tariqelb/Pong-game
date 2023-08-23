@@ -296,7 +296,7 @@ let drawAutomaticRacket = (p5 : p5Types) : void =>
     {
         drawAutoInitLeftRacket(p5);
     }
-    else if (coordinateAlreadyGot  && animationData.animOne == false)
+    else if (coordinateAlreadyGot && (animationData.player == undefined || animationData.player == true))
     {
         if (p5.height !== canvasResizedHeight || p5.width !== canvasResizedWidth)
         {
@@ -334,17 +334,23 @@ let drawAutomaticRacket = (p5 : p5Types) : void =>
         p5.rect(autoRacketX, autoRacketY, autoRacketW,  autoRacketH);
         lastPossitionOfLeftAutoRectY = autoRacketY;
     }
-    p5.rect(autoRacketX, lastPossitionOfLeftAutoRectY , autoRacketW,  autoRacketH);
+    if (animationData.player === false)
+    {
+        p5.fill('red');
+        p5.rect(autoRacketX, lastPossitionOfLeftAutoRectY , autoRacketW,  autoRacketH);
+        p5.fill('white');
+    }
+    else
+        p5.rect(autoRacketX, lastPossitionOfLeftAutoRectY , autoRacketW,  autoRacketH);
 }
 
 let drawAutomaticRightRacket = (p5 : p5Types) : void =>
 {
-
     if (startSimulation === true)
     {
         drawAutoInitRightRacket(p5);
     }
-    else if (rightCoordinateAlreadyGot)
+    else if (rightCoordinateAlreadyGot && (animationData.player == undefined || animationData.player == false))
     {
         if (p5.height !== canvasResizedHeight || p5.width !== canvasResizedWidth)
         {
@@ -384,7 +390,14 @@ let drawAutomaticRightRacket = (p5 : p5Types) : void =>
         p5.rect(autoRightRacketX, autoRightRacketY, autoRightRacketW,  autoRightRacketH);
         lastPossitionOfRightAutoRectY = autoRightRacketY;
     }
-    p5.rect(autoRightRacketX, lastPossitionOfRightAutoRectY , autoRightRacketW,  autoRightRacketH);
+    if (animationData.player === true)
+    {
+        p5.fill('red');
+        p5.rect(autoRightRacketX, lastPossitionOfRightAutoRectY , autoRightRacketW,  autoRightRacketH);
+        p5.fill('white');
+    }
+    else
+        p5.rect(autoRightRacketX, lastPossitionOfRightAutoRectY , autoRightRacketW,  autoRightRacketH);
 }
 let automaticRacket = (p5 : p5Types) : void =>
 {

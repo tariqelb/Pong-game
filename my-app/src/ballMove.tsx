@@ -100,6 +100,10 @@ let calculateRightBallRebound = () : void =>
             console.log("rr is adj");
         if (Number.isNaN(radAngle))
             console.log("rr is adj");
+    if (animationData.player === true)
+    {
+        animationData.chances++;
+    }
 }
 
 let calculateLeftBallRebound = () : void =>
@@ -155,6 +159,10 @@ let calculateLeftBallRebound = () : void =>
             console.log("at is adj");
         if (Number.isNaN(radAngle))
             console.log("at is adj");
+    if (animationData.player === false)
+    {
+        animationData.chances++;   
+    }
 }
 let ii : number = 0;
 let calculateBallOnSpace = () : void =>
@@ -203,9 +211,12 @@ let calculateBallOnSpace = () : void =>
         console.log("on is adj");
 
         
-    if (ballDirection == false && ballX > animationData.animOneX && ballX < animationData.animOneX + animationData.animOneWH && ballY > animationData.animOneY && ballY < animationData.animOneY + animationData.animOneWH)
+    if (animationData.player === undefined && ballX > animationData.animOneX && ballX < animationData.animOneX + animationData.animOneWH && ballY > animationData.animOneY && ballY < animationData.animOneY + animationData.animOneWH)
     {
-        console.log ("pause it ");
+        if (ballDirection)
+            animationData.player = true;
+        else
+            animationData.player = false;
         animationData.animOne = true;
     }
     //console.log("coordinate : ", animOneX, animOneX + animOneWH, animOneY , animOneY + animOneY, animOneWH);
@@ -365,6 +376,8 @@ let ballMove =  (p5 : p5Types) : void =>
             }
             //if (animationData.animOne === false)
             animationData.animOne = false;
+            animationData.player = undefined;
+            animationData.chances = 0;
             restart = true;
             ballFirstMove = true;
             first50Time = 0;

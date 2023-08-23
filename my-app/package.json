@@ -10,7 +10,6 @@
     "@testing-library/user-event": "^13.5.0",
     "@types/jest": "^27.5.2",
     "@types/node": "^16.18.39",
-    "@types/p5": "^1.6.2",
     "@types/react": "^18.2.19",
     "@types/react-dom": "^18.2.7",
     "p5": "^1.7.0",
@@ -46,5 +45,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@types/p5": "^1.6.2"
   }
 }

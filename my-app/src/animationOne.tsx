@@ -22,6 +22,8 @@ import { automaticRacketFlag } from './mySketch';
 import { randomRebound } from './automaticRacket';
 import { flagImage } from './mySketch';
 import { chainImage } from './mySketch';
+import { ballDirection } from './ballMove';
+
 
 let animationData : 
 {
@@ -30,7 +32,9 @@ let animationData :
     animOneX : number ,
     animOneY : number ,
     animOneWH : number ,
-    animOne : boolean | undefined
+    chances : number ,
+    animOne : boolean | undefined,
+    player : boolean | undefined
 } = 
 {
     rotateAngle : 0,
@@ -38,12 +42,13 @@ let animationData :
     animOneX : 0,
     animOneY : 0,
     animOneWH : 0,
-    animOne : false
-
+    chances : 0,
+    animOne : false,
+    player : undefined
 };
 
 
-let rotate = (p5 : p5Types) =>
+let rotate = (p5 : p5Types) : void  =>
 {
     p5.push();
     //p5.rectMode('center');
@@ -90,21 +95,53 @@ let rotate = (p5 : p5Types) =>
 
 let crt = (p5 : p5Types) =>
 {
-    if (animationData.animOne)
+    if (!animationData.player)
     {
-        p5.stroke(60);
-        p5.strokeWeight(10)
-        p5.line(0,autoRacketY,p5.width / 2,p5.height / 2);   
+        //let text : string = "The left Racket is blocked HIHI";
+        //p5.textSize(32);
+        //p5.text(text, autoRacketX + autoRacketW, 30);
+        p5.stroke(255, 0 , 0);
+        p5.strokeWeight(5)
+        //p5.fill('red');
+        //p5.curve(0, 0, p5.width / 2 , p5.height / 2, autoRacketW, autoRacketY + autoRacketH / 2, p5.width, p5.height);
+        p5.curve(p5.width , p5.height, p5.width / 2 , p5.height / 2, autoRacketW, autoRacketY + autoRacketH / 2, 0, 0);
         p5.strokeWeight(0);
+        p5.stroke(0);
+        p5.fill('white');
+    }
+    if (animationData.player)
+    {
+        //let text : string = "The right Racket is blocked HIHI";
+        //p5.textSize(32);
+        //p5.text(text, autoRacketX + autoRacketW, 30);
+        p5.stroke(255 , 0 , 0);
+        p5.strokeWeight(5)
+        //p5.fill('red');
+        p5.curve(0, 0, p5.width / 2, p5.height / 2, autoRightRacketX, autoRightRacketY  + autoRightRacketH / 2, p5.width, p5.height); 
+        p5.strokeWeight(0);
+        p5.stroke(0);
+        p5.fill('white');
+
     }
 }
 
 let animationOne = (p5 : p5Types) : void =>
 {
+    p5.noFill();
+    p5.stroke(12);
     if (animationData.animOne === false)
         rotate(p5);
     else if (animationData.animOne === true) 
         crt(p5);
+    if (animationData.chances >= 2)
+    {
+        animationData.animOne = false; 
+        animationData.player = undefined;
+        animationData.chances = 0;
+    }
+    let text : string = "The left Racket is blocked HIHI";
+    p5.textSize(32);
+    p5.text(text, 20, 30);
 
 }
 

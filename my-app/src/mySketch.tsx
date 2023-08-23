@@ -2,6 +2,7 @@ import p5Types from 'p5';
 import drawAndMoveTheBall from './ballMove';
 import automaticRacket from './automaticRacket';
 import animationOne from './animationOne';
+import { animationData } from './animationOne';
 
 //import { scryRenderedDOMComponentsWithTag } from 'react-dom/test-utils';
 //import {useLayoutEffect, useRef, useState} from 'react';
@@ -327,8 +328,18 @@ function draw(p5 : p5Types)
     canvasResizedHeight = p5.width / 2 ;
     canvasResizedWidth = p5.width;
     resizeCanvas(p5);
+    /*if (animationData.player === false)
+    {
+     // if (kurapikaImage)
+      //  p5.image(kurapikaImage, p5.width/2, 0, p5.width / 2, p5.height);
+    }
+    if (animationData.player === true)
+    {
+     // if (machiImage)
+       // p5.image(machiImage, 0, 0, p5.width / 2, p5.height);
+    }*/
     //console.log("resize : ", p5.height, p5.width);
-    //p5.background(218, 97, 232);
+    //p5.background(255, 255, 255);
     line(p5); /* Draw the middle line */
     //Draw the ball
     drawAndMoveTheBall(p5);
@@ -388,14 +399,28 @@ function setup(p5 : p5Types)
 
 let flagImage : p5Types.Image | p5Types.Element;
 let chainImage : p5Types.Image | p5Types.Element;
+let kurapikaImage : p5Types.Image | p5Types.Element;
+let machiImage : p5Types.Image | p5Types.Element;
+let expandImage : p5Types.Image | p5Types.Element;
+let vid  : p5Types.Element | p5Types.MediaElement;
+
+let vidLoad = () =>
+{
+  //(//vid as p5.Video).loop();
+  //(vid as p5Types.Video).volume(0);
+}
 
 function MySketch(p5 : p5Types) 
 {
 
   p5.preload = () => 
   {
+    //machiImage = p5.loadImage('./machi.jpg');
+    //kurapikaImage = p5.loadImage('./kurapika.jpeg');
     chainImage = p5.loadImage('./Chain.png');   
-    flagImage = p5.loadImage('./Flag.png');   
+    expandImage = p5.loadImage('./expand.png');   
+    //flagImage = p5.loadImage('./Flag.png');   
+    vid = p5.createVideo(['./PiPoAnimVid.mp4'], vidLoad);
   }
   p5.setup = setup(p5);
 
