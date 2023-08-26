@@ -2,7 +2,14 @@ import p5Types from 'p5';
 import drawAndMoveTheBall from './ballMove';
 import automaticRacket from './automaticRacket';
 import animationOne from './animationOne';
+import animationTwo from './animationTwo';
 import { animationData } from './animationOne';
+import animation  from './animation';
+import Game from './gameInstance';
+import Racket from './Racket';
+
+
+
 
 //import { scryRenderedDOMComponentsWithTag } from 'react-dom/test-utils';
 //import {useLayoutEffect, useRef, useState} from 'react';
@@ -13,14 +20,14 @@ import {restartTwo} from './automaticRacket'
 import { ballX, ballY } from './ballMove';
 
 // The canvas variable 
-let cnv  : p5Types.Renderer; 
+//let cnv  : p5Types.Renderer; 
 let PlayWithMouse : boolean = true; // play with mouse or keyboard 
 //let PlayWithMouse : boolean = false; // play with mouse or keyboard 
 let keyIspress : boolean = false;
 
 // Set global variable 
 let racketSpeed : number = 10;// speed the number of pixel i add to racket to move it
-let gameBorederPixel : number = 15; //Borders size of the div in which the canvas is rendred 
+//let gameBorderPixel : number = 15; //Borders size of the div in which the canvas is rendred 
 
 //last coordinates of the mouse.
 let fistMouseMove : boolean = false;
@@ -47,7 +54,7 @@ let canvasResizedWidth : number;
 
 
 /* draw the right rectangle 'racket' */
-let MoveRightRacketWithKeyBoard = (p5 : p5Types) : void =>
+/*let MoveRightRacketWithKeyBoard = (p5 : p5Types) : void =>
 {
   rrecH = (p5.height / 4);
   rrecX = (p5.width) - (p5.width / 80);
@@ -94,10 +101,10 @@ let MoveRightRacketWithKeyBoard = (p5 : p5Types) : void =>
   }
   if (rrecY !== undefined)
     lastPossitionOfRightRectY = rrecY;
-}
+}*/
 
 /* draw the left rectangle 'racket' */
-let MoveLeftRacketWithKeyBoard = (p5 : p5Types) : void =>
+/*let MoveLeftRacketWithKeyBoard = (p5 : p5Types) : void =>
 {
   lrecX = 0; 
   lrecW = (p5.width / 80); 
@@ -144,10 +151,10 @@ let MoveLeftRacketWithKeyBoard = (p5 : p5Types) : void =>
   }
   if (lrecY !== undefined)
     lastPossitionOfLeftRectY = lrecY;
-}
+}*/
 
 /*Draw the racket in the midlle when no key is pressed yet */
-let drawInitRightRacket = (p5 : p5Types ) : void =>
+/*let drawInitRightRacket = (p5 : p5Types ) : void =>
 {
   rrecH = (p5.height / 4);
   rrecW = (p5.width / 80); 
@@ -169,23 +176,24 @@ let drawInitLeftRacket = (p5 : p5Types ) : void =>
   keyIspress = true;
   lastPossitionOfLeftRectY = lrecY;
 }
-
+*/
 let setFirstMouseMove = () : void =>
 {
     fistMouseMove = true;
 }
 
 /* drwa the left rectangle 'racket' */
-let drawAndMoveLeftRacketWithMouse = (p5 : p5Types ) : void  =>
+/*let drawAndMoveLeftRacketWithMouse = (game : Game ) : void  =>
 {
   if (fistMouseMove === false)
   {
-    lrecH = (p5.height / 4);
+    lrecH = (game.p5.height / 4);
     lrecX = 0; 
-    lrecY = (p5.height / 2) - rrecH / 2; 
-    lrecW = (p5.width / 80); 
-    p5.rect(lrecX, lrecY , lrecW,  lrecH);
-    cnv.mouseMoved(setFirstMouseMove)
+    lrecY = (game.p5.height / 2) - rrecH / 2; 
+    lrecW = (game.p5.width / 80); 
+    game.p5.rect(lrecX, lrecY , lrecW,  lrecH);
+    if (game.cnv)
+      game.cnv.mouseMoved(setFirstMouseMove)
   }
   else
   {
@@ -218,7 +226,7 @@ let drawAndMoveLeftRacketWithMouse = (p5 : p5Types ) : void  =>
   }
   if (lrecY !== undefined)
     lastPossitionOfLeftRectY = lrecY;
-}
+}*/
 
 /* draw the left rectangle 'racket' */
 let drawAndMoveRightRacketWithMouse = (p5 : p5Types ) : void  =>
@@ -230,7 +238,7 @@ let drawAndMoveRightRacketWithMouse = (p5 : p5Types ) : void  =>
     rrecY = (p5.height / 2) - rrecH / 2; 
     rrecW = (p5.width / 80); 
     p5.rect(rrecX, rrecY , rrecW,  rrecH);
-    cnv.mouseMoved(setFirstMouseMove)
+    //cnv.mouseMoved(setFirstMouseMove)
   }
   else
   {
@@ -267,12 +275,12 @@ let drawAndMoveRightRacketWithMouse = (p5 : p5Types ) : void  =>
 }
 
 /* Draw the middle line */
-let line = (p5 : p5Types) : void => 
+let line = (game : Game) : void => 
 {
-  p5.noStroke();
-  p5.fill('gray');
-  p5.rect(p5.width / 2 - 3, 0 , 6 , p5.height); 
-  p5.rect(0, p5.height / 2 - 3 , p5.width, 6);
+  game.p5.noStroke();
+  game.p5.fill('gray');
+  game.p5.rect(game.p5.width / 2 - 3, 0 , 6 , game.p5.height); 
+  game.p5.rect(0, game.p5.height / 2 - 3 , game.p5.width, 6);
 
 
   /*
@@ -299,20 +307,22 @@ let line = (p5 : p5Types) : void =>
     p5.rect(p5.width / 2 , p5.height / 2 , p5.width / 2 , p5.height / 2); 
   }
   */
-  animationOne(p5);
-  p5.fill('white');
+  //animationOne(p5);
+  game.p5.fill('white');
 }
 
 /* resize the canvas window to be responsive */
-let resizeCanvas = (p5 : p5Types) : void => 
+let resizeCanvas = (game : Game) : void => 
 {
-  let container : p5Types.Element | null = p5.select('#root');
-  
-  if (container)
+  let canvasWidth : number;
+  let canvasHeight : number; 
+ 
+  game.canvasPranetDiv = game.p5.select('#root'); 
+  if (game.canvasPranetDiv)
   {
-    let canvasWidth : number = container.elt.clientWidth - gameBorederPixel; //the game..xel is the number of pixel give to canvas borders 
-    let canvasHeight : number = (container.elt.clientWidth / 2) - gameBorederPixel;
-    p5.resizeCanvas(canvasWidth, canvasHeight);
+    canvasWidth = game.canvasPranetDiv.elt.clientWidth - game.gameBordersPixel; //the game..xel is the number of pixel give to canvas borders 
+    canvasHeight = (game.canvasPranetDiv.elt.clientWidth / 2) - game.gameBordersPixel;
+    game.p5.resizeCanvas(canvasWidth, canvasHeight);
   }
   else
   {
@@ -321,13 +331,13 @@ let resizeCanvas = (p5 : p5Types) : void =>
 }
 
 /* draw functon , run continously and draw on the canvas */
-function draw(p5 : p5Types) 
+function draw(game : Game) 
 {
   return () => 
   {
-    canvasResizedHeight = p5.width / 2 ;
-    canvasResizedWidth = p5.width;
-    resizeCanvas(p5);
+    canvasResizedHeight = game.p5.width / 2 ;
+    canvasResizedWidth = game.p5.width;
+    resizeCanvas(game);
     /*if (animationData.player === false)
     {
      // if (kurapikaImage)
@@ -340,22 +350,39 @@ function draw(p5 : p5Types)
     }*/
     //console.log("resize : ", p5.height, p5.width);
     //p5.background(255, 255, 255);
-    line(p5); /* Draw the middle line */
+    line(game); /* Draw the middle line */
     //Draw the ball
-    drawAndMoveTheBall(p5);
+    //drawAndMoveTheBall(p5);
+    //game.ball.drawAndMove();
+    /*if (game.leftRacket)
+    {
+      if (game.leftRacket.keyIsPress === false)
+        game.leftRacket.drawKeyBoardInitRacket();
+      else
+        game.leftRacket.MoveRacketWithKeyBoard();
+    }
+    if (game.rightRacket)
+    {
+      if (game.rightRacket.keyIsPress === false)
+        game.rightRacket.drawKeyBoardInitRacket();
+      else
+        game.rightRacket.MoveRacketWithKeyBoard();
+    }*/
     if (PlayWithMouse) 
     {
       //console.log(p5.mouseX, p5.mouseY);
-      //drawAndMoveRightRacketWithMouse(p5); /* draw and move the left rectangle 'racket' */
-      // drawAndMoveLeftRacketWithMouse(p5); /* draw and move the left rectangle 'racket' */
-      automaticRacket(p5);
-    }
+      //drawAndMoveRightRacketWithMouse(game); // draw and move the left rectangle 'racket' 
+       //drawAndMoveLeftRacketWithMouse(game); // draw and move the left rectangle 'racket' 
+      //automaticRacket(p5);
+      game.rightRacket?.drawAndMoveRightRacketWithMouse();
+      game.leftRacket?.drawAndMoveRightRacketWithMouse();
+    }/*
     else 
     {
       if (keyIspress === false)
       {
-        drawInitRightRacket(p5);//draw the racket
-        drawInitLeftRacket(p5);//draw the racket
+        //drawInitRightRacket(p5);//draw the racket
+        //drawInitLeftRacket(p5);//draw the racket
       }
       else
       {
@@ -363,37 +390,38 @@ function draw(p5 : p5Types)
         MoveLeftRacketWithKeyBoard(p5); // move the right rectangle 'racket' 
       }
     }
-    animationOne(p5);
+    //animationOne(p5);
+    //animationTwo(p5, animTwo);
     if (restart === true || restartTwo === true)
     {
       fistMouseMove = false;
       keyIspress = false;
     }
-    //ballMove(p5);
+    //ballMove(p5);*/
   };
 }
 
 /* setup startup function that create the canvas */
-function setup(p5 : p5Types) 
+function setup(game : Game) 
 {
-  return () => {
-    let container : p5Types.Element | null = p5.select('#root');
+  let canvasWidth : number;
+  let canvasHeight : number;
+
+  return () => 
+  {
+    game.canvasPranetDiv = game.p5.select('#root');
     
-    if (container)
+    if (game.canvasPranetDiv)
     {
-      //console.log(container);
-      let canvasWidth : number  = container.elt.clientWidth - gameBorederPixel;//the 15 for border pixel
-      let canvasHeight : number = (container.elt.clientWidth / 2) - gameBorederPixel;
-      cnv = p5.createCanvas( canvasWidth ,  canvasHeight/*p5.WEBGL*/);
-      cnv.parent('root');
-      p5.angleMode('degrees');
-      //p5.rotate(180);
-      //cnv.mouseMoved(getCurrentMoussecoordinate);
+      canvasWidth = game.canvasPranetDiv.elt.clientWidth - game.gameBordersPixel;//the 15 for border pixel
+      canvasHeight = (game.canvasPranetDiv.elt.clientWidth / 2) - game.gameBordersPixel;
+      game.cnv = game.p5.createCanvas( canvasWidth ,  canvasHeight);
+      game.cnv.parent('root');
+      game.leftRacket = new Racket(game, false, false);
+      game.rightRacket =  new Racket(game, false , true);
     }
     else
-    {
-      console.log("Error: in sketch file, failed to select the canvas element.")
-    }
+      console.log("Error: in sketch file, failed to select the parent of canvas element.")
   };
 }
 
@@ -402,29 +430,23 @@ let chainImage : p5Types.Image | p5Types.Element;
 let kurapikaImage : p5Types.Image | p5Types.Element;
 let machiImage : p5Types.Image | p5Types.Element;
 let expandImage : p5Types.Image | p5Types.Element;
-let vid  : p5Types.Element | p5Types.MediaElement;
-
-let vidLoad = () =>
-{
-  //(//vid as p5.Video).loop();
-  //(vid as p5Types.Video).volume(0);
-}
+let animTwo : animation = new animation();
 
 function MySketch(p5 : p5Types) 
 {
-
-  p5.preload = () => 
+  let game : Game = new Game(p5);
+  
+  game.p5.preload = () => 
   {
     //machiImage = p5.loadImage('./machi.jpg');
     //kurapikaImage = p5.loadImage('./kurapika.jpeg');
     chainImage = p5.loadImage('./Chain.png');   
     expandImage = p5.loadImage('./expand.png');   
     //flagImage = p5.loadImage('./Flag.png');   
-    vid = p5.createVideo(['./PiPoAnimVid.mp4'], vidLoad);
   }
-  p5.setup = setup(p5);
+  game.p5.setup = setup(game);
 
-  p5.draw = draw(p5);
+  game.p5.draw = draw(game);
 
 }
 
@@ -440,9 +462,10 @@ export {lrecH};
 export {lrecY};
 export {lastPossitionOfRightRectY}; 
 export {lastPossitionOfLeftRectY}; 
-export {drawInitLeftRacket};
+//export {drawInitLeftRacket};
 export {automaticRacketFlag};
 export {canvasResizedHeight};
 export {canvasResizedWidth};
 export {flagImage};
 export {chainImage};
+export {expandImage};

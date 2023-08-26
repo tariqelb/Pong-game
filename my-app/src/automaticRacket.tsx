@@ -1,5 +1,5 @@
 import p5Types from 'p5';
-import { drawInitLeftRacket, lastPossitionOfLeftRectY } from './mySketch';
+import { /*drawInitLeftRacket,*/ lastPossitionOfLeftRectY } from './mySketch';
 import { lrecX }  from './mySketch'; 
 import { lrecY }  from './mySketch'; 
 import { lrecH }  from './mySketch'; 
