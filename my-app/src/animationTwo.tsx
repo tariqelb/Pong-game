@@ -1,4 +1,5 @@
 import p5Types from 'p5';
+/*
 import {lrecX}  from './mySketch'; 
 import {lrecY}  from './mySketch'; 
 import {lrecH}  from './mySketch'; 
@@ -20,10 +21,10 @@ import { autoRightRacketX } from './automaticRacket';
 import { autoRightRacketY } from './automaticRacket';
 import { automaticRacketFlag } from './mySketch';
 import { randomRebound } from './automaticRacket';
-import { flagImage } from './mySketch';
-import { chainImage } from './mySketch';
+//import { flagImage } from './mySketch';
+//import { chainImage } from './mySketch';
 import { ballDirection, ballX , ballY} from './ballMove';
-import { expandImage } from './mySketch';
+//import { expandImage } from './mySketch';
 import animation from './animation';
 
 
@@ -33,7 +34,7 @@ let animationTwo = (p5 : p5Types, animTwo : animation) : void =>
     if (animTwo.animState === false)
     {
         if (animTwo.animImage === null)
-            animTwo.animImage = expandImage;
+//            animTwo.animImage = expandImage;
         animTwo.getRandomPosition(p5);
         console.log("here , ", animTwo.animState);
         animTwo.animState = true;
@@ -65,4 +66,4 @@ let animationTwo = (p5 : p5Types, animTwo : animation) : void =>
         console.log ("active Your animation");
 
 }
-export default animationTwo;
+export default animationTwo;*/

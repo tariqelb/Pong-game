@@ -1,13 +1,5 @@
 import p5Types from 'p5';
-import {lrecX}  from './mySketch'; 
-import {lrecY}  from './mySketch'; 
-import {lrecH}  from './mySketch'; 
-import {lrecW}  from './mySketch'; 
-import {rrecX}  from './mySketch'; 
-import {rrecY}  from './mySketch'; 
-import {rrecH}  from './mySketch'; 
-import {rrecW}  from './mySketch'; 
-import {lastPossitionOfRightRectY} from './mySketch'; 
+/*import {lastPossitionOfRightRectY} from './mySketch'; 
 import {lastPossitionOfLeftRectY} from './mySketch'; 
 //import { automaticRacket } from './automaticRacket';
 import { autoRacketH } from './automaticRacket';
@@ -20,8 +12,8 @@ import { autoRightRacketX } from './automaticRacket';
 import { autoRightRacketY } from './automaticRacket';
 import { automaticRacketFlag } from './mySketch';
 import { randomRebound } from './automaticRacket';
-import { flagImage } from './mySketch';
-import { chainImage } from './mySketch';
+//import { flagImage } from './mySketch';
+//import { chainImage } from './mySketch';
 import { ballDirection } from './ballMove';
 
 
@@ -88,8 +80,8 @@ let rotate = (p5 : p5Types) : void  =>
     animationData.rotateAngle += 1;
     if (animationData.rotateAngle === 360)
         animationData.rotateAngle = 0;
-    if (chainImage)
-        p5.image(chainImage, p5.width / 2 - ((p5.width / 15) / 2) , p5.height / 2 - (p5.height / 8 / 2), p5.width / 15, p5.width / 15 );
+    //if (chainImage)
+    //    p5.image(chainImage, p5.width / 2 - ((p5.width / 15) / 2) , p5.height / 2 - (p5.height / 8 / 2), p5.width / 15, p5.width / 15 );
 
 }
 
@@ -146,4 +138,4 @@ let animationOne = (p5 : p5Types) : void =>
 }
 
 export default animationOne;
-export {animationData};
+export {animationData};*/

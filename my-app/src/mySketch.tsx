@@ -1,50 +1,20 @@
 import p5Types from 'p5';
-import drawAndMoveTheBall from './ballMove';
-import automaticRacket from './automaticRacket';
-import animationOne from './animationOne';
-import animationTwo from './animationTwo';
-import { animationData } from './animationOne';
-import animation  from './animation';
+//import drawAndMoveTheBall from './ballMove';
+//import automaticRacket from './automaticRacket';
+//import animationOne from './animationOne';
+//import animationTwo from './animationTwo';
+//import { animationData } from './animationOne';
+//import animation  from './animation';
 import Game from './gameInstance';
-import Racket from './Racket';
 
 
-
-
-//import { scryRenderedDOMComponentsWithTag } from 'react-dom/test-utils';
-//import {useLayoutEffect, useRef, useState} from 'react';
-//import  *  as globalVar from './globalVariables';
-import {restart} from './ballMove'
-import {restartTwo} from './automaticRacket'
-
-import { ballX, ballY } from './ballMove';
-
-// The canvas variable 
-//let cnv  : p5Types.Renderer; 
 let PlayWithMouse : boolean = true; // play with mouse or keyboard 
 //let PlayWithMouse : boolean = false; // play with mouse or keyboard 
-let keyIspress : boolean = false;
-
-// Set global variable 
-let racketSpeed : number = 10;// speed the number of pixel i add to racket to move it
-//let gameBorderPixel : number = 15; //Borders size of the div in which the canvas is rendred 
 
 //last coordinates of the mouse.
-let fistMouseMove : boolean = false;
 let lastPossitionOfLeftRectY : number; //used for keyboard move
 let lastPossitionOfRightRectY : number; //used for keyboard move
 
-// right rectangle width height x and y data;
-let rrecX : number ; 
-let rrecW : number ; 
-let rrecH : number ; 
-let rrecY : number | undefined ;
-
-// left rectangle width height x and y data;
-let lrecX : number ; 
-let lrecW : number ; 
-let lrecH : number ; 
-let lrecY : number | undefined ;
 
 //automatic racket flag;
 let automaticRacketFlag : boolean = true;
@@ -53,226 +23,6 @@ let canvasResizedHeight : number; // this variable is used when the cancas is re
 let canvasResizedWidth : number;
 
 
-/* draw the right rectangle 'racket' */
-/*let MoveRightRacketWithKeyBoard = (p5 : p5Types) : void =>
-{
-  rrecH = (p5.height / 4);
-  rrecX = (p5.width) - (p5.width / 80);
-  rrecW = (p5.width / 80); 
-  rrecY = undefined;
- 
-  if (p5.keyIsPressed)
-  {
-    if ((p5.keyCode === 40 || p5.keyCode === 38) && lastPossitionOfRightRectY === undefined) // first time press arrow key
-    {
-      if (p5.keyCode === 40)
-        rrecY = ((p5.height / 2) - (rrecH / 2)) + racketSpeed; 
-      else
-        rrecY = ((p5.height / 2) - (rrecH / 2)) - racketSpeed;
-    }
-    else if ((p5.keyCode === 40 || p5.keyCode === 38) && lastPossitionOfRightRectY !== undefined)
-    {
-      if (p5.keyCode === 40)
-        rrecY = lastPossitionOfRightRectY + racketSpeed;
-      else
-        rrecY = lastPossitionOfRightRectY - racketSpeed;
-    }
-  }
-  else if (lastPossitionOfRightRectY === undefined) // press other key in the first time
-    rrecY  = (p5.height / 2) - (rrecH / 2);
-  else
-    rrecY = lastPossitionOfRightRectY;
-  if (rrecY === undefined)
-    p5.rect(rrecX, lastPossitionOfRightRectY , rrecW,  rrecH);
-  else
-  {
-    if (rrecY < 0)
-    {
-      p5.rect(rrecX, 0 , rrecW,  rrecH);
-      rrecY = 0;
-    }
-    else if (rrecY >= (p5.height - rrecH))
-    {
-      p5.rect(rrecX, (p5.height - rrecH) , rrecW,  rrecH);
-      rrecY = (p5.height - rrecH);
-    }
-    else
-      p5.rect(rrecX, rrecY , rrecW,  rrecH);
-  }
-  if (rrecY !== undefined)
-    lastPossitionOfRightRectY = rrecY;
-}*/
-
-/* draw the left rectangle 'racket' */
-/*let MoveLeftRacketWithKeyBoard = (p5 : p5Types) : void =>
-{
-  lrecX = 0; 
-  lrecW = (p5.width / 80); 
-  lrecH = (p5.height / 4); 
-  lrecY = undefined;
- 
-  if (p5.keyIsPressed)
-  {
-    if ((p5.keyCode === 40 || p5.keyCode === 38) && lastPossitionOfLeftRectY === undefined) // first time press arrow key
-    {
-      if (p5.keyCode === 40)
-        lrecY = ((p5.height / 2) - (rrecH / 2)) + racketSpeed; 
-      else
-        lrecY = ((p5.height / 2) - (rrecH / 2)) - racketSpeed;
-    }
-    else if ((p5.keyCode === 40 || p5.keyCode === 38) && lastPossitionOfLeftRectY !== undefined)
-    {
-      if (p5.keyCode === 40)
-        lrecY = lastPossitionOfLeftRectY + racketSpeed;
-      else
-        lrecY = lastPossitionOfLeftRectY - racketSpeed;
-    }
-  }
-  else if (lastPossitionOfLeftRectY === undefined) // press other key in the first time
-    lrecY  = (p5.height / 2) - (rrecH / 2);
-  else
-    lrecY = lastPossitionOfLeftRectY;
-  if (lrecY === undefined)
-    p5.rect(lrecX, lastPossitionOfLeftRectY , lrecW,  lrecH);
-  else
-  {
-    if (lrecY < 0)
-    {
-      p5.rect(lrecX, 0 , lrecW,  lrecH);
-      lrecY = 0;
-    }
-    else if (lrecY >= (p5.height - rrecH))
-    {
-      p5.rect(lrecX, (p5.height - lrecH) , lrecW,  lrecH);
-      lrecY = (p5.height - rrecH);
-    }
-    else
-      p5.rect(lrecX, lrecY , lrecW,  lrecH);
-  }
-  if (lrecY !== undefined)
-    lastPossitionOfLeftRectY = lrecY;
-}*/
-
-/*Draw the racket in the midlle when no key is pressed yet */
-/*let drawInitRightRacket = (p5 : p5Types ) : void =>
-{
-  rrecH = (p5.height / 4);
-  rrecW = (p5.width / 80); 
-  rrecX = (p5.width) - (p5.width / 80); 
-  rrecY = (p5.height / 2) - (rrecH / 2); 
-  p5.rect(rrecX, rrecY , rrecW,  rrecH);
-  keyIspress = true;
-  lastPossitionOfRightRectY = rrecY;
-}
-
-let drawInitLeftRacket = (p5 : p5Types ) : void =>
-{
-  lrecH = (p5.height / 4);
-  lrecX = 0; 
-  lrecY = (p5.height / 2) - (rrecH / 2); 
-  lrecW = (p5.width / 80); 
-
-  p5.rect(lrecX, lrecY , lrecW,  lrecH);
-  keyIspress = true;
-  lastPossitionOfLeftRectY = lrecY;
-}
-*/
-let setFirstMouseMove = () : void =>
-{
-    fistMouseMove = true;
-}
-
-/* drwa the left rectangle 'racket' */
-/*let drawAndMoveLeftRacketWithMouse = (game : Game ) : void  =>
-{
-  if (fistMouseMove === false)
-  {
-    lrecH = (game.p5.height / 4);
-    lrecX = 0; 
-    lrecY = (game.p5.height / 2) - rrecH / 2; 
-    lrecW = (game.p5.width / 80); 
-    game.p5.rect(lrecX, lrecY , lrecW,  lrecH);
-    if (game.cnv)
-      game.cnv.mouseMoved(setFirstMouseMove)
-  }
-  else
-  {
-    lrecH = (p5.height / 4); //the height of the racket
-    lrecW = (p5.width / 80); //the width of the racket
-    lrecX = 0; 
-    if (lrecY === undefined)
-    {
-      lrecY = (p5.height / 2) - rrecH / 2; 
-      p5.rect(lrecX, lrecY , lrecW,  lrecH);
-    }  
-    else
-    {
-      let mY = p5.constrain(p5.mouseY, 0, p5.height - lrecH);
-      if ((p5.mouseX > 0 && p5.mouseX < p5.width))// && cnv.mouseMoved(hiThere))
-      {
-        if (lastPossitionOfLeftRectY === p5.height - lrecH && mY === 0)
-          lrecY = lastPossitionOfLeftRectY;
-        else if (lastPossitionOfLeftRectY === 0 && mY === p5.height - lrecH)
-          lrecY = lastPossitionOfLeftRectY;
-        else
-          lrecY = mY;
-        p5.rect(lrecX, lrecY , lrecW,  lrecH);
-      }
-      else
-      {
-        p5.rect(lrecX, lastPossitionOfLeftRectY , lrecW,  lrecH);
-      }
-    }
-  }
-  if (lrecY !== undefined)
-    lastPossitionOfLeftRectY = lrecY;
-}*/
-
-/* draw the left rectangle 'racket' */
-let drawAndMoveRightRacketWithMouse = (p5 : p5Types ) : void  =>
-{
-  if (fistMouseMove === false)
-  {
-    rrecH = (p5.height / 4);
-    rrecX = (p5.width) - (p5.width / 80); 
-    rrecY = (p5.height / 2) - rrecH / 2; 
-    rrecW = (p5.width / 80); 
-    p5.rect(rrecX, rrecY , rrecW,  rrecH);
-    //cnv.mouseMoved(setFirstMouseMove)
-  }
-  else
-  {
-    rrecH = (p5.height / 4); //the height of the racket
-    rrecW = (p5.width / 80); //the width of the racket
-    rrecX = (p5.width) - (p5.width / 80); 
-    if (rrecY === undefined)
-    { 
-      rrecY = (p5.height / 2) - rrecH / 2;
-      p5.rect(rrecX, rrecY , rrecW,  rrecH);
-    }
-    else
-    {
-      let mY = p5.constrain(p5.mouseY, 0, p5.height - rrecH);//mY is mouse Y coordinate after constrain
-      if (p5.mouseX > 0 && p5.mouseX < p5.width)
-      {
-        if (lastPossitionOfRightRectY === p5.height - rrecH && mY === 0)
-          rrecY = lastPossitionOfRightRectY;
-        else if (lastPossitionOfRightRectY === 0 && mY === p5.height - rrecH)
-          rrecY = lastPossitionOfRightRectY;
-        else
-          rrecY = mY; 
-        p5.rect(rrecX, rrecY , rrecW,  rrecH);
-      }
-      else
-      {
-        p5.rect(rrecX, lastPossitionOfRightRectY , rrecW,  rrecH);
-      }
-    }
-  }
-  //console.log("right : racket : " , rrecX, rrecY, rrecW, rrecH);
-  if (rrecY !== undefined)
-    lastPossitionOfRightRectY = rrecY;
-}
 
 /* Draw the middle line */
 let line = (game : Game) : void => 
@@ -326,34 +76,21 @@ let resizeCanvas = (game : Game) : void =>
   }
   else
   {
-      console.log("The game div selector return null.");
+    console.log("The game div selector return null.");
   }
 }
 
-/* draw functon , run continously and draw on the canvas */
+
 function draw(game : Game) 
 {
   return () => 
   {
-    canvasResizedHeight = game.p5.width / 2 ;
-    canvasResizedWidth = game.p5.width;
+    //canvasResizedHeight = game.p5.width / 2 ;
+    //canvasResizedWidth = game.p5.width;
     resizeCanvas(game);
-    /*if (animationData.player === false)
-    {
-     // if (kurapikaImage)
-      //  p5.image(kurapikaImage, p5.width/2, 0, p5.width / 2, p5.height);
-    }
-    if (animationData.player === true)
-    {
-     // if (machiImage)
-       // p5.image(machiImage, 0, 0, p5.width / 2, p5.height);
-    }*/
-    //console.log("resize : ", p5.height, p5.width);
-    //p5.background(255, 255, 255);
-    line(game); /* Draw the middle line */
-    //Draw the ball
+    game.p5.background(0);
+    line(game); 
     //drawAndMoveTheBall(p5);
-    //game.ball.drawAndMove();
     /*if (game.leftRacket)
     {
       if (game.leftRacket.keyIsPress === false)
@@ -366,47 +103,46 @@ function draw(game : Game)
       if (game.rightRacket.keyIsPress === false)
         game.rightRacket.drawKeyBoardInitRacket();
       else
-        game.rightRacket.MoveRacketWithKeyBoard();
+      game.rightRacket.MoveRacketWithKeyBoard();
     }*/
     if (PlayWithMouse) 
     {
       //console.log(p5.mouseX, p5.mouseY);
       //drawAndMoveRightRacketWithMouse(game); // draw and move the left rectangle 'racket' 
-       //drawAndMoveLeftRacketWithMouse(game); // draw and move the left rectangle 'racket' 
+      //drawAndMoveLeftRacketWithMouse(game); // draw and move the left rectangle 'racket' 
       //automaticRacket(p5);
-      game.rightRacket?.drawAndMoveRightRacketWithMouse();
-      game.leftRacket?.drawAndMoveRightRacketWithMouse();
-    }/*
-    else 
+      //game.rightRacket?.drawAndMoveRacketWithMouse();
+      //game.leftRacket?.drawAndMoveRacketWithMouse();
+      //game.rightRacket.MoveRacketWithKeyBoard();
+      //game.leftRacket.MoveRacketWithKeyBoard();
+      game.leftRacket.automaticRacket();
+      game.rightRacket.automaticRacket();
+    }
+    /*else 
     {
       if (keyIspress === false)
       {
-        //drawInitRightRacket(p5);//draw the racket
-        //drawInitLeftRacket(p5);//draw the racket
+        drawInitRightRacket(p5);//draw the racket
+        drawInitLeftRacket(p5);//draw the racket
       }
-      else
+     else
       {
         MoveRightRacketWithKeyBoard(p5); // move the right rectangle 'racket' 
         MoveLeftRacketWithKeyBoard(p5); // move the right rectangle 'racket' 
       }
-    }
+    //}
     //animationOne(p5);
-    //animationTwo(p5, animTwo);
-    if (restart === true || restartTwo === true)
-    {
-      fistMouseMove = false;
-      keyIspress = false;
-    }
+    //animationTwo(p5, animTwo);*/
     //ballMove(p5);*/
+    game.ball.drawAndMove();
   };
 }
 
-/* setup startup function that create the canvas */
 function setup(game : Game) 
 {
   let canvasWidth : number;
   let canvasHeight : number;
-
+  
   return () => 
   {
     game.canvasPranetDiv = game.p5.select('#root');
@@ -417,55 +153,30 @@ function setup(game : Game)
       canvasHeight = (game.canvasPranetDiv.elt.clientWidth / 2) - game.gameBordersPixel;
       game.cnv = game.p5.createCanvas( canvasWidth ,  canvasHeight);
       game.cnv.parent('root');
-      game.leftRacket = new Racket(game, false, false);
-      game.rightRacket =  new Racket(game, false , true);
+      //game.ball = new Ball(game);
     }
     else
       console.log("Error: in sketch file, failed to select the parent of canvas element.")
   };
 }
 
-let flagImage : p5Types.Image | p5Types.Element;
-let chainImage : p5Types.Image | p5Types.Element;
-let kurapikaImage : p5Types.Image | p5Types.Element;
-let machiImage : p5Types.Image | p5Types.Element;
-let expandImage : p5Types.Image | p5Types.Element;
-let animTwo : animation = new animation();
-
 function MySketch(p5 : p5Types) 
 {
   let game : Game = new Game(p5);
-  
-  game.p5.preload = () => 
-  {
-    //machiImage = p5.loadImage('./machi.jpg');
-    //kurapikaImage = p5.loadImage('./kurapika.jpeg');
-    chainImage = p5.loadImage('./Chain.png');   
-    expandImage = p5.loadImage('./expand.png');   
-    //flagImage = p5.loadImage('./Flag.png');   
-  }
-  game.p5.setup = setup(game);
 
+  game.p5.setup = setup(game);
+  //p5.setup = setup(p5);
+
+  //p5.draw = draw(p5);
   game.p5.draw = draw(game);
 
 }
 
 export default MySketch;
 
-export {rrecX};
-export {rrecW};
-export {rrecH};
-export {rrecY};
-export {lrecX};
-export {lrecW};
-export {lrecH};
-export {lrecY};
 export {lastPossitionOfRightRectY}; 
 export {lastPossitionOfLeftRectY}; 
 //export {drawInitLeftRacket};
 export {automaticRacketFlag};
 export {canvasResizedHeight};
 export {canvasResizedWidth};
-export {flagImage};
-export {chainImage};
-export {expandImage};
