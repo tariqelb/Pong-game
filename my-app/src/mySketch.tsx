@@ -94,9 +94,9 @@ function draw(game : Game)
 
     if (PlayWithMouse) 
     {
-      game.rightRacket.drawAndMoveRacketWithMouse();
+      //game.rightRacket.drawAndMoveRacketWithMouse();
       //game.leftRacket?.drawAndMoveRacketWithMouse();
-      //game.rightRacket.MoveRacketWithKeyBoard();
+      game.rightRacket.MoveRacketWithKeyBoard();
       //game.leftRacket.MoveRacketWithKeyBoard();
       game.leftRacket.automaticRacket();
       //game.rightRacket.automaticRacket();
