@@ -1,7 +1,7 @@
 import p5Types from 'p5';
 import Ball from './ball'
 import Racket from './racket';
-
+import animation from './animation';
 
 class Game
 {
@@ -13,6 +13,7 @@ class Game
         this.leftRacket = new Racket(this, undefined, false);
         this.rightRacket = new Racket(this, undefined, true);
         this.ball = new Ball(this);
+        this.anim = new animation(this);
     }
     
     p5 : p5Types ;
@@ -29,6 +30,7 @@ class Game
     leftPlayerGoals : number = 0;
     rightPlayerGoals : number = 0;
     goalRestart : boolean = false;
+    anim : animation;
 }
 
 export default Game;

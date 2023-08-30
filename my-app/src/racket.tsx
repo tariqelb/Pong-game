@@ -37,6 +37,10 @@ class Racket
 
     drawKeyBoardInitRacket()
     {
+        if (this.racketSides)
+            this.game.p5.fill('blue')
+        else
+            this.game.p5.fill('green')
         if (this.racketSides === true)
             this.racketX = (this.game.p5.width) - (this.game.p5.width / 80); 
         else
@@ -50,10 +54,15 @@ class Racket
         this.lastPositionOfRacketY = this.racketY;
         if (this.racketSpeed === 0)
             this.racketSpeed = this.game.p5.height / 40;
+        this.game.p5.fill('white')
     }
 
     MoveRacketWithKeyBoard ()
     {
+        if (this.racketSides)
+            this.game.p5.fill('blue')
+        else
+            this.game.p5.fill('green')
         if (this.keyIsPress === false)
         {
             if (this.racketSides === true)
@@ -87,10 +96,15 @@ class Racket
         }
         else
             this.game.p5.rect(this.racketX, this.lastPositionOfRacketY , this.racketW,  this.racketH);
+        this.game.p5.fill('white')
     }
 
     drawAndMoveRacketWithMouse()
     {
+        if (this.racketSides)
+            this.game.p5.fill('blue')
+        else
+            this.game.p5.fill('green')
         if (this.racketSides === true)
             this.racketX = (this.game.p5.width) - (this.game.p5.width / 80); 
         else
@@ -119,10 +133,15 @@ class Racket
                 this.game.p5.rect(this.racketX, this.lastPositionOfRacketY , this.racketW,  this.racketH);
         }
         this.lastPositionOfRacketY = this.racketY;
+        this.game.p5.fill('white')
     }
 
     drawAutomaticRacket()
     {
+        if (this.racketSides)
+            this.game.p5.fill('blue');
+        else
+            this.game.p5.fill('green');
         if (this.startOfSimulation === true)
             this.drawKeyBoardInitRacket();
         else if (this.coordinateAlreadyGot)//&& (animationData.player == undefined || animationData.player == true))
@@ -163,10 +182,6 @@ class Racket
                 this.racketY = 0;
             else if (this.racketY + this.racketH > this.game.p5.height)
                 this.racketY = this.game.p5.height - this.racketH;
-            if (this.racketSides)
-                this.game.p5.fill('blue');
-            else
-                this.game.p5.fill('green');
             this.game.p5.rect(this.racketX, this.racketY, this.racketW, this.racketH);
             this.lastPositionOfRacketY = this.racketY;
         }
@@ -178,13 +193,9 @@ class Racket
         }
         else*/
         //{
-            if (this.racketSides)
-                this.game.p5.fill('blue');
-            else
-                this.game.p5.fill('green');
             this.game.p5.rect(this.racketX, this.lastPositionOfRacketY , this.racketW,  this.racketH);
-            this.game.p5.fill('white');
         //}
+        this.game.p5.fill('white');
     }
     
     automaticRacket()

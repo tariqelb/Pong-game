@@ -6,14 +6,11 @@ import p5Types from 'p5';
 //import { animationData } from './animationOne';
 //import animation  from './animation';
 import Game from './gameInstance';
+import animation from './animation';
 
 
 let PlayWithMouse : boolean = true; // play with mouse or keyboard 
 //let PlayWithMouse : boolean = false; // play with mouse or keyboard 
-
-//last coordinates of the mouse.
-let lastPossitionOfLeftRectY : number; //used for keyboard move
-let lastPossitionOfRightRectY : number; //used for keyboard move
 
 
 //automatic racket flag;
@@ -89,51 +86,23 @@ function draw(game : Game)
     //canvasResizedWidth = game.p5.width;
     resizeCanvas(game);
     game.p5.background(0);
-    line(game); 
-    //drawAndMoveTheBall(p5);
-    /*if (game.leftRacket)
-    {
-      if (game.leftRacket.keyIsPress === false)
-        game.leftRacket.drawKeyBoardInitRacket();
-      else
-        game.leftRacket.MoveRacketWithKeyBoard();
-    }
-    if (game.rightRacket)
-    {
-      if (game.rightRacket.keyIsPress === false)
-        game.rightRacket.drawKeyBoardInitRacket();
-      else
-      game.rightRacket.MoveRacketWithKeyBoard();
-    }*/
+    line(game);
+    if (game.anim.animPos === false)
+      game.anim.getRandomPosition();
+    else
+      game.anim.drawAnimation();
+
     if (PlayWithMouse) 
     {
-      //console.log(p5.mouseX, p5.mouseY);
-      //drawAndMoveRightRacketWithMouse(game); // draw and move the left rectangle 'racket' 
-      //drawAndMoveLeftRacketWithMouse(game); // draw and move the left rectangle 'racket' 
-      //automaticRacket(p5);
-      //game.rightRacket?.drawAndMoveRacketWithMouse();
+      game.rightRacket.drawAndMoveRacketWithMouse();
       //game.leftRacket?.drawAndMoveRacketWithMouse();
       //game.rightRacket.MoveRacketWithKeyBoard();
       //game.leftRacket.MoveRacketWithKeyBoard();
       game.leftRacket.automaticRacket();
-      game.rightRacket.automaticRacket();
+      //game.rightRacket.automaticRacket();
     }
-    /*else 
-    {
-      if (keyIspress === false)
-      {
-        drawInitRightRacket(p5);//draw the racket
-        drawInitLeftRacket(p5);//draw the racket
-      }
-     else
-      {
-        MoveRightRacketWithKeyBoard(p5); // move the right rectangle 'racket' 
-        MoveLeftRacketWithKeyBoard(p5); // move the right rectangle 'racket' 
-      }
-    //}
     //animationOne(p5);
     //animationTwo(p5, animTwo);*/
-    //ballMove(p5);*/
     game.ball.drawAndMove();
   };
 }
@@ -163,7 +132,9 @@ function setup(game : Game)
 function MySketch(p5 : p5Types) 
 {
   let game : Game = new Game(p5);
-
+  game.p5.preload = () => {
+    game.anim.animImage = game.p5.loadImage('./Chain.jpg');
+  }
   game.p5.setup = setup(game);
   //p5.setup = setup(p5);
 
@@ -174,9 +145,8 @@ function MySketch(p5 : p5Types)
 
 export default MySketch;
 
-export {lastPossitionOfRightRectY}; 
-export {lastPossitionOfLeftRectY}; 
-//export {drawInitLeftRacket};
+
+
 export {automaticRacketFlag};
 export {canvasResizedHeight};
 export {canvasResizedWidth};
