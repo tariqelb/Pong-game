@@ -1,17 +1,19 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import App from './app/App';
+import { createRoot } from 'react-dom/client';
+import './socket/connectToServer';
 
-//let root : HTMLElement | null =  createRoot.document.getElementById('root') 
+const root : HTMLElement | null = document.getElementById('root');
+if (root)
+{
+  const appRoot = createRoot(root);
+  appRoot.render
+  (
+      <React.StrictMode>
+      <App />
+    </React.StrictMode>
+  );
 
-ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
- document.getElementById('root') 
-);
+}
 
-
-reportWebVitals();

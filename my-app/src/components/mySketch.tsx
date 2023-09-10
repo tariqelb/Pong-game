@@ -1,25 +1,22 @@
 import p5Types from 'p5';
-//import drawAndMoveTheBall from './ballMove';
-//import automaticRacket from './automaticRacket';
+
 //import animationOne from './animationOne';
 //import animationTwo from './animationTwo';
 //import { animationData } from './animationOne';
 //import animation  from './animation';
 import Game from './gameInstance';
-import animation from './animation';
-
+//import animation from './animation';
+import GameContainer from './gamecontainer';
 
 let PlayWithMouse : boolean = true; // play with mouse or keyboard 
 //let PlayWithMouse : boolean = false; // play with mouse or keyboard 
-
-
 //automatic racket flag;
 let automaticRacketFlag : boolean = true;
 //let automaticRacketFlag : boolean = false;
 let canvasResizedHeight : number; // this variable is used when the cancas is resized so we need to change rackets size
 let canvasResizedWidth : number;
 
-
+let gameCapsule: GameContainer = new GameContainer();
 
 /* Draw the middle line */
 let line = (game : Game) : void => 
@@ -85,25 +82,41 @@ function draw(game : Game)
     //canvasResizedHeight = game.p5.width / 2 ;
     //canvasResizedWidth = game.p5.width;
     resizeCanvas(game);
+    gameCapsule.racketSide = 1;
+    gameCapsule.width = game.p5.width;
+    gameCapsule.height = game.p5.height;
+    gameCapsule.racketKind = 0;
+    gameCapsule.init = true;
+    //console.log("data : ", gameCapsule.init, game.p5.width);
     game.p5.background(0);
     line(game);
-    if (game.anim.animPos === false)
-      game.anim.getRandomPosition();
-    else
-      game.anim.drawAnimation();
-
-    if (PlayWithMouse) 
+    if (!game.loading)
     {
-      //game.rightRacket.drawAndMoveRacketWithMouse();
-      //game.leftRacket?.drawAndMoveRacketWithMouse();
-      game.rightRacket.MoveRacketWithKeyBoard();
-      //game.leftRacket.MoveRacketWithKeyBoard();
-      game.leftRacket.automaticRacket();
-      //game.rightRacket.automaticRacket();
+
+    
+      //if (game.anim.animPos === false)
+      //  game.anim.getRandomPosition();
+      // else
+      //   game.anim.drawAnimation();
+      if (PlayWithMouse) 
+      {
+        //game.rightRacket.drawAndMoveRacketWithMouse();
+        //game.leftRacket?.drawAndMoveRacketWithMouse();
+        //game.rightRacket.MoveRacketWithKeyBoard();
+        //game.leftRacket.MoveRacketWithKeyBoard();
+        //game.leftRacket.automaticRacket();
+        game.rightRacket.automaticRacket();
+      }
+      //animationOne(p5);
+      //animationTwo(p5, animTwo);*/
+      game.ball.drawAndMove();
     }
-    //animationOne(p5);
-    //animationTwo(p5, animTwo);*/
-    game.ball.drawAndMove();
+    else
+    {
+      let lessage : string = "I'm loading ..."; 
+      game.p5.textSize(22);
+      game.p5.text(lessage, 130, 100, 500);
+    }
   };
 }
 
@@ -132,6 +145,7 @@ function setup(game : Game)
 function MySketch(p5 : p5Types) 
 {
   let game : Game = new Game(p5);
+  
   game.p5.preload = () => {
     game.anim.animImage = game.p5.loadImage('./Chain.jpg');
   }
@@ -140,11 +154,12 @@ function MySketch(p5 : p5Types)
 
   //p5.draw = draw(p5);
   game.p5.draw = draw(game);
+  //console.log("data outside : ", gameCapsule.init, game.p5.width);
 
 }
 
 export default MySketch;
-
+export { gameCapsule};
 
 
 export {automaticRacketFlag};

@@ -16,6 +16,7 @@ class Game
         this.anim = new animation(this);
     }
     
+    loading : boolean = true;
     p5 : p5Types ;
     cnv : p5Types.Renderer | null = null;
     canvasPranetDiv : p5Types.Element | null = null;
