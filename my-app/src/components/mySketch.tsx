@@ -67,6 +67,8 @@ let resizeCanvas = (game : Game) : void =>
     canvasWidth = game.canvasPranetDiv.elt.clientWidth - game.gameBordersPixel; //the game..xel is the number of pixel give to canvas borders 
     canvasHeight = (game.canvasPranetDiv.elt.clientWidth / 2) - game.gameBordersPixel;
     game.p5.resizeCanvas(canvasWidth, canvasHeight);
+    gameCapsule.height = canvasHeight;
+    gameCapsule.width = canvasWidth;
   }
   else
   {
@@ -87,10 +89,17 @@ function draw(game : Game)
     gameCapsule.height = game.p5.height;
     gameCapsule.racketKind = 0;
     gameCapsule.init = true;
+    if (game.p5.keyIsPressed)
+    {
+      gameCapsule.keyIsPressed = game.p5.keyIsPressed;
+      gameCapsule.keyCode = game.p5.keyCode;
+    } 
+
     //console.log("data : ", gameCapsule.init, game.p5.width);
     game.p5.background(0);
     line(game);
-    if (!game.loading)
+
+    /*if (game.loading)
     {
 
     
@@ -105,18 +114,22 @@ function draw(game : Game)
         //game.rightRacket.MoveRacketWithKeyBoard();
         //game.leftRacket.MoveRacketWithKeyBoard();
         //game.leftRacket.automaticRacket();
-        game.rightRacket.automaticRacket();
+        //game.rightRacket.automaticRacket();
       }
       //animationOne(p5);
-      //animationTwo(p5, animTwo);*/
-      game.ball.drawAndMove();
+      //animationTwo(p5, animTwo);
+      //game.ball.drawAndMove();
     }
     else
     {
       let lessage : string = "I'm loading ..."; 
       game.p5.textSize(22);
       game.p5.text(lessage, 130, 100, 500);
-    }
+    }*/
+    //gameCapsule.dataIsReady = false;
+    console.log("data before ", gameCapsule.ballX, gameCapsule.ballY) 
+    game.p5.circle(gameCapsule.ballX, gameCapsule.ballY, gameCapsule.ballWH);
+    console.log("data after ", gameCapsule.ballX, gameCapsule.ballY) 
   };
 }
 

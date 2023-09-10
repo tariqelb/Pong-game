@@ -27,29 +27,50 @@ socket = io(serverUrl/* + namespace*/, {
   transports: ['websocket'],
   });
 
-
+  let sendRequest = () => 
+  {
+    if (socket && gameCapsule.init)
+      socket.emit("customEventDataRequest", gameCapsule);
+    setTimeout(sendRequest, 100); // Send request every 0.5 seconds
+  }
 
 if (socket)
 {
   //send data to the server
-  socket.emit("customEventDataRequest", gameCapsule);
-
- 
-  socket.on('customEventDataResponse', () => {
+  
+  socket.on('customEventDataResponse', (data : GameContainer) => 
+  {
     console.log(`Connected to WebSocket server in tab ${tabId}`);
+    gameCapsule.ballX = data.ballX;
+    gameCapsule.ballY = data.ballY;
+    gameCapsule.ballWH = data.ballWH;
+    gameCapsule.ballFirst50Time = data.ballFirst50Time;
+    gameCapsule.ballAngle = data.ballAngle;
+    gameCapsule.ballSpeed = data.ballSpeed;
+    gameCapsule.ballDirection = data.ballDirection;
+    gameCapsule.ballFirstMove = data.ballFirstMove;
   });
   
   
   
-  console.log("after :", socket, gameCapsule);
+  //console.log("after :", socket, gameCapsule);
   
+  sendRequest();
   
-  socket.on('connect', () => {
+  socket.on('connect', ()=>  {
     console.log(`Connected to WebSocket server in tab id ${tabId}`);
   });
   
   socket.on('disconnect', () => {
     console.log(`Disconnected from WebSocket server in tab ${tabId}`);
+    gameCapsule.init = false;
+    gameCapsule.ballX = 0;
+    gameCapsule.ballY = 0;
+    gameCapsule.ballWH = 0;
+    gameCapsule.ballDirection = undefined;
+    gameCapsule.ballFirst50Time = 0;
+    gameCapsule.ballSpeed = 0;
+    gameCapsule.ballFirstMove = true;
   });
 
   socket.on('connect_error', (error) => {

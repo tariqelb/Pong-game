@@ -1,6 +1,6 @@
 // websocketService.ts
 import { io, Socket } from 'socket.io-client';
-
+/*
 const serverUrl = 'ws://localhost:4012';
 
 class WebSocketService {
@@ -46,3 +46,4 @@ class WebSocketService {
 const websocketService = new WebSocketService();
 
 export default websocketService;
+*/
