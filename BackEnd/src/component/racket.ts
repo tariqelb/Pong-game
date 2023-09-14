@@ -9,7 +9,7 @@ class Racket
         //this.game = game;
         this.racketModes = racketMode;
         this.racketSides = racketSide;
-        this.racketSpeed = data.height / 40;
+        this.racketSpeed = data.height / 100;
         this.width = data.width;
         this.height = data.height;
     };
@@ -130,8 +130,11 @@ class Racket
     
     drawAutomaticRacket(data : GameContainer)
     {
+        //console.log("coordinate: ",  this.coordinateAlreadyGot, " Racket side : ", this.racketSides, this.racketVibrationUpDown,"\n------------\n");
         if (this.startOfSimulation === true)
+        {
             this.drawKeyBoardInitRacket(data);
+        }
         else if (this.coordinateAlreadyGot)
         {
             if (data.height !== this.height || data.width !== this.width)
@@ -148,25 +151,37 @@ class Racket
             }
             if (this.racketVibrationUpDown === false)
             {
+            //    console.log("what happen 1 ", this.racketVibrationUpDown, this.racketY, this.randomRebound ,this.racketSpeed);
                 if (this.racketY + this.randomRebound >= this.virtualBallY)
+                {
+                    console.log("1 : ",this.racketY, this.racketY + this.randomRebound , this.virtualBallY);
                     this.racketY -= this.racketSpeed;
+                }   
                 else
                 {
+                    console.log("1.1 : ", this.racketY, this.racketY + this.randomRebound , this.virtualBallY);
                     let diff = this.racketY + this.randomRebound - this.virtualBallY;
                     this.racketY = this.racketY - diff;
                     this.racketVibrationUpDown = undefined;
                 }
+              //  console.log("after 1 : ", this.racketY);
             }
             else if (this.racketVibrationUpDown === true)
             {
+             //   console.log("what happen 2 ", this.racketVibrationUpDown , this.racketY, this.racketSpeed);
                 if (this.racketY + this.randomRebound <= this.virtualBallY)
+                {
+                    console.log("2 : ",this.racketY, this.racketY + this.randomRebound , this.virtualBallY, this.randomRebound);
                     this.racketY += this.racketSpeed;
+                }
                 else
                 {
+                    console.log("2.1 : ", this.racketY, this.racketY + this.randomRebound , this.virtualBallY);
                     let diff = this.virtualBallY - (this.racketY + this.randomRebound);
                     this.racketY = this.racketY + diff;
                     this.racketVibrationUpDown = undefined;
                 }
+               // console.log("after 2 : ", this.racketY);
             }
             if (this.racketY < 0)
                 this.racketY = 0;
@@ -175,32 +190,32 @@ class Racket
             this.lastPositionOfRacketY = this.racketY;
         }
     }
-    /*
-    automaticRacket()
+    
+    automaticRacket(data : GameContainer)
     {
-        if (this.game.goalRestart)
+        if (data.goalRestart)
         {
             this.startOfSimulation = true;
             this.coordinateAlreadyGot = false;
-            //console.log("start again------------------>");
-            //this.racketInitialPositionIsready = 0;
+            console.log("start again------------------>");
         }
-        this.drawAutomaticRacket();
+        //console.log("-----------\ndata : ","racket side : ", this.racketSides, "ball direction :", data.ballDirection)
+        this.drawAutomaticRacket(data);
         
-        
-        if ((this.racketSides === false && this.game.ball.ballDirection === false )|| (this.racketSides && this.game.ball.ballDirection))
+        if ((this.racketSides === false && data.ballDirection === false )|| (this.racketSides && data.ballDirection))
         {
             if (this.coordinateAlreadyGot === false)
             {
-                this.getCoordinates();
+                this.getCoordinates(data);
                 this.coordinateAlreadyGot = true;
                 this.randomRebound = Math.floor(Math.random() * (this.racketH - this.edge)) + this.edge;
+                console.log("random rebound : ", this.randomRebound, this.racketY , this.racketY + this.randomRebound, this.virtualBallY, this.virtualBallX)
             }
             else
             {
-                this.game.p5.fill('red');
-                this.game.p5.circle(this.virtualBallX , this.virtualBallY, this.virtualBallWH);
-                this.game.p5.fill('white');
+                //this.game.p5.fill('red');
+                //this.game.p5.circle(this.virtualBallX , this.virtualBallY, this.virtualBallWH);
+                //this.game.p5.fill('white');
             }
         }
         else
@@ -210,7 +225,7 @@ class Racket
     }
 
 
-    virtualBallUpbottomRebound()
+    virtualBallUpbottomRebound(data: GameContainer)
     {
         let radAngle : number;
         let adj : number;
@@ -236,17 +251,17 @@ class Racket
             else if (this.virtualBallA >= 400)
                 tempAngle = this.virtualBallA - 400;
             radAngle = tempAngle  * (Math.PI / 2 / 200);
-            adj = this.game.ball.ballSpeed * Math.tan(radAngle); 
+            adj = data.ballSpeed * Math.tan(radAngle); 
             if (tempAngle === 100 || tempAngle === 300)
                 adj = 0;
             if (adj < 0)
                 adj *= -1;
-            if (this.game.ball.ballY + this.game.ball.ballWH / 2 < 0)
+            if (data.ballY + data.ballWH / 2 < 0)
                 this.virtualBallY = 0 + adj;
             else
                 this.virtualBallY += adj;
         }
-        else if (this.virtualBallY + this.game.ball.ballWH >= this.height - this.game.ball.ballWH / 2)
+        else if (this.virtualBallY + data.ballWH >= this.height - data.ballWH / 2)
         {
             if (this.virtualBallA >= 200 && this.virtualBallA <= 300)
             {
@@ -266,35 +281,36 @@ class Racket
             else if (this.virtualBallA >= 400)
                 tempAngle = this.virtualBallA - 400;
             radAngle = tempAngle * (Math.PI / 2 / 200);
-            adj = this.game.ball.ballSpeed * Math.tan(radAngle);
+            adj = data.ballSpeed * Math.tan(radAngle);
             if (tempAngle === 100 || tempAngle === 300)
                 adj = 0;
             if (adj < 0)
                 adj *= -1;
-            if (this.virtualBallY >= this.height - (this.game.ball.ballWH / 2))
-                this.virtualBallY = (this.height - (this.game.ball.ballWH / 2)) - adj;
+            if (this.virtualBallY >= this.height - (data.ballWH / 2))
+                this.virtualBallY = (this.height - (data.ballWH / 2)) - adj;
             else
                 this.virtualBallY -= adj;
         }
-        if (this.game.ball.ballDirection)
-            this.virtualBallX += this.game.ball.ballSpeed;
+        if (data.ballDirection)
+            this.virtualBallX += data.ballSpeed;
         else
-            this.virtualBallX -= this.game.ball.ballSpeed;
+            this.virtualBallX -= data.ballSpeed;
     
     }
 
-    getCoordinates ()
+    getCoordinates (data : GameContainer)
     {
         let tempAngle   : number;
         let radAngle    : number;
         let adj         : number;
         
-        this.virtualBallA = this.game.ball.ballAngle;
-        this.virtualBallX = this.game.ball.ballX;
-        this.virtualBallY = this.game.ball.ballY;
-        this.virtualBallWH = this.game.ball.ballWH;
-        while ((this.virtualBallX  > this.racketW) && !this.game.ball.ballDirection)
+        this.virtualBallA = data.ballAngle;
+        this.virtualBallX = data.ballX;
+        this.virtualBallY = data.ballY;
+        this.virtualBallWH = data.ballWH;
+        while ((this.virtualBallX  > this.racketW) && !data.ballDirection)
         {
+            //console.log('the while loop', this.virtualBallX, this.racketW, data.ballSpeed);
             if (this.virtualBallY - this.virtualBallWH / 2 > 0 &&  this.virtualBallY + this.virtualBallWH / 2 < this.height)
             {
                 tempAngle = this.virtualBallA;
@@ -307,7 +323,7 @@ class Racket
                 else if (this.virtualBallA >= 400)
                     tempAngle = this.virtualBallA - 400;
                 radAngle = tempAngle * (Math.PI / 2 / 200);
-                adj = this.game.ball.ballSpeed * Math.tan(radAngle);
+                adj = data.ballSpeed * Math.tan(radAngle);
                 if (tempAngle === 100 || tempAngle === 300)
                     adj = 0;
                 if (adj < 0)
@@ -322,26 +338,26 @@ class Racket
                     this.virtualBallY += adj;
                 else if (this.virtualBallA >= 300 && this.virtualBallA <= 400)
                     this.virtualBallY -= adj;
-                if (this.game.ball.ballDirection)
+                if (data.ballDirection)
                 {
-                    this.virtualBallX += this.game.ball.ballSpeed;
+                    this.virtualBallX += data.ballSpeed;
                 }    
                 else
                 {
-                    this.virtualBallX -= this.game.ball.ballSpeed;
+                    this.virtualBallX -= data.ballSpeed;
                 }
             }
         
-            else if (this.virtualBallY - this.game.ball.ballWH <= 0 || (this.virtualBallY + this.game.ball.ballWH) >= this.height)
+            else if (this.virtualBallY - data.ballWH <= 0 || (this.virtualBallY + data.ballWH) >= this.height)
             {
                 if (this.virtualBallY < 0)
                     this.virtualBallY = 0;
                 if (this.virtualBallY > this.height - this.virtualBallWH / 2)
                     this.virtualBallY = this.height - this.virtualBallWH / 2;
-                this.virtualBallUpbottomRebound();       
+                this.virtualBallUpbottomRebound(data);       
             }   
         }
-        while ((this.virtualBallX  < this.racketX) && this.game.ball.ballDirection)
+        while ((this.virtualBallX  < this.racketX) && data.ballDirection)
         {
             if (this.virtualBallY - this.virtualBallWH / 2 > 0 &&  this.virtualBallY + this.virtualBallWH / 2 < this.height)
             {
@@ -355,7 +371,7 @@ class Racket
                 else if (this.virtualBallA >= 400)
                     tempAngle = this.virtualBallA - 400;
                 radAngle = tempAngle * (Math.PI / 2 / 200);
-                adj = this.game.ball.ballSpeed * Math.tan(radAngle);
+                adj = data.ballSpeed * Math.tan(radAngle);
                 if (tempAngle === 100 || tempAngle === 300)
                     adj = 0;
                 if (adj < 0)
@@ -370,22 +386,22 @@ class Racket
                     this.virtualBallY += adj;
                 else if (this.virtualBallA >= 300 && this.virtualBallA <= 400)
                     this.virtualBallY -= adj;
-                if (this.game.ball.ballDirection)
+                if (data.ballDirection)
                 {
-                    this.virtualBallX += this.game.ball.ballSpeed;
+                    this.virtualBallX += data.ballSpeed;
                 }    
                 else
                 {
-                    this.virtualBallX -= this.game.ball.ballSpeed;
+                    this.virtualBallX -= data.ballSpeed;
                 }
             }  
-            else if (this.virtualBallY - this.game.ball.ballWH <= 0 || (this.virtualBallY + this.game.ball.ballWH) >= this.height)
+            else if (this.virtualBallY - data.ballWH <= 0 || (this.virtualBallY + data.ballWH) >= this.height)
             {
                 if (this.virtualBallY < 0)
                     this.virtualBallY = 0;
                 if (this.virtualBallY > this.height - this.virtualBallWH / 2)
                     this.virtualBallY = this.height - this.virtualBallWH / 2;
-                this.virtualBallUpbottomRebound();   
+                this.virtualBallUpbottomRebound(data);   
                 
             }     
         }
@@ -393,14 +409,14 @@ class Racket
             this.virtualBallX = 0;
         if (this.virtualBallX > this.width)
             this.virtualBallX = this.width;  
-        if (this.game.ball.ballDirection && this.racketY)
+        if (data.ballDirection && this.racketY)
         {
             if (this.virtualBallY > this.racketY)
                 this.racketVibrationUpDown = true;
             else
                 this.racketVibrationUpDown = false; 
         }
-        if (!this.game.ball.ballDirection && this.racketY)
+        if (!data.ballDirection && this.racketY)
         {
             if (this.virtualBallY > this.racketY)
                 this.racketVibrationUpDown = true;
@@ -408,7 +424,7 @@ class Racket
                 this.racketVibrationUpDown = false;
         }
     }
-*/
+
 }
 
 

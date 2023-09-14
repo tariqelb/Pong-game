@@ -76,6 +76,19 @@ function draw(game : Game)
     //console.log("key ", gameCapsule.lRacketX, gameCapsule.lRacketY);
     game.p5.rect(gameCapsule.rRacketX, gameCapsule.rLastPosY, gameCapsule.rRacketW, gameCapsule.rRacketH)
     game.p5.rect(gameCapsule.lRacketX, gameCapsule.lLastPosY, gameCapsule.lRacketW, gameCapsule.lRacketH)
+    if (gameCapsule.leftVBallCoordinate)
+    {
+      game.p5.fill('red');
+      game.p5.circle(gameCapsule.leftVBallX, gameCapsule.leftVBallY, gameCapsule.leftVBallWH);
+      game.p5.fill('white');
+    }
+    if (gameCapsule.rightVBallCoordinate)
+    {
+      game.p5.fill('red');
+      game.p5.circle(gameCapsule.rightVBallX, gameCapsule.rightVBallY, gameCapsule.rightVBallWH);
+      game.p5.fill('white');
+    }
+
     //game.ball.drawAndMove();
     //if (!game.loading)
     /*{

@@ -38,6 +38,21 @@ class GameContainer
   keyIsPress : boolean = false;
   mouseX  : number = 0;
   mouseY  : number = 0;
+  goalRestart : boolean = false;
 
+  leftVBallX : number = 0;
+  leftVBallY : number = 0;
+  leftVBallWH : number = 0;
+  leftVBallCoordinate : boolean = false;
+  leftStartOfSimulation : boolean = true;
+  leftRacketVibration: boolean | undefined = undefined;
+  leftRandomRebound : number = 0;
+  rightVBallX : number = 0;
+  rightVBallY : number = 0;
+  rightVBallWH : number = 0;
+  rightVBallCoordinate : boolean = false;
+  rightStartOfSimulation : boolean = true;
+  rightRacketVibration: boolean | undefined = undefined;
+  rightRandomRebound : number = 0;
 }
 export default GameContainer;

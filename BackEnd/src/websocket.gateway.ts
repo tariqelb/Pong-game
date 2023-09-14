@@ -55,7 +55,8 @@ export class MyWebSocketGateway implements OnGatewayInit ,OnGatewayConnection, O
     ball.ballDirection = data.ballDirection;
     ball.ballFirst50Time = data.ballFirst50Time;
     ball.ballFirstMove = data.ballFirstMove;
-    //console.log("be " , ball.ballX, ball.ballY, data.init) 
+    ball.ballSpeed = data.ballSpeed;
+
     ball.rightRacket.lastPositionOfRacketY = data.rLastPosY;
     ball.rightRacket.racketH = data.rRacketH;
     ball.rightRacket.racketW = data.rRacketW; 
@@ -66,9 +67,26 @@ export class MyWebSocketGateway implements OnGatewayInit ,OnGatewayConnection, O
     ball.leftRacket.racketW = data.lRacketW; 
     ball.leftRacket.racketX = data.lRacketX;
     ball.leftRacket.racketY = data.lRacketY;
+
+    ball.rightRacket.startOfSimulation = data.rightStartOfSimulation;
+    ball.rightRacket.coordinateAlreadyGot = data.rightVBallCoordinate;
+    ball.rightRacket.racketVibrationUpDown = data.rightRacketVibration;
+    ball.leftRacket.startOfSimulation = data.leftStartOfSimulation;
+    ball.leftRacket.coordinateAlreadyGot = data.leftVBallCoordinate;
+    ball.leftRacket.racketVibrationUpDown = data.leftRacketVibration
+    ball.leftRacket.randomRebound = data.leftRandomRebound;
+    ball.leftRacket.virtualBallX = data.leftVBallX;
+    ball.leftRacket.virtualBallY = data.leftVBallY;
+    ball.leftRacket.virtualBallWH = data.leftVBallWH;
+    ball.rightRacket.virtualBallX = data.rightVBallX;
+    ball.rightRacket.virtualBallY = data.rightVBallY;
+    ball.rightRacket.virtualBallWH = data.rightVBallWH;
+    ball.rightRacket.randomRebound = data.rightRandomRebound;
     //ball.rightRacket.MoveRacketWithKeyBoard(data);
-    ball.rightRacket.drawAndMoveRacketWithMouse(data);
-    ball.leftRacket.drawAndMoveRacketWithMouse(data);
+    //ball.rightRacket.drawAndMoveRacketWithMouse(data);
+    //ball.leftRacket.drawAndMoveRacketWithMouse(data);
+    ball.leftRacket.automaticRacket(data)
+    ball.rightRacket.automaticRacket(data);
     ball.drawAndMove(data.width, data.height);
       
       //console.log("af " , ball.ballX, ball.ballY)
@@ -79,6 +97,8 @@ export class MyWebSocketGateway implements OnGatewayInit ,OnGatewayConnection, O
     data.ballFirst50Time = ball.ballFirst50Time;
     data.ballFirstMove = ball.ballFirstMove;
     data.ballDirection = ball.ballDirection;
+    data.ballSpeed = ball.ballSpeed;
+
     data.rLastPosY = ball.rightRacket.lastPositionOfRacketY
     data.rRacketH = ball.rightRacket.racketH;
     data.rRacketW = ball.rightRacket.racketW;
@@ -89,6 +109,21 @@ export class MyWebSocketGateway implements OnGatewayInit ,OnGatewayConnection, O
     data.lRacketW = ball.leftRacket.racketW;
     data.lRacketX = ball.leftRacket.racketX;
     data.lRacketY = ball.leftRacket.racketY;
+
+    data.rightRacketVibration = ball.rightRacket.racketVibrationUpDown;
+    data.rightVBallCoordinate = ball.rightRacket.coordinateAlreadyGot;
+    data.rightStartOfSimulation = ball.rightRacket.startOfSimulation;
+    data.leftRacketVibration = ball.leftRacket.racketVibrationUpDown;
+    data.leftVBallCoordinate = ball.leftRacket.coordinateAlreadyGot;
+    data.leftStartOfSimulation = ball.leftRacket.startOfSimulation;
+    data.rightVBallX = ball.rightRacket.virtualBallX;
+    data.rightVBallY = ball.rightRacket.virtualBallY;
+    data.rightVBallWH = ball.rightRacket.virtualBallWH;
+    data.leftRandomRebound = ball.leftRacket.randomRebound;
+    data.leftVBallX = ball.leftRacket.virtualBallX;
+    data.leftVBallY = ball.leftRacket.virtualBallY;
+    data.leftVBallWH = ball.leftRacket.virtualBallWH;
+    data.rightRandomRebound = ball.rightRacket.randomRebound;
     }
     // You can also broadcast the data to all connected clients if needed
     

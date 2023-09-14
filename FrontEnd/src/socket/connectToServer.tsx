@@ -49,6 +49,7 @@ if (socket)
     gameCapsule.ballX =  data.ballX;
     gameCapsule.ballY = data.ballY;
     gameCapsule.ballWH = data.ballWH;
+    gameCapsule.ballSpeed = data.ballSpeed;
     gameCapsule.rRacketH = data.rRacketH;
     gameCapsule.rRacketW = data.rRacketW;
     gameCapsule.rRacketX = data.rRacketX;
@@ -59,6 +60,21 @@ if (socket)
     gameCapsule.lRacketX = data.lRacketX;
     gameCapsule.lRacketY = data.lRacketY;
     gameCapsule.lLastPosY = data.lLastPosY;
+    gameCapsule.goalRestart = data.goalRestart;
+    gameCapsule.leftStartOfSimulation = data.leftStartOfSimulation;
+    gameCapsule.leftVBallCoordinate = data.leftVBallCoordinate;
+    gameCapsule.leftRacketVibration = data.leftRacketVibration;
+    gameCapsule.leftVBallX = data.leftVBallX;
+    gameCapsule.leftVBallY = data.leftVBallY;
+    gameCapsule.leftVBallWH = data.leftVBallWH;
+    gameCapsule.leftRandomRebound = data.leftRandomRebound;
+    gameCapsule.rightStartOfSimulation = data.rightStartOfSimulation;
+    gameCapsule.rightVBallCoordinate = data.rightVBallCoordinate;
+    gameCapsule.rightRacketVibration = data.rightRacketVibration;
+    gameCapsule.rightVBallX = data.rightVBallX;
+    gameCapsule.rightVBallY = data.rightVBallY;
+    gameCapsule.rightVBallWH = data.rightVBallWH;
+    gameCapsule.rightRandomRebound = data.rightRandomRebound;
   });
   
   

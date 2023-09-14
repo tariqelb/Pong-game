@@ -33,7 +33,7 @@ class Ball
     {
         this.height = height;
         this.width = width;
-        this.ballSpeed = this.width / 100;
+        this.ballSpeed = this.width / 70;
         if (this.ballFirst50Time < 10)
         {
             //this.game.goalRestart = false;
