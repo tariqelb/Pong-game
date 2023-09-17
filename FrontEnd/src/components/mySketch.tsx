@@ -74,8 +74,8 @@ function draw(game : Game)
       gameCapsule.keyCode = game.p5.keyCode;
     game.p5.circle(gameCapsule.ballX, gameCapsule.ballY, gameCapsule.ballWH);
     //console.log("key ", gameCapsule.lRacketX, gameCapsule.lRacketY);
-    game.p5.rect(gameCapsule.rRacketX, gameCapsule.rLastPosY, gameCapsule.rRacketW, gameCapsule.rRacketH)
-    game.p5.rect(gameCapsule.lRacketX, gameCapsule.lLastPosY, gameCapsule.lRacketW, gameCapsule.lRacketH)
+    //game.p5.rect(gameCapsule.rRacketX, gameCapsule.rLastPosY, gameCapsule.rRacketW, gameCapsule.rRacketH)
+    //game.p5.rect(gameCapsule.lRacketX, gameCapsule.lLastPosY, gameCapsule.lRacketW, gameCapsule.lRacketH)
     if (gameCapsule.leftVBallCoordinate)
     {
       game.p5.fill('red');
@@ -88,6 +88,17 @@ function draw(game : Game)
       game.p5.circle(gameCapsule.rightVBallX, gameCapsule.rightVBallY, gameCapsule.rightVBallWH);
       game.p5.fill('white');
     }
+    game.ball.ballX = gameCapsule.ballX;
+    game.ball.ballY = gameCapsule.ballY;
+    game.ball.ballWH  = gameCapsule.ballWH
+    game.ball.ballAngle = gameCapsule.ballAngle
+    game.ball.ballDirection  = gameCapsule.ballDirection
+    game.ball.ballFirstMove  = gameCapsule.ballFirstMove;
+    game.ball.ballFirst50Time  = gameCapsule.ballFirst50Time
+    game.ball.ballSpeed  = gameCapsule.ballSpeed
+    
+    game.leftRacket.automaticRacket();
+    game.rightRacket.automaticRacket();
 
     //game.ball.drawAndMove();
     //if (!game.loading)

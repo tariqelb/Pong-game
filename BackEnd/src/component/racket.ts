@@ -134,6 +134,7 @@ class Racket
         if (this.startOfSimulation === true)
         {
             this.drawKeyBoardInitRacket(data);
+            //data.goalRestart = false;
         }
         else if (this.coordinateAlreadyGot)
         {
@@ -151,37 +152,42 @@ class Racket
             }
             if (this.racketVibrationUpDown === false)
             {
-            //    console.log("what happen 1 ", this.racketVibrationUpDown, this.racketY, this.randomRebound ,this.racketSpeed);
+                if (!this.racketSides)
+                    console.log("what happen 1 ", this.racketSides ,  this.racketVibrationUpDown, this.racketY, this.randomRebound + this.racketY, this.virtualBallY);
                 if (this.racketY + this.randomRebound >= this.virtualBallY)
                 {
-                    console.log("1 : ",this.racketY, this.racketY + this.randomRebound , this.virtualBallY);
+                    //console.log("1 : ",this.racketY, this.racketY + this.randomRebound , this.virtualBallY);
                     this.racketY -= this.racketSpeed;
                 }   
                 else
                 {
-                    console.log("1.1 : ", this.racketY, this.racketY + this.randomRebound , this.virtualBallY);
+                 //   console.log("1.1 : ", this.racketY, this.racketY + this.randomRebound , this.virtualBallY);
                     let diff = this.racketY + this.randomRebound - this.virtualBallY;
                     this.racketY = this.racketY - diff;
                     this.racketVibrationUpDown = undefined;
                 }
-              //  console.log("after 1 : ", this.racketY);
+
+                if (!this.racketSides)
+                    console.log("after 1 : ", this.racketY);
             }
             else if (this.racketVibrationUpDown === true)
             {
-             //   console.log("what happen 2 ", this.racketVibrationUpDown , this.racketY, this.racketSpeed);
+                if (!this.racketSides)
+                    console.log("what happen 2 ",this.racketSides, this.racketVibrationUpDown , this.racketY, this.racketY + this.randomRebound, this.virtualBallY);
                 if (this.racketY + this.randomRebound <= this.virtualBallY)
                 {
-                    console.log("2 : ",this.racketY, this.racketY + this.randomRebound , this.virtualBallY, this.randomRebound);
+                    //console.log("2 : ",this.racketY, this.racketY + this.randomRebound , this.virtualBallY, this.randomRebound);
                     this.racketY += this.racketSpeed;
                 }
                 else
                 {
-                    console.log("2.1 : ", this.racketY, this.racketY + this.randomRebound , this.virtualBallY);
+                    //console.log("2.1 : ", this.racketY, this.racketY + this.randomRebound , this.virtualBallY);
                     let diff = this.virtualBallY - (this.racketY + this.randomRebound);
                     this.racketY = this.racketY + diff;
                     this.racketVibrationUpDown = undefined;
                 }
-               // console.log("after 2 : ", this.racketY);
+                if (!this.racketSides)
+                    console.log("after 2 : ", this.racketY);
             }
             if (this.racketY < 0)
                 this.racketY = 0;
@@ -206,10 +212,11 @@ class Racket
         {
             if (this.coordinateAlreadyGot === false)
             {
+                this.randomRebound = Math.floor(Math.random() * (this.racketH - this.edge)) + this.edge;
                 this.getCoordinates(data);
                 this.coordinateAlreadyGot = true;
-                this.randomRebound = Math.floor(Math.random() * (this.racketH - this.edge)) + this.edge;
-                console.log("random rebound : ", this.randomRebound, this.racketY , this.racketY + this.randomRebound, this.virtualBallY, this.virtualBallX)
+                if (!this.racketSides)
+                    console.log("random rebound : ", this.randomRebound, this.racketY , this.racketY + this.randomRebound, this.virtualBallY, this.virtualBallX)
             }
             else
             {
@@ -411,17 +418,24 @@ class Racket
             this.virtualBallX = this.width;  
         if (data.ballDirection && this.racketY)
         {
-            if (this.virtualBallY > this.racketY)
+            if (this.virtualBallY > this.racketY + this.randomRebound)
                 this.racketVibrationUpDown = true;
             else
                 this.racketVibrationUpDown = false; 
+            
+            if (!this.racketSides)
+                console.log("choose : ", this.racketSides,this.racketVibrationUpDown ,  this.racketY, this.virtualBallY)
         }
         if (!data.ballDirection && this.racketY)
         {
-            if (this.virtualBallY > this.racketY)
+            if (this.virtualBallY > this.racketY + this.randomRebound)
                 this.racketVibrationUpDown = true;
             else
                 this.racketVibrationUpDown = false;
+            if (!this.racketSides)
+                console.log("choose : ", this.racketSides,this.racketVibrationUpDown ,  this.racketY, this.virtualBallY)
+            //console.log("choose : ",this.racketVibrationUpDown , data.ballDirection, this.racketY, this.virtualBallY)
+
         }
     }
 

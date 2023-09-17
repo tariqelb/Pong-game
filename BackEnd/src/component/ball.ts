@@ -28,15 +28,16 @@ class Ball
     height : number = 0;
     leftRacket : Racket ;
     rightRacket : Racket ;
+    goalRestart : boolean = false;
     
     drawAndMove(width: number, height : number)
     {
         this.height = height;
         this.width = width;
-        this.ballSpeed = this.width / 70;
+        this.ballSpeed = this.width / 40;
         if (this.ballFirst50Time < 10)
         {
-            //this.game.goalRestart = false;
+            this.goalRestart = false;
             this.ballWH = this.height / 25;
             this.ballX = this.width / 2;
             this.ballY = this.height / 2;
@@ -92,7 +93,7 @@ class Ball
                     //this.game.rightPlayerGoals++;
                 ///else
                     //this.game.leftPlayerGoals++;
-                //this.game.goalRestart = true;
+                this.goalRestart = true;
                 this.ballFirstMove = true;
                 this.ballFirst50Time = 0;
                 this.ballDirection = undefined;

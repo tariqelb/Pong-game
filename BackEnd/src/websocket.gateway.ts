@@ -56,6 +56,7 @@ export class MyWebSocketGateway implements OnGatewayInit ,OnGatewayConnection, O
     ball.ballFirst50Time = data.ballFirst50Time;
     ball.ballFirstMove = data.ballFirstMove;
     ball.ballSpeed = data.ballSpeed;
+    ball.goalRestart = data.goalRestart;
 
     ball.rightRacket.lastPositionOfRacketY = data.rLastPosY;
     ball.rightRacket.racketH = data.rRacketH;
@@ -85,8 +86,8 @@ export class MyWebSocketGateway implements OnGatewayInit ,OnGatewayConnection, O
     //ball.rightRacket.MoveRacketWithKeyBoard(data);
     //ball.rightRacket.drawAndMoveRacketWithMouse(data);
     //ball.leftRacket.drawAndMoveRacketWithMouse(data);
-    ball.leftRacket.automaticRacket(data)
-    ball.rightRacket.automaticRacket(data);
+    //ball.leftRacket.automaticRacket(data)
+    //ball.rightRacket.automaticRacket(data);
     ball.drawAndMove(data.width, data.height);
       
       //console.log("af " , ball.ballX, ball.ballY)
@@ -98,6 +99,7 @@ export class MyWebSocketGateway implements OnGatewayInit ,OnGatewayConnection, O
     data.ballFirstMove = ball.ballFirstMove;
     data.ballDirection = ball.ballDirection;
     data.ballSpeed = ball.ballSpeed;
+    data.goalRestart = ball.goalRestart;
 
     data.rLastPosY = ball.rightRacket.lastPositionOfRacketY
     data.rRacketH = ball.rightRacket.racketH;

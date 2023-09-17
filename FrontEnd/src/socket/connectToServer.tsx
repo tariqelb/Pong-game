@@ -50,6 +50,7 @@ if (socket)
     gameCapsule.ballY = data.ballY;
     gameCapsule.ballWH = data.ballWH;
     gameCapsule.ballSpeed = data.ballSpeed;
+    gameCapsule.goalRestart = data.goalRestart;
     gameCapsule.rRacketH = data.rRacketH;
     gameCapsule.rRacketW = data.rRacketW;
     gameCapsule.rRacketX = data.rRacketX;
