@@ -1,15 +1,13 @@
-import Game from './gameInstance'
-import Racket from './racket';
 import GameContainer from './gamecontainer';
 
 class Ball
 {
-    constructor (leftRackt : Racket , rightRacket : Racket)
+    constructor ()// (leftRackt : Racket , rightRacket : Racket)
     {
         //this.leftRacket = new Racket(null, undefined, false);
-        //this.rightRacket = new Racket(null, undefined, true);
-        this.leftRacket = leftRackt;
-        this.rightRacket = rightRacket;
+        //data= new Racket(null, undefined, true);
+        //this.leftRacket = leftRackt;
+       // data= rightRacket;
     }
     //game : Game;
     ballX : number = 0;
@@ -26,32 +24,30 @@ class Ball
     ballBottomTan : number = 0;
     width : number = 0;
     height : number = 0;
-    leftRacket : Racket ;
-    rightRacket : Racket ;
     goalRestart : boolean = false;
     
-    drawAndMove(width: number, height : number)
+    drawAndMove(data : GameContainer)
     {
-        this.height = height;
-        this.width = width;
-        this.ballSpeed = this.width / 40;
+        this.height = data.height;
+        this.width = data.width;
+        this.ballSpeed = data.width / 120;
         if (this.ballFirst50Time < 10)
         {
             this.goalRestart = false;
-            this.ballWH = this.height / 25;
-            this.ballX = this.width / 2;
-            this.ballY = this.height / 2;
+            this.ballWH = data.height / 25;
+            this.ballX = data.width / 2;
+            this.ballY = data.height / 2;
             this.ballFirst50Time++;
             this.ballFirstMove = true;
         } 
         else
         {
-            this.ballMove();
+            this.ballMove(data);
         }
 
     }
 
-    ballMove()
+    ballMove(data : GameContainer)
     {
         this.ballRightTan = this.ballX + this.ballWH / 2;
         this.ballLeftTan = this.ballX - this.ballWH / 2;
@@ -65,31 +61,31 @@ class Ball
             else
                 this.ballAngle = 300;
         }
-        if (this.ballFirstMove && this.rightRacket && this.leftRacket)
+        if (this.ballFirstMove)// && data&& this.leftRacket)
         {
             if (this.ballDirection)
                 this.ballX += this.ballSpeed;
             else
                 this.ballX -= this.ballSpeed;
                 
-            if (this.ballDirection === true && this.ballRightTan >= this.rightRacket.racketX)
+            if (this.ballDirection === true && this.ballRightTan >= data.rRacketX)
                 this.ballFirstMove = false; 
-            else if (this.ballDirection === false && this.ballLeftTan <= (this.leftRacket.racketX + this.leftRacket.racketW / 2) )
+            else if (this.ballDirection === false && this.ballLeftTan <= (data.lRacketX + data.lRacketW / 2) )
                 this.ballFirstMove = false;
-            if (this.ballDirection && this.ballX >= this.width && this.ballY > this.rightRacket.racketY  && this.ballY < this.rightRacket.racketY + this.rightRacket.racketH)
-                this.ballX = this.width - this.rightRacket.racketW + 1;
-            if (!this.ballDirection && this.ballX <= 0 && this.ballY > this.leftRacket.racketY && this.ballY < this.leftRacket.racketY + this.leftRacket.racketH)
-                this.ballX = this.leftRacket.racketW - 1;
+            if (this.ballDirection && this.ballX >= this.width && this.ballY > data.rRacketY  && this.ballY < data.rRacketY + data.rRacketH)
+                this.ballX = this.width - data.rRacketW + 1;
+            if (!this.ballDirection && this.ballX <= 0 && this.ballY > data.lRacketY && this.ballY < data.lRacketY + data.lRacketH)
+                this.ballX = data.lRacketW - 1;
             
         } 
         
-        if (this.ballFirstMove === false && this.rightRacket && this.leftRacket)
+        if (this.ballFirstMove === false )
         {
-            if ((this.ballDirection && this.ballX > this.width - this.rightRacket.racketW  && (this.ballY < this.rightRacket.racketY || this.ballY > this.rightRacket.racketY + this.rightRacket.racketH))
-                || (!this.ballDirection && this.ballX < this.leftRacket.racketW && (this.ballY < this.leftRacket.racketY || this.ballY > this.leftRacket.racketY + this.leftRacket.racketH)))
+            if ((this.ballDirection && this.ballX > this.width - data.rRacketW  && (this.ballY < data.rRacketY || this.ballY > data.rRacketY + data.rRacketH))
+                || (!this.ballDirection && this.ballX < data.lRacketW && (this.ballY < data.lRacketY || this.ballY > data.lRacketY + data.lRacketH)))
             {
                 console.log("You lose ==================== : ");
-                //if ((!this.ballDirection && this.ballX < this.leftRacket.racketW && (this.ballY < this.leftRacket.racketY || this.ballY > this.leftRacket.racketY + this.leftRacket.racketH)))
+                //if ((!this.ballDirection && this.ballX < data.lRacketW && (this.ballY < data.lRacketY || this.ballY > data.lRacketY + data.lRacketH)))
                     //this.game.rightPlayerGoals++;
                 ///else
                     //this.game.leftPlayerGoals++;
@@ -98,13 +94,13 @@ class Ball
                 this.ballFirst50Time = 0;
                 this.ballDirection = undefined;
             }
-            else if (this.ballDirection === true && this.ballRightTan >= this.rightRacket.racketX && (this.ballY >= this.rightRacket.racketY && this.ballY <= this.rightRacket.racketY + this.rightRacket.racketH))
+            else if (this.ballDirection === true && this.ballRightTan >= data.rRacketX && (this.ballY >= data.rRacketY && this.ballY <= data.rRacketY + data.rRacketH))
             {
-                this.calculateRightBallRebound();
+                this.calculateRightBallRebound(data);
             }
-            else if (this.ballDirection === false && this.ballLeftTan <= (this.leftRacket.racketX + this.leftRacket.racketW / 2) && (this.ballY >= this.leftRacket.racketY && this.ballY <= this.leftRacket.racketY + this.leftRacket.racketH)) 
+            else if (this.ballDirection === false && this.ballLeftTan <= (data.lRacketX + data.lRacketW / 2) && (this.ballY >= data.lRacketY && this.ballY <= data.lRacketY + data.lRacketH)) 
             {
-                this.calculateLeftBallRebound();
+                this.calculateLeftBallRebound(data);
             }
             else if (this.ballTopTan > 0 && this.ballBottomTan < this.height )
             {
@@ -233,20 +229,20 @@ class Ball
             this.ballY = this.height - this.ballWH / 2;
     }
 
-    calculateRightBallRebound()
+    calculateRightBallRebound(data : GameContainer)
     {
         let diff : number;
         let adj : number = 0;
         let radAngle : number;
         let tmpAngle : number;
         
-        if (this.rightRacket?.racketY)
+        if (data.rRacketY)
         {
-            diff = this.ballY - this.rightRacket.racketY;
-            if (diff < this.rightRacket.racketH / 2)
-                this.ballAngle = 100 - ((this.rightRacket.racketH / 2 - diff) * 100 / this.rightRacket.racketH / 2);
+            diff = this.ballY - data.rRacketY;
+            if (diff < data.rRacketH / 2)
+                this.ballAngle = 100 - ((data.rRacketH / 2 - diff) * 100 / data.rRacketH / 2);
             else
-                this.ballAngle = 100 + ((diff - this.rightRacket.racketH / 2) * 100 / (this.rightRacket.racketH / 2)); 
+                this.ballAngle = 100 + ((diff - data.rRacketH / 2) * 100 / (data.rRacketH / 2)); 
         }
         tmpAngle = this.ballAngle;
         if (this.ballAngle > 100 && this.ballAngle < 200)
@@ -274,20 +270,20 @@ class Ball
             this.ballX -= this.ballSpeed;
     }
 
-    calculateLeftBallRebound()
+    calculateLeftBallRebound(data : GameContainer)
     {
         let diff : number;
         let adj : number;
         let radAngle : number;
         let tmpAngle : number ;
         
-        if (this.leftRacket?.racketY)
+        if (data.lRacketY)
         {
-            diff = this.ballY - this.leftRacket.racketY;
-            if (diff < this.leftRacket.racketH / 2)
-                this.ballAngle = 100 - ((this.leftRacket.racketH / 2 - diff) * 100 / this.leftRacket.racketH / 2);
+            diff = this.ballY - data.lRacketY;
+            if (diff < data.lRacketH / 2)
+                this.ballAngle = 100 - ((data.lRacketH / 2 - diff) * 100 / data.lRacketH / 2);
             else
-                this.ballAngle = 100 + ((diff - this.leftRacket.racketH / 2) * 100 / (this.leftRacket.racketH / 2)); 
+                this.ballAngle = 100 + ((diff - data.lRacketH / 2) * 100 / (data.lRacketH / 2)); 
         }
         tmpAngle = this.ballAngle;
         if (this.ballAngle > 100 && this.ballAngle < 200)

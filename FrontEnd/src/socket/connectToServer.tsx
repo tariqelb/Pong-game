@@ -1,7 +1,7 @@
 import { io, Socket } from 'socket.io-client';
-import { gameCapsule } from '../components/mySketch';
+//import { gameCapsule } from '../components/mySketch';
 import  GameContainer  from '../components/gamecontainer';
-
+/*
 // Define the URL of your WebSocket server
 const serverUrl: string = 'ws://localhost:4055';
 
@@ -50,7 +50,7 @@ if (socket)
     gameCapsule.ballY = data.ballY;
     gameCapsule.ballWH = data.ballWH;
     gameCapsule.ballSpeed = data.ballSpeed;
-    gameCapsule.goalRestart = data.goalRestart;
+    
     gameCapsule.rRacketH = data.rRacketH;
     gameCapsule.rRacketW = data.rRacketW;
     gameCapsule.rRacketX = data.rRacketX;
@@ -62,20 +62,6 @@ if (socket)
     gameCapsule.lRacketY = data.lRacketY;
     gameCapsule.lLastPosY = data.lLastPosY;
     gameCapsule.goalRestart = data.goalRestart;
-    gameCapsule.leftStartOfSimulation = data.leftStartOfSimulation;
-    gameCapsule.leftVBallCoordinate = data.leftVBallCoordinate;
-    gameCapsule.leftRacketVibration = data.leftRacketVibration;
-    gameCapsule.leftVBallX = data.leftVBallX;
-    gameCapsule.leftVBallY = data.leftVBallY;
-    gameCapsule.leftVBallWH = data.leftVBallWH;
-    gameCapsule.leftRandomRebound = data.leftRandomRebound;
-    gameCapsule.rightStartOfSimulation = data.rightStartOfSimulation;
-    gameCapsule.rightVBallCoordinate = data.rightVBallCoordinate;
-    gameCapsule.rightRacketVibration = data.rightRacketVibration;
-    gameCapsule.rightVBallX = data.rightVBallX;
-    gameCapsule.rightVBallY = data.rightVBallY;
-    gameCapsule.rightVBallWH = data.rightVBallWH;
-    gameCapsule.rightRandomRebound = data.rightRandomRebound;
   });
   
   
@@ -106,4 +92,4 @@ function generateUniqueTabId(): string
   // You can implement your own logic here to generate a unique ID
   // For simplicity, you can use a timestamp
   return Date.now().toString();
-}
+}*/

@@ -1,6 +1,7 @@
 import p5Types from 'p5';
 import Game from './gameInstance';
 import GameContainer from './gamecontainer';
+//import { gameCapsule } from '../app/App';
 
 //let PlayWithMouse : boolean = true; // play with mouse or keyboard 
 let PlayWithMouse : boolean = false; // play with mouse or keyboard 
@@ -8,7 +9,7 @@ let PlayWithMouse : boolean = false; // play with mouse or keyboard
 let canvasResizedHeight : number; // this variable is used when the cancas is resized so we need to change rackets size
 let canvasResizedWidth : number;
 
-let gameCapsule: GameContainer = new GameContainer();
+//let gameCapsule: GameContainer = new GameContainer();
 
 /* Draw the middle line */
 let line = (game : Game) : void => 
@@ -40,87 +41,51 @@ let resizeCanvas = (game : Game) : void =>
 }
 
 
-function draw(game : Game) 
+function draw(game : Game, gameCapsule : GameContainer) 
 {
   return () => 
   {
     //canvasResizedHeight = game.p5.width / 2 ;
     //canvasResizedWidth = game.p5.width;
     resizeCanvas(game);
-    gameCapsule.racketSide = 1;
     gameCapsule.width = game.p5.width;
     gameCapsule.height = game.p5.height;
-    gameCapsule.racketKind = 0;
-    if (gameCapsule.init === false)
-    { 
-      gameCapsule.rRacketY = -100;
-      gameCapsule.lRacketY = -100;
-    }
+    
     gameCapsule.init = true;
-    gameCapsule.mouseX = game.p5.mouseX;
-    gameCapsule.mouseY = game.p5.mouseY;
     game.p5.background(0);
-    console.log("ga me cap " , game.p5.mouseX, gameCapsule.mouseX);
-    line(game);
-    if (game.p5.keyIsPressed)
+    if (gameCapsule.loading == false)
     {
-      gameCapsule.keyIsPress = true;
-      gameCapsule.keyIsPressed = true;
+      line(game);
+      
+      
+      gameCapsule.rRacketX = game.rightRacket.racketX;
+      gameCapsule.rRacketY = game.rightRacket.racketY;
+      gameCapsule.rRacketW = game.rightRacket.racketW;
+      gameCapsule.rRacketH = game.rightRacket.racketH;
+      gameCapsule.rLastPosY= game.rightRacket.lastPositionOfRacketY;
+      gameCapsule.lRacketX = game.leftRacket.racketX;
+      gameCapsule.lRacketY = game.leftRacket.racketY;
+      gameCapsule.lRacketW = game.leftRacket.racketW;
+      gameCapsule.lRacketH = game.leftRacket.racketH;
+      gameCapsule.lLastPosY= game.leftRacket.lastPositionOfRacketY;
+      
+      game.ball.ballX = gameCapsule.ballX;
+      game.ball.ballY = gameCapsule.ballY;
+      game.ball.ballWH  = gameCapsule.ballWH
+      game.ball.ballAngle = gameCapsule.ballAngle
+      game.ball.ballDirection  = gameCapsule.ballDirection
+      game.ball.ballFirstMove  = gameCapsule.ballFirstMove;
+      game.ball.ballFirst50Time  = gameCapsule.ballFirst50Time
+      game.ball.ballSpeed  = gameCapsule.ballSpeed
+      game.p5.circle(gameCapsule.ballX, gameCapsule.ballY, gameCapsule.ballWH);
+      if (gameCapsule.clientOne)
+        game.leftRacket.automaticRacket();
+      if (gameCapsule.clientTwo)
+        game.rightRacket.automaticRacket();
     }
     else
-      gameCapsule.keyIsPressed = false;
+      game.p5.text("loading", 20, 20); 
 
-    if (game.p5.keyCode)
-      gameCapsule.keyCode = game.p5.keyCode;
-    game.p5.circle(gameCapsule.ballX, gameCapsule.ballY, gameCapsule.ballWH);
-    //console.log("key ", gameCapsule.lRacketX, gameCapsule.lRacketY);
-    //game.p5.rect(gameCapsule.rRacketX, gameCapsule.rLastPosY, gameCapsule.rRacketW, gameCapsule.rRacketH)
-    //game.p5.rect(gameCapsule.lRacketX, gameCapsule.lLastPosY, gameCapsule.lRacketW, gameCapsule.lRacketH)
-    if (gameCapsule.leftVBallCoordinate)
-    {
-      game.p5.fill('red');
-      game.p5.circle(gameCapsule.leftVBallX, gameCapsule.leftVBallY, gameCapsule.leftVBallWH);
-      game.p5.fill('white');
-    }
-    if (gameCapsule.rightVBallCoordinate)
-    {
-      game.p5.fill('red');
-      game.p5.circle(gameCapsule.rightVBallX, gameCapsule.rightVBallY, gameCapsule.rightVBallWH);
-      game.p5.fill('white');
-    }
-    game.ball.ballX = gameCapsule.ballX;
-    game.ball.ballY = gameCapsule.ballY;
-    game.ball.ballWH  = gameCapsule.ballWH
-    game.ball.ballAngle = gameCapsule.ballAngle
-    game.ball.ballDirection  = gameCapsule.ballDirection
-    game.ball.ballFirstMove  = gameCapsule.ballFirstMove;
-    game.ball.ballFirst50Time  = gameCapsule.ballFirst50Time
-    game.ball.ballSpeed  = gameCapsule.ballSpeed
-    
-    game.leftRacket.automaticRacket();
-    game.rightRacket.automaticRacket();
-
-    //game.ball.drawAndMove();
-    //if (!game.loading)
-    /*{
-      
-      game.rightRacket.MoveRacketWithKeyBoard();
-      game.leftRacket.MoveRacketWithKeyBoard();
-    
-      if (PlayWithMouse) 
-      {
-        game.rightRacket.drawAndMoveRacketWithMouse();
-        //game.leftRacket.automaticRacket();
-       // game.rightRacket.automaticRacket();
-      game.leftRacket?.drawAndMoveRacketWithMouse();
-      }
-    }
-   // else
-    {
-      let lessage : string = "I'm loading ..."; 
-      game.p5.textSize(22);
-      game.p5.text(lessage, 130, 100, 500);
-    }*/
   };
 }
 
@@ -144,7 +109,7 @@ function setup(game : Game)
   };
 }
 
-function MySketch(p5: p5Types)
+function MySketch(gameCapsule : GameContainer,  p5: p5Types)
 {
   let game: Game | null = null;
 
@@ -152,7 +117,7 @@ function MySketch(p5: p5Types)
   {
     game = new Game(p5);
     game.p5.setup = setup(game);
-    game.p5.draw = draw(game);
+    game.p5.draw = draw(game, gameCapsule);
   };
 
   // Call setupGame once when the component mounts
@@ -169,4 +134,4 @@ function MySketch(p5: p5Types)
 }
 
 export default MySketch;
-export { gameCapsule };
+//export { gameCapsule };
