@@ -1,9 +1,32 @@
+import RecieveBallData from "./RecieveBallData";
+import SentRacketData from "./SentRacketData";
+import RecieveRacketData from "./RecieveRacketData";
+
 class GameContainer 
 {  
     constructor()
     {
         console.log("called again and again: __)");
+        this.ball = new RecieveBallData();
+        this.recvRacket = new RecieveRacketData();
+        this.sentRacket = new  SentRacketData();
     }
+  
+  init : boolean = false;
+  loading : boolean = true;
+  width : number = 0;
+  height : number = 0;
+  
+  ball : RecieveBallData;
+  recvRacket : RecieveRacketData;
+  sentRacket : SentRacketData;
+}
+export default GameContainer;
+/*
+  
+  
+  
+    
   init : boolean = false;
   width : number = 0;
   height : number = 0;
@@ -31,8 +54,5 @@ class GameContainer
   goalRestart : boolean = false;
 
 
-  loading : boolean = true;
   clientOne : boolean = false;
-  clientTwo : boolean = false;
-}
-export default GameContainer;
+  clientTwo : boolean = false;*/

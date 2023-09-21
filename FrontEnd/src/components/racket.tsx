@@ -138,6 +138,7 @@ class Racket
 
     drawAutomaticRacket()
     {
+        console.log("simulation : ", this.startOfSimulation, this.coordinateAlreadyGot);
         if (this.racketSides)
             this.game.p5.fill('blue');
         else
@@ -311,6 +312,7 @@ class Racket
         let radAngle    : number;
         let adj         : number;
         
+        console.log("Try to get coordinate : ");
         this.virtualBallA = this.game.ball.ballAngle;
         this.virtualBallX = this.game.ball.ballX;
         this.virtualBallY = this.game.ball.ballY;

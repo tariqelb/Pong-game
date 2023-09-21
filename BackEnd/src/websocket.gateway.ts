@@ -1,30 +1,14 @@
 // websocket.gateway.ts
 import GameContainer from './component/gamecontainer';
 import Ball from './component/ball';
+import RacketData from './component/SentRacketData';
 
 import { OnGatewayConnection, OnGatewayDisconnect, OnGatewayInit, SubscribeMessage, WebSocketGateway, WebSocketServer} from '@nestjs/websockets';
 import { Server, Socket } from 'socket.io';
-import  join from 'socket.io-client';
-import  leave from 'socket.io-client';
+import SentRacketData from './component/SentRacketData';
+import RecieveBallData from './component/RecieveBallData';
+import Rooms from './component/room';
 
-//let data : GameContainer;
-
-class Rooms 
-{
-  constructor()
-  {
-    this.clientOneId = '';
-    this.clientTwoId = '';
-    this.clientOneSocket = null;
-    this.clientTwoSocket = null;
-    this.numberOfClients = 0;
-  }
-  clientOneId : string;
-  clientTwoId : string; 
-  clientOneSocket : Socket;
-  clientTwoSocket : Socket;
-  numberOfClients : number;
-};
 
 let rooms : Rooms[] = [];
 
@@ -120,13 +104,43 @@ export class MyWebSocketGateway implements OnGatewayInit ,OnGatewayConnection, O
   }
 
 
-  @SubscribeMessage('customEventDataRequest') // Listen for the 'customEventDataRequest' event
-  handleCustomEvent(client: Socket, data: GameContainer) 
+  @SubscribeMessage('customEventDataRequestRacket') // Listen for the 'customEventDataRequest' event
+  handleCustomEventRacket(client: Socket, data: SentRacketData) 
   {
+    let room : Rooms = getRoomByClientId(client.id);
+    //console.log("sending racket data : ", room.numberOfClients);
+    if (room && room.numberOfClients === 2 && room.clientOneSocket === client)
+    {
+      room.container.rRacketX = 395;//data.racketX; server virtual canvas width is 400 and virtual racket width is 5 and the racket is in the right side
+      room.container.rRacketY = data.racketY  * 200;//data.racketY; scale calculation
+      room.container.rRacketW = 5;//data.racketW;
+      room.container.rRacketH = 50//data.racketY;
+      room.container.rLastPosY = data.lastPosY / data.height * 200;
+      //console.log("set client 1 racket coordinate : ")
+      client.broadcast.emit('customEventDataResponseRacket', data);
+    }
+    else if (room && room.numberOfClients === 2 && room.clientTwoSocket === client)
+    {
+      room.container.lRacketX = 0//data.racketX; left side of the canvas
+      room.container.lRacketY = data.racketY  * 200;
+      room.container.lRacketW = 5;//400 / 80 //data.racketW; scale calcule
+      room.container.lRacketH = 50 ;//200 / 4//data.racketY;
+      room.container.lLastPosY = data.lastPosY / data.height * 200;//data.lastPosY;
+      room.clientTwoWidth = data.width;
+      client.broadcast.emit('customEventDataResponseRacket', data);
+      room.getBothRacketData = true;
+    }
+  }
+  
+  @SubscribeMessage('customEventDataRequestBall') // Listen for the 'customEventDataRequest' event
+  handleCustomEventBall(client: Socket)
+  {
+    let data: RecieveBallData = new RecieveBallData();
     //let leftRacket = new Racket(data, true, false);
     //let rightRacket = new Racket(data, true , true);
     //let ball = new Ball(leftRacket, rightRacket);
-    const room : Rooms = getRoomByClientId(client.id);
+    let room : Rooms = getRoomByClientId(client.id);
+    //console.log("the room clt nbr : " , room.numberOfClients);
     if (!room) 
     {
       console.log(`Client ${client.id} is not in a room.`);
@@ -134,55 +148,25 @@ export class MyWebSocketGateway implements OnGatewayInit ,OnGatewayConnection, O
     }
     if (room.numberOfClients === 2)
     {
-      if (room.clientOneSocket === client)
+      //console.log ( 'the data comes like that : ', room.getBothRacketData);
+      if (room.getBothRacketData)
       {
-        if (data.clientOne === false)
-          console.log("recieve a request from1 ", client.id);
-        data.clientOne = true;
-        data.clientTwo = false;
+       // console.log("calculate the coordinate of the ball", room.container.ball.ballX, room.container.ball.ballY)
+        room.container.ball.drawAndMove(room.container);
+        
+        data.ballX = room.container.ball.ballX;
+        data.ballY = room.container.ball.ballY;
+        data.ballWH = room.container.ball.ballWH;
+        data.ballDirection = room.container.ball.ballDirection;
+        data.ballSpeed = room.container.ball.ballSpeed;
+        data.goalRestart = room.container.ball.goalRestart;
+        console.log("then calculate clt 1: ", data.ballX, data.ballY)
+        
+        room.clientTwoSocket.emit('customEventDataResponseBall', data)
+        data.ballX = 400 - room.container.ball.ballX;
+        console.log("then calculate clt 2: ", data.ballX, data.ballY)
+        room.clientOneSocket.emit('customEventDataResponseBall', data)
       }
-      if (room.clientTwoSocket === client)
-      {  
-        if (data.clientTwo === false)
-          console.log("recieve a request from2 ", client.id);
-        data.clientOne = false;
-        data.clientTwo = true;
-      }
-      let ball = new Ball();
-      data.loading = false;
-      if (data.init)
-      {
-        ball.ballX = data.ballX;
-        ball.ballY = data.ballY;
-        ball.ballWH = data.ballWH;
-        ball.width = data.width;
-        ball.height = data.height;
-        ball.ballAngle = data.ballAngle;
-        ball.ballDirection = data.ballDirection;
-        ball.ballFirst50Time = data.ballFirst50Time;
-        ball.ballFirstMove = data.ballFirstMove;
-        ball.ballSpeed = data.ballSpeed;
-        ball.goalRestart = data.goalRestart;
-
-
-        ball.drawAndMove(data);
-          
-        data.ballX = ball.ballX;
-        data.ballY = ball.ballY;
-        data.ballWH = ball.ballWH;
-        data.ballAngle = ball.ballAngle;
-        data.ballFirst50Time = ball.ballFirst50Time;
-        data.ballFirstMove = ball.ballFirstMove;
-        data.ballDirection = ball.ballDirection;
-        data.ballSpeed = ball.ballSpeed;
-        data.goalRestart = ball.goalRestart;
-
-      }
-      // You can also broadcast the data to all connected clients if needed
-      //this.server.emit('customEventDataResponse', data);
-      //client.emit('customEventDataResponse', data);
-      room.clientOneSocket.emit('customEventDataResponse', data);
-      room.clientTwoSocket.emit('customEventDataResponse', data);
     }
   }
 

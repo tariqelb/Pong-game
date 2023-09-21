@@ -22,21 +22,21 @@ class Ball
     ballLeftTan : number = 0;
     ballTopTan : number = 0;
     ballBottomTan : number = 0;
-    width : number = 0;
-    height : number = 0;
+    width : number = 400;
+    height : number = 200;
     goalRestart : boolean = false;
     
     drawAndMove(data : GameContainer)
     {
-        this.height = data.height;
-        this.width = data.width;
-        this.ballSpeed = data.width / 120;
+        //this.height = data.height;
+        //this.width = data.width;
+        this.ballSpeed = this.width / 120;
         if (this.ballFirst50Time < 10)
         {
             this.goalRestart = false;
-            this.ballWH = data.height / 25;
-            this.ballX = data.width / 2;
-            this.ballY = data.height / 2;
+            this.ballWH = this.height / 25;
+            this.ballX = this.width / 2;
+            this.ballY = this.height / 2;
             this.ballFirst50Time++;
             this.ballFirstMove = true;
         } 

@@ -45,43 +45,47 @@ function draw(game : Game, gameCapsule : GameContainer)
 {
   return () => 
   {
-    //canvasResizedHeight = game.p5.width / 2 ;
-    //canvasResizedWidth = game.p5.width;
     resizeCanvas(game);
     gameCapsule.width = game.p5.width;
     gameCapsule.height = game.p5.height;
     
-    gameCapsule.init = true;
     game.p5.background(0);
-    if (gameCapsule.loading == false)
+    line(game);
+    game.goalRestart = gameCapsule.ball.goalRestart;
+    console.log("The ball direction : ", gameCapsule.ball.ballDirection)
+    let ballX =  (gameCapsule.ball.ballX * game.p5.width / 400);
+    let ballY = (gameCapsule.ball.ballY * game.p5.height / 200);
+    let ballWH = (game.p5.height / 25);
+    game.ball.ballX = ballX//gameCapsule.ball.ballX;
+    game.ball.ballY = ballY//gameCapsule.ball.ballY;
+    game.ball.ballWH = ballWH//gameCapsule.ball.ballWH;
+    game.ball.ballDirection = gameCapsule.ball.ballDirection;
+    game.ball.ballSpeed = gameCapsule.ball.ballSpeed;
+    game.rightRacket.automaticRacket();
+    gameCapsule.sentRacket.racketX = game.rightRacket.racketX;
+    gameCapsule.sentRacket.racketY = game.rightRacket.racketY / game.p5.height;
+    gameCapsule.sentRacket.racketW = game.rightRacket.racketW;
+    gameCapsule.sentRacket.racketH = game.rightRacket.racketH;
+    gameCapsule.sentRacket.lastPosY= game.rightRacket.lastPositionOfRacketY;
+    gameCapsule.sentRacket.height = game.p5.height;
+    gameCapsule.sentRacket.width = game.p5.width;
+    
+    gameCapsule.init = true;
+      
+      
+      
+      
+      //console.log("loading : " , gameCapsule.loading, gameCapsule.recvRacket.lastPosY / game.p5.height, gameCapsule.recvRacket.lastPosY);
+    if (gameCapsule.ball.ballX && gameCapsule.ball.ballY)
     {
-      line(game);
+      /*
+      let ballX =  (gameCapsule.ball.ballX * game.p5.width / 400);
+      let ballY = (gameCapsule.ball.ballY * game.p5.height / 200);
+      let ballWH = (game.p5.height / 25);
+      */
+      game.p5.circle(ballX, ballY, ballWH);
       
-      
-      gameCapsule.rRacketX = game.rightRacket.racketX;
-      gameCapsule.rRacketY = game.rightRacket.racketY;
-      gameCapsule.rRacketW = game.rightRacket.racketW;
-      gameCapsule.rRacketH = game.rightRacket.racketH;
-      gameCapsule.rLastPosY= game.rightRacket.lastPositionOfRacketY;
-      gameCapsule.lRacketX = game.leftRacket.racketX;
-      gameCapsule.lRacketY = game.leftRacket.racketY;
-      gameCapsule.lRacketW = game.leftRacket.racketW;
-      gameCapsule.lRacketH = game.leftRacket.racketH;
-      gameCapsule.lLastPosY= game.leftRacket.lastPositionOfRacketY;
-      
-      game.ball.ballX = gameCapsule.ballX;
-      game.ball.ballY = gameCapsule.ballY;
-      game.ball.ballWH  = gameCapsule.ballWH
-      game.ball.ballAngle = gameCapsule.ballAngle
-      game.ball.ballDirection  = gameCapsule.ballDirection
-      game.ball.ballFirstMove  = gameCapsule.ballFirstMove;
-      game.ball.ballFirst50Time  = gameCapsule.ballFirst50Time
-      game.ball.ballSpeed  = gameCapsule.ballSpeed
-      game.p5.circle(gameCapsule.ballX, gameCapsule.ballY, gameCapsule.ballWH);
-      if (gameCapsule.clientOne)
-        game.leftRacket.automaticRacket();
-      if (gameCapsule.clientTwo)
-        game.rightRacket.automaticRacket();
+      game.p5.rect(0, gameCapsule.recvRacket.racketY * game.p5.height, game.rightRacket.racketW, game.rightRacket.racketH);
     }
     else
       game.p5.text("loading", 20, 20); 

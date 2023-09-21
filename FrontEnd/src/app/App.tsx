@@ -4,6 +4,10 @@ import { ReactP5Wrapper } from "@p5-wrapper/react";
 import { io, Socket } from 'socket.io-client';
 import MySketch from '../components/mySketch';
 import GameContainer from '../components/gamecontainer';
+import SentRacketData from '../components/SentRacketData';
+import RecieveBallData from '../components/RecieveBallData';
+import RecieveRacketData from '../components/RecieveRacketData';
+
 //import { gameCapsule } from '../components/mySketch';
 
 
@@ -21,9 +25,12 @@ function App()
   }
 
   // Function to send data to the server
-  const sendDataToServer = () => {
-    if (socket && gameCapsule.init) {
-      socket.emit('customEventDataRequest', gameCapsule);
+  const sendDataToServer = () => 
+  {
+    if (socket && gameCapsule.init) 
+    {
+      socket.emit('customEventDataRequestBall');
+      socket.emit('customEventDataRequestRacket', gameCapsule.sentRacket);
     }
   };
 
@@ -39,33 +46,24 @@ function App()
       console.log(`Disconnected from WebSocket server in tab ${tabId}`);
     });
 
-    socket.on('customEventDataResponse', (data: GameContainer) => 
+    socket.on('customEventDataResponseBall', (data : RecieveBallData) =>
     {
-      console.log(`send response to server : ${tabId}`);
-      gameCapsule.ballAngle = data.ballAngle;
-      gameCapsule.ballDirection = data.ballDirection;
-      gameCapsule.ballFirstMove = data.ballFirstMove;
-      gameCapsule.ballFirst50Time = data.ballFirst50Time;
-      gameCapsule.ballWH = data.ballWH;
-      gameCapsule.ballX =  data.ballX;
-      gameCapsule.ballY = data.ballY;
-      gameCapsule.ballWH = data.ballWH;
-      gameCapsule.ballSpeed = data.ballSpeed;
-      
-      gameCapsule.rRacketH = data.rRacketH;
-      gameCapsule.rRacketW = data.rRacketW;
-      gameCapsule.rRacketX = data.rRacketX;
-      gameCapsule.rRacketY = data.rRacketY;
-      gameCapsule.rLastPosY = data.rLastPosY;
-      gameCapsule.lRacketH = data.lRacketH;
-      gameCapsule.lRacketW = data.lRacketW;
-      gameCapsule.lRacketX = data.lRacketX;
-      gameCapsule.lRacketY = data.lRacketY;
-      gameCapsule.lLastPosY = data.lLastPosY;
-      gameCapsule.goalRestart = data.goalRestart;
-      gameCapsule.loading = data.loading;
-      gameCapsule.clientOne = data.clientOne;
-      gameCapsule.clientTwo = data.clientTwo
+      //console.log(`get response from server : ${tabId}`, gameCapsule.ball.ballX, gameCapsule.ball.ballY, data.ballX, data.ballY);
+        gameCapsule.ball.ballX = data.ballX;
+        gameCapsule.ball.ballY = data.ballY;
+        gameCapsule.ball.ballWH = data.ballWH;
+        gameCapsule.ball.ballDirection = data.ballDirection;
+        gameCapsule.ball.ballSpeed = data.ballSpeed;
+        gameCapsule.ball.goalRestart = data.goalRestart;
+    });
+    socket.on('customEventDataResponseRacket', (data: RecieveRacketData) => 
+    {
+      //console.log(`get response from server : ${tabId}`);
+        gameCapsule.recvRacket.racketH = data.racketH;
+        gameCapsule.recvRacket.racketW = data.racketW;
+        gameCapsule.recvRacket.racketX = data.racketX;
+        gameCapsule.recvRacket.racketY = data.racketY;
+        gameCapsule.recvRacket.lastPosY = data.lastPosY;
     });
 
     socket.on('connect_error', (error) => {
