@@ -60,7 +60,7 @@ function draw(game : Game, gameCapsule : GameContainer)
       game.rightRacket.keyIsPress = false;
     } 
 
-    console.log("Player  ", game.playerNumber)
+    //console.log("Player  ", game.playerNumber)
     let ballX =  (gameCapsule.ball.ballX * game.p5.width / 400);
     let ballY = (gameCapsule.ball.ballY * game.p5.height / 200);
     let ballWH = (game.p5.height / 25);
@@ -70,13 +70,13 @@ function draw(game : Game, gameCapsule : GameContainer)
     game.ball.ballAngle = gameCapsule.ball.ballAngle;
     game.ball.ballDirection = gameCapsule.ball.ballDirection;
     game.ball.ballSpeed = game.p5.width / 120;//gameCapsule.ball.ballSpeed;
-    game.rightRacket.automaticRacket();
-    //if (game.playerNumber === 1)
-    //else if (game.playerNumber === 2)
-     // game.rightRacket.drawAndMoveRacketWithMouse();
-    //game.rightRacket.MoveRacketWithKeyBoard();
+    if (game.playerNumber === 1)
+      game.rightRacket.automaticRacket();
+    else if (game.playerNumber === 2)
+      game.rightRacket.drawAndMoveRacketWithMouse();
+    //  game.rightRacket.MoveRacketWithKeyBoard();
     gameCapsule.sentRacket.racketX = game.rightRacket.racketX;
-    gameCapsule.sentRacket.racketY = game.rightRacket.racketY / game.p5.height;
+    gameCapsule.sentRacket.racketY = game.rightRacket.racketY;
     gameCapsule.sentRacket.racketW = game.rightRacket.racketW;
     gameCapsule.sentRacket.racketH = game.rightRacket.racketH;
     gameCapsule.sentRacket.lastPosY= game.rightRacket.lastPositionOfRacketY;
@@ -98,7 +98,7 @@ function draw(game : Game, gameCapsule : GameContainer)
       */
       game.p5.circle(ballX, ballY, ballWH);
       
-      game.p5.rect(0, gameCapsule.recvRacket.racketY * game.p5.height, game.rightRacket.racketW, game.rightRacket.racketH);
+      game.p5.rect(0, gameCapsule.recvRacket.lastPosY / game.p5.height, game.rightRacket.racketW, game.rightRacket.racketH);
     }
     else
       game.p5.text("loading", 20, 20); 

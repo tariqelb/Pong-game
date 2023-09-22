@@ -55,6 +55,7 @@ function App()
         gameCapsule.ball.ballDirection = data.ballDirection;
         gameCapsule.ball.ballSpeed = data.ballSpeed;
         gameCapsule.ball.goalRestart = data.goalRestart;
+        gameCapsule.ball.ballAngle = data.ballAngle;
     });
     socket.on('customEventDataResponseRacket', (data: RecieveRacketData) => 
     {
@@ -62,8 +63,8 @@ function App()
         gameCapsule.recvRacket.racketH = data.racketH;
         gameCapsule.recvRacket.racketW = data.racketW;
         gameCapsule.recvRacket.racketX = data.racketX;
-        gameCapsule.recvRacket.racketY = data.racketY;
-        gameCapsule.recvRacket.lastPosY = data.lastPosY;
+        gameCapsule.recvRacket.racketY = data.racketY * data.height;
+        gameCapsule.recvRacket.lastPosY = data.lastPosY * data.height;
     });
 
     socket.on('getPlayerNumber', (plyNumber) =>

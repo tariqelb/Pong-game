@@ -75,8 +75,9 @@ function clearRoom(room: Rooms)
 
 
 
-//@WebSocketGateway(4056,{ namespace: '/game-container', transports: ['websocket'] })
+//@WebSocketGateway(4056,{ path: '/game-container', transports: ['websocket'] })
 //@WebSocketGateway(4056,{ /*namespace: '/socket.io',*/ transports: ['websocket'] })
+//if port not set it takes the port that the server listening on
 @WebSocketGateway({ path : '/game-container', transports: ['websocket'] })
 export class MyWebSocketGateway implements OnGatewayInit ,OnGatewayConnection, OnGatewayDisconnect {
   @WebSocketServer()
@@ -84,18 +85,18 @@ export class MyWebSocketGateway implements OnGatewayInit ,OnGatewayConnection, O
   
   handleConnection(client: Socket) 
   {
-    // Get the client's IP address
     const clientAddress = client.handshake.headers['x-forwarded-for'] || client.handshake.address;
-
-    // Handle WebSocket connections here
+    let playerNumber : number = 0;
+    
+    //logs
     console.log(`WebSocket connection from ${clientAddress} client id : ${client.id}`);
-    // You can perform any necessary initialization or validation here
     if (client.connected)
       console.log(`WebSocket connection established for client from ${clientAddress}`);
     
+    
     addToRoom(client);
     let room : Rooms = getRoomByClientId(client.id);
-    let playerNumber : number = 0;
+    
     if (room.clientOneSocket == client)
       playerNumber = 1;
     else
@@ -113,39 +114,35 @@ export class MyWebSocketGateway implements OnGatewayInit ,OnGatewayConnection, O
   handleCustomEventRacket(client: Socket, data: SentRacketData) 
   {
     let room : Rooms = getRoomByClientId(client.id);
-    //console.log("sending racket data : ", room.numberOfClients);
-    if (room && room.numberOfClients === 2 && room.clientOneSocket === client)
+    
+    if (room && room.numberOfClients === 2 && room.clientTwoSocket === client)
     {
-      room.container.lRacketX = 0//data.racketX; left side of the canvas
-      room.container.lRacketY = data.racketY  * 200;
-      room.container.lRacketW = 5;//400 / 80 //data.racketW; scale calcule
-      room.container.lRacketH = 50 ;//200 / 4//data.racketY;
-      room.container.lLastPosY = data.lastPosY / data.height * 200;//data.lastPosY;
+      room.container.lRacketX = 0;
+      room.container.lRacketY = data.racketY  / data.height * 200;
+      room.container.lRacketW = 5;
+      room.container.lRacketH = 50;
+      room.container.lLastPosY = data.lastPosY / data.height * 200;
       room.clientTwoWidth = data.width;
       client.broadcast.emit('customEventDataResponseRacket', data);
     }
-    else if (room && room.numberOfClients === 2 && room.clientTwoSocket === client)
+    else if (room && room.numberOfClients === 2 && room.clientOneSocket === client)
     {
-      room.container.rRacketX = 395;//data.racketX; server virtual canvas width is 400 and virtual racket width is 5 and the racket is in the right side
-      room.container.rRacketY = data.racketY  * 200;//data.racketY; scale calculation
-      room.container.rRacketW = 5;//data.racketW;
-      room.container.rRacketH = 50//data.racketY;
+      room.container.rRacketX = 395;
+      room.container.rRacketY = data.racketY  / data.height * 200;
+      room.container.rRacketW = 5;
+      room.container.rRacketH = 50;
       room.container.rLastPosY = data.lastPosY / data.height * 200;
-      //console.log("set client 1 racket coordinate : ")
       client.broadcast.emit('customEventDataResponseRacket', data);
       room.getBothRacketData = true;
     }
   }
   
-  @SubscribeMessage('customEventDataRequestBall') // Listen for the 'customEventDataRequest' event
+  @SubscribeMessage('customEventDataRequestBall')
   handleCustomEventBall(client: Socket)
   {
     let data: RecieveBallData = new RecieveBallData();
-    //let leftRacket = new Racket(data, true, false);
-    //let rightRacket = new Racket(data, true , true);
-    //let ball = new Ball(leftRacket, rightRacket);
     let room : Rooms = getRoomByClientId(client.id);
-    //console.log("the room clt nbr : " , room.numberOfClients);
+    
     if (!room) 
     {
       console.log(`Client ${client.id} is not in a room.`);
@@ -153,10 +150,8 @@ export class MyWebSocketGateway implements OnGatewayInit ,OnGatewayConnection, O
     }
     if (room.numberOfClients === 2)
     {
-      //console.log ( 'the data comes like that : ', room.getBothRacketData);
       if (room.getBothRacketData)
       {
-       // console.log("calculate the coordinate of the ball", room.container.ball.ballX, room.container.ball.ballY)
         room.container.ball.drawAndMove(room.container);
         
         data.ballX = room.container.ball.ballX;
@@ -166,15 +161,13 @@ export class MyWebSocketGateway implements OnGatewayInit ,OnGatewayConnection, O
         data.ballSpeed = room.container.ball.ballSpeed;
         data.goalRestart = room.container.ball.goalRestart;
         data.ballAngle = room.container.ball.ballAngle;
-        //console.log("then calculate clt 1: ", data.ballX, data.ballY)
-        
         room.clientOneSocket.emit('customEventDataResponseBall', data)
+        //server virtual canvas (400,200)
         data.ballX = 400 - room.container.ball.ballX;
         data.ballDirection = !data.ballDirection;
         data.ballAngle = data.ballAngle + 200;
         if (data.ballAngle > 400)
          data.ballAngle = data.ballAngle - 400;
-        //console.log("then calculate clt 2: ", data.ballX, data.ballY)
         room.clientTwoSocket.emit('customEventDataResponseBall', data)
       }
     }
