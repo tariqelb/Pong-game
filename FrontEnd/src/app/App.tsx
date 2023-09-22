@@ -66,6 +66,11 @@ function App()
         gameCapsule.recvRacket.lastPosY = data.lastPosY;
     });
 
+    socket.on('getPlayerNumber', (plyNumber) =>
+    {
+        gameCapsule.playerNumber = plyNumber;
+    });
+
     socket.on('connect_error', (error) => {
       console.error('Error connecting to the WebSocket server:', error.cause, error.message, error.name, error.stack);
     });

@@ -29,6 +29,7 @@ class Game
     leftPlayerGoals : number = 0;
     rightPlayerGoals : number = 0;
     goalRestart : boolean = false;
+    playerNumber : number = 0;
 }
 
 export default Game;

@@ -20,6 +20,7 @@ class GameContainer
   ball : RecieveBallData;
   recvRacket : RecieveRacketData;
   sentRacket : SentRacketData;
+  playerNumber : number = 0;
 }
 export default GameContainer;
 /*

@@ -45,6 +45,8 @@ function draw(game : Game, gameCapsule : GameContainer)
 {
   return () => 
   {
+    game.playerNumber = gameCapsule.playerNumber;
+    //console.log( "the holy number : === > : ", game.playerNumber);
     resizeCanvas(game);
     gameCapsule.width = game.p5.width;
     gameCapsule.height = game.p5.height;
@@ -52,16 +54,27 @@ function draw(game : Game, gameCapsule : GameContainer)
     game.p5.background(0);
     line(game);
     game.goalRestart = gameCapsule.ball.goalRestart;
-    console.log("The ball direction : ", gameCapsule.ball.ballDirection)
+    if (game.goalRestart)
+    {
+      game.rightRacket.racketY = -100;
+      game.rightRacket.keyIsPress = false;
+    } 
+
+    console.log("Player  ", game.playerNumber)
     let ballX =  (gameCapsule.ball.ballX * game.p5.width / 400);
     let ballY = (gameCapsule.ball.ballY * game.p5.height / 200);
     let ballWH = (game.p5.height / 25);
     game.ball.ballX = ballX//gameCapsule.ball.ballX;
     game.ball.ballY = ballY//gameCapsule.ball.ballY;
     game.ball.ballWH = ballWH//gameCapsule.ball.ballWH;
+    game.ball.ballAngle = gameCapsule.ball.ballAngle;
     game.ball.ballDirection = gameCapsule.ball.ballDirection;
-    game.ball.ballSpeed = gameCapsule.ball.ballSpeed;
+    game.ball.ballSpeed = game.p5.width / 120;//gameCapsule.ball.ballSpeed;
     game.rightRacket.automaticRacket();
+    //if (game.playerNumber === 1)
+    //else if (game.playerNumber === 2)
+     // game.rightRacket.drawAndMoveRacketWithMouse();
+    //game.rightRacket.MoveRacketWithKeyBoard();
     gameCapsule.sentRacket.racketX = game.rightRacket.racketX;
     gameCapsule.sentRacket.racketY = game.rightRacket.racketY / game.p5.height;
     gameCapsule.sentRacket.racketW = game.rightRacket.racketW;
@@ -130,10 +143,7 @@ function MySketch(gameCapsule : GameContainer,  p5: p5Types)
     setupGame();
   }
 
-  // Call setupGame once when the component mounts
-  if (!game) {
-    setupGame();
-  }
+ 
 
 }
 

@@ -94,8 +94,13 @@ export class MyWebSocketGateway implements OnGatewayInit ,OnGatewayConnection, O
       console.log(`WebSocket connection established for client from ${clientAddress}`);
     
     addToRoom(client);
-
-    
+    let room : Rooms = getRoomByClientId(client.id);
+    let playerNumber : number = 0;
+    if (room.clientOneSocket == client)
+      playerNumber = 1;
+    else
+      playerNumber = 2;
+    client.emit('getPlayerNumber', playerNumber);
   }
 
   afterInit() 
@@ -111,22 +116,22 @@ export class MyWebSocketGateway implements OnGatewayInit ,OnGatewayConnection, O
     //console.log("sending racket data : ", room.numberOfClients);
     if (room && room.numberOfClients === 2 && room.clientOneSocket === client)
     {
-      room.container.rRacketX = 395;//data.racketX; server virtual canvas width is 400 and virtual racket width is 5 and the racket is in the right side
-      room.container.rRacketY = data.racketY  * 200;//data.racketY; scale calculation
-      room.container.rRacketW = 5;//data.racketW;
-      room.container.rRacketH = 50//data.racketY;
-      room.container.rLastPosY = data.lastPosY / data.height * 200;
-      //console.log("set client 1 racket coordinate : ")
-      client.broadcast.emit('customEventDataResponseRacket', data);
-    }
-    else if (room && room.numberOfClients === 2 && room.clientTwoSocket === client)
-    {
       room.container.lRacketX = 0//data.racketX; left side of the canvas
       room.container.lRacketY = data.racketY  * 200;
       room.container.lRacketW = 5;//400 / 80 //data.racketW; scale calcule
       room.container.lRacketH = 50 ;//200 / 4//data.racketY;
       room.container.lLastPosY = data.lastPosY / data.height * 200;//data.lastPosY;
       room.clientTwoWidth = data.width;
+      client.broadcast.emit('customEventDataResponseRacket', data);
+    }
+    else if (room && room.numberOfClients === 2 && room.clientTwoSocket === client)
+    {
+      room.container.rRacketX = 395;//data.racketX; server virtual canvas width is 400 and virtual racket width is 5 and the racket is in the right side
+      room.container.rRacketY = data.racketY  * 200;//data.racketY; scale calculation
+      room.container.rRacketW = 5;//data.racketW;
+      room.container.rRacketH = 50//data.racketY;
+      room.container.rLastPosY = data.lastPosY / data.height * 200;
+      //console.log("set client 1 racket coordinate : ")
       client.broadcast.emit('customEventDataResponseRacket', data);
       room.getBothRacketData = true;
     }
@@ -160,12 +165,17 @@ export class MyWebSocketGateway implements OnGatewayInit ,OnGatewayConnection, O
         data.ballDirection = room.container.ball.ballDirection;
         data.ballSpeed = room.container.ball.ballSpeed;
         data.goalRestart = room.container.ball.goalRestart;
-        console.log("then calculate clt 1: ", data.ballX, data.ballY)
+        data.ballAngle = room.container.ball.ballAngle;
+        //console.log("then calculate clt 1: ", data.ballX, data.ballY)
         
-        room.clientTwoSocket.emit('customEventDataResponseBall', data)
-        data.ballX = 400 - room.container.ball.ballX;
-        console.log("then calculate clt 2: ", data.ballX, data.ballY)
         room.clientOneSocket.emit('customEventDataResponseBall', data)
+        data.ballX = 400 - room.container.ball.ballX;
+        data.ballDirection = !data.ballDirection;
+        data.ballAngle = data.ballAngle + 200;
+        if (data.ballAngle > 400)
+         data.ballAngle = data.ballAngle - 400;
+        //console.log("then calculate clt 2: ", data.ballX, data.ballY)
+        room.clientTwoSocket.emit('customEventDataResponseBall', data)
       }
     }
   }

@@ -63,6 +63,7 @@ class Racket
             this.game.p5.fill('blue')
         else
             this.game.p5.fill('green')
+        console.log("keyboard : ", this.keyIsPress, this.game.p5.keyIsPressed)
         if (this.keyIsPress === false)
         {
             if (this.racketSides === true)
@@ -78,7 +79,7 @@ class Racket
             if (this.racketSpeed === 0)
                 this.racketSpeed = this.game.p5.height / 40;
         }
-        if (this.game.p5.keyIsPressed)
+        if (this.game.p5.keyIsPressed && (this.game.p5.keyCode === 40 || this.game.p5.keyCode === 38))
         {
             if ((this.game.p5.keyCode === 40 || this.game.p5.keyCode === 38))
             {
@@ -138,7 +139,6 @@ class Racket
 
     drawAutomaticRacket()
     {
-        console.log("simulation : ", this.startOfSimulation, this.coordinateAlreadyGot);
         if (this.racketSides)
             this.game.p5.fill('blue');
         else
@@ -210,18 +210,23 @@ class Racket
         }
         this.drawAutomaticRacket();
         
-        
-        if ((this.racketSides === false && this.game.ball.ballDirection === false )|| (this.racketSides && this.game.ball.ballDirection))
+        console.log("player : " , this.game.playerNumber, "\nball direction : ", this.game.ball.ballDirection)
+        //if ((this.racketSides === true && this.game.ball.ballDirection === false ) || (this.racketSides && this.game.ball.ballDirection))
+        if ((this.game.playerNumber === 1 && this.game.ball.ballDirection === true ) )//|| (this.game.playerNumber === 2 && this.game.ball.ballDirection === true))
         {
             if (this.coordinateAlreadyGot === false)
             {
                 this.getCoordinates();
+                //console.log(this.virtualBallX, this.virtualBallY)
                 this.coordinateAlreadyGot = true;
                 this.randomRebound = Math.floor(Math.random() * (this.racketH - this.edge)) + this.edge;
             }
             else
             {
-                this.game.p5.fill('red');
+                if (this.game.playerNumber === 1)
+                    this.game.p5.fill('red');
+                else
+                    this.game.p5.fill('green');
                 this.game.p5.circle(this.virtualBallX , this.virtualBallY, this.virtualBallWH);
                 this.game.p5.fill('white');
             }
