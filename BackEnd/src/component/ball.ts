@@ -145,12 +145,9 @@ class Ball
                 adj = 0;
             if (adj < 0)
                 adj *= -1;
-            if (this.ballY < 0)
-                this.ballY = 0 + adj;
-            else
-                this.ballY += adj;
+            this.ballY = this.ballWH / 2 + adj;
         }
-        else if (this.ballBottomTan >= this.height - this.ballWH / 2)
+        else if (this.ballBottomTan >= this.height)// - this.ballWH / 2)
         {
             if (this.ballAngle >= 200 && this.ballAngle <= 300)
             {
@@ -175,10 +172,7 @@ class Ball
                 adj = 0;
             if (adj < 0)
                 adj *= -1;
-            if (this.ballY >= (this.height - (this.ballWH / 2)))
-                this.ballY = (this.height - (this.ballWH / 2)) - adj;
-            else
-                this.ballY -= adj;
+            this.ballY = (this.height - (this.ballWH / 2)) - adj;
         }
         if (this.ballDirection)
             this.ballX += this.ballSpeed;
@@ -193,6 +187,7 @@ class Ball
         let adj : number;
         let radAngle : number;
         let tmpAngle: number;
+        let opp : number  = 0; 
 
         tmpAngle = this.ballAngle;
         if (this.ballAngle > 100 && this.ballAngle < 200)
@@ -209,24 +204,40 @@ class Ball
             adj = 0;
         if (adj < 0)
             adj *= -1;
-        if (this.ballAngle < 100)
-            this.ballY = this.ballY - adj;
-        else if (this.ballAngle >= 0 && this.ballAngle < 100)
-            this.ballY = this.ballY - adj;
-        else if (this.ballAngle >= 100 && this.ballAngle < 200)
-            this.ballY = this.ballY + adj;
-        else if (this.ballAngle >= 200 && this.ballAngle < 300)
-            this.ballY = this.ballY + adj;
-        else if (this.ballAngle >= 300 && this.ballAngle <= 400)
-            this.ballY = this.ballY - adj;
-        if (this.ballDirection)
-            this.ballX += this.ballSpeed;
+        if ((this.ballAngle >= 0 && this.ballAngle < 100) || (this.ballAngle >= 300 && this.ballAngle <= 400))
+        {
+            if (this.ballTopTan - adj < 0)
+            {
+                opp = this.ballY;
+                this.ballY = this.ballWH / 2;
+            }
+            else
+                this.ballY = this.ballY - adj;
+        }
+        else if ((this.ballAngle >= 100 && this.ballAngle < 200) || (this.ballAngle >= 300 && this.ballAngle <= 400))
+        {
+            if (this.ballBottomTan + adj > this.height)
+            {
+                opp = this.height - this.ballY;
+                this.ballY = this.height - this.ballWH / 2; 
+            }
+            else
+                this.ballY = this.ballY + adj;
+        }
+        if (opp)
+        {
+            if (this.ballDirection)
+                this.ballX += (opp / Math.tan(radAngle));
+            else
+                this.ballX -= (opp / Math.tan(radAngle)); 
+        }
         else
-            this.ballX -= this.ballSpeed;
-        if (this.ballY < 0)
-            this.ballY = 0;
-        if (this.ballY > this.height - this.ballWH / 2)
-            this.ballY = this.height - this.ballWH / 2;
+        {
+            if (this.ballDirection)
+                this.ballX += this.ballSpeed;
+            else
+                this.ballX -= this.ballSpeed;
+        }
     }
 
     calculateRightBallRebound(data : GameContainer)

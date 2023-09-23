@@ -164,10 +164,17 @@ export class MyWebSocketGateway implements OnGatewayInit ,OnGatewayConnection, O
         room.clientOneSocket.emit('customEventDataResponseBall', data)
         //server virtual canvas (400,200)
         data.ballX = 400 - room.container.ball.ballX;
-        data.ballDirection = !data.ballDirection;
-        data.ballAngle = data.ballAngle + 200;
         if (data.ballAngle > 400)
          data.ballAngle = data.ballAngle - 400;
+        data.ballDirection = !data.ballDirection;
+        if (data.ballAngle >= 0 && data.ballAngle < 100)
+          data.ballAngle += 300;
+        if (data.ballAngle >= 100 && data.ballAngle < 200)
+          data.ballAngle += 100;
+        if (data.ballAngle >= 200 && data.ballAngle < 300)
+          data.ballAngle -= 100; 
+        if (data.ballAngle >= 300 && data.ballAngle <= 400)
+          data.ballAngle -= 300;
         room.clientTwoSocket.emit('customEventDataResponseBall', data)
       }
     }
