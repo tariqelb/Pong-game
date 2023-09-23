@@ -72,9 +72,10 @@ function draw(game : Game, gameCapsule : GameContainer)
     game.ball.ballSpeed = game.p5.width / 120;//gameCapsule.ball.ballSpeed;
     if (game.playerNumber === 1)
       game.rightRacket.automaticRacket();
+    // if (game.playerNumber === 1)
+    //   game.rightRacket.MoveRacketWithKeyBoard();
     else if (game.playerNumber === 2)
       game.rightRacket.drawAndMoveRacketWithMouse();
-    //  game.rightRacket.MoveRacketWithKeyBoard();
     gameCapsule.sentRacket.racketX = game.rightRacket.racketX;
     gameCapsule.sentRacket.racketY = game.rightRacket.racketY;
     gameCapsule.sentRacket.racketW = game.rightRacket.racketW;

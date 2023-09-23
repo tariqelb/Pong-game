@@ -30,7 +30,7 @@ class Ball
     {
         //this.height = data.height;
         //this.width = data.width;
-        this.ballSpeed = this.width / 120;
+        this.ballSpeed = this.width / 190;
         if (this.ballFirst50Time < 10)
         {
             this.goalRestart = false;
@@ -108,8 +108,8 @@ class Ball
             }
             else if (this.ballTopTan <= 0 || this.ballBottomTan >= this.height)
             {
-                this.calculateTopAndBottomBallRebound();
-            }
+                 this.calculateTopAndBottomBallRebound();
+             }
         }
     }
 
@@ -119,6 +119,8 @@ class Ball
         let adj : number;
         let tmpAngle : number;
 
+
+        console.log("-----------------------------> in it")
         if (this.ballTopTan <= 0)
         {
             if (this.ballAngle >= 0 && this.ballAngle <= 100)
@@ -129,25 +131,9 @@ class Ball
             {
                 this.ballAngle -= 100;
             }
-            this.ballTopTan = 0;
-            tmpAngle = this.ballAngle;
-            if (this.ballAngle > 100 && this.ballAngle < 200)
-                tmpAngle = this.ballAngle - 100;
-            else if (this.ballAngle >= 200 && this.ballAngle < 300)
-                tmpAngle = this.ballAngle - 200;
-            else if (this.ballAngle >= 300 && this.ballAngle < 400)
-                tmpAngle = this.ballAngle - 300;
-            else if (this.ballAngle >= 400)
-                tmpAngle = this.ballAngle - 400;
-            radAngle = tmpAngle  * (Math.PI / 2 / 200);
-            adj = this.ballSpeed * Math.tan(radAngle); 
-            if (tmpAngle === 100 || tmpAngle === 300)
-                adj = 0;
-            if (adj < 0)
-                adj *= -1;
-            this.ballY = this.ballWH / 2 + adj;
+            this.ballY = this.ballWH / 2 + 2;
         }
-        else if (this.ballBottomTan >= this.height)// - this.ballWH / 2)
+        else if (this.ballBottomTan >= this.height)
         {
             if (this.ballAngle >= 200 && this.ballAngle <= 300)
             {
@@ -157,28 +143,8 @@ class Ball
             {
                 this.ballAngle -= 100;
             }
-            tmpAngle = this.ballAngle;
-            if (this.ballAngle > 100 && this.ballAngle < 200)
-                tmpAngle = this.ballAngle - 100;
-            else if (this.ballAngle >= 200 && this.ballAngle < 300)
-                tmpAngle = this.ballAngle - 200;
-            else if (this.ballAngle >= 300 && this.ballAngle < 400)
-                tmpAngle = this.ballAngle - 300;
-            else if (this.ballAngle >= 400)
-                tmpAngle = this.ballAngle - 400;
-            radAngle = tmpAngle * (Math.PI / 2 / 200);
-            adj = this.ballSpeed * Math.tan(radAngle);
-            if (tmpAngle === 100 || tmpAngle === 300)
-                adj = 0;
-            if (adj < 0)
-                adj *= -1;
-            this.ballY = (this.height - (this.ballWH / 2)) - adj;
+            this.ballY = (this.height - (this.ballWH / 2)) - 2;
         }
-        if (this.ballDirection)
-            this.ballX += this.ballSpeed;
-        else
-            this.ballX -= this.ballSpeed;
-        
     }
 
 
@@ -187,7 +153,6 @@ class Ball
         let adj : number;
         let radAngle : number;
         let tmpAngle: number;
-        let opp : number  = 0; 
 
         tmpAngle = this.ballAngle;
         if (this.ballAngle > 100 && this.ballAngle < 200)
@@ -206,38 +171,16 @@ class Ball
             adj *= -1;
         if ((this.ballAngle >= 0 && this.ballAngle < 100) || (this.ballAngle >= 300 && this.ballAngle <= 400))
         {
-            if (this.ballTopTan - adj < 0)
-            {
-                opp = this.ballY;
-                this.ballY = this.ballWH / 2;
-            }
-            else
                 this.ballY = this.ballY - adj;
         }
         else if ((this.ballAngle >= 100 && this.ballAngle < 200) || (this.ballAngle >= 300 && this.ballAngle <= 400))
         {
-            if (this.ballBottomTan + adj > this.height)
-            {
-                opp = this.height - this.ballY;
-                this.ballY = this.height - this.ballWH / 2; 
-            }
-            else
                 this.ballY = this.ballY + adj;
         }
-        if (opp)
-        {
-            if (this.ballDirection)
-                this.ballX += (opp / Math.tan(radAngle));
-            else
-                this.ballX -= (opp / Math.tan(radAngle)); 
-        }
+        if (this.ballDirection)
+            this.ballX += this.ballSpeed;
         else
-        {
-            if (this.ballDirection)
-                this.ballX += this.ballSpeed;
-            else
-                this.ballX -= this.ballSpeed;
-        }
+            this.ballX -= this.ballSpeed;
     }
 
     calculateRightBallRebound(data : GameContainer)
@@ -247,6 +190,7 @@ class Ball
         let radAngle : number;
         let tmpAngle : number;
         
+        console.log("spaces:")
         if (data.rRacketY)
         {
             diff = this.ballY - data.rRacketY;
@@ -288,6 +232,7 @@ class Ball
         let radAngle : number;
         let tmpAngle : number ;
         
+        console.log("spaces:l")
         if (data.lRacketY)
         {
             diff = this.ballY - data.lRacketY;

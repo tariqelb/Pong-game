@@ -243,9 +243,9 @@ class Racket
     {
         let radAngle : number;
         let adj : number;
-        let tempAngle : number;
+        let tmpAngle : number;
 
-        if (this.virtualBallY - this.virtualBallWH / 2 <= 0)
+        if ((this.virtualBallY - (this.virtualBallWH / 2)) <= 0)
         {
             if (this.virtualBallA >= 0 && this.virtualBallA <= 100)
             {
@@ -255,28 +255,9 @@ class Racket
             {
                 this.virtualBallA -= 100;
             }
-            tempAngle = this.virtualBallA;
-            if (this.virtualBallA > 100 && this.virtualBallA < 200)
-                tempAngle = this.virtualBallA - 100;
-            else if (this.virtualBallA >= 200 && this.virtualBallA < 300)
-                tempAngle = this.virtualBallA - 200;
-            else if (this.virtualBallA >= 300 && this.virtualBallA < 400)
-                tempAngle = this.virtualBallA - 300;
-            else if (this.virtualBallA >= 400)
-                tempAngle = this.virtualBallA - 400;
-            radAngle = tempAngle  * (Math.PI / 2 / 200);
-            adj = this.game.ball.ballSpeed * Math.tan(radAngle); 
-            if (tempAngle === 100 || tempAngle === 300)
-                adj = 0;
-            if (adj < 0)
-                adj *= -1;
-            //if (this.game.ball.ballY + this.game.ball.ballWH / 2 < 0)
-            if (this.virtualBallY + this.virtualBallWH / 2 <= 0)
-                this.virtualBallY = 0 + adj;
-            else
-                this.virtualBallY += adj;
+            this.virtualBallY = this.virtualBallWH / 2 + 2;
         }
-        else if (this.virtualBallY + this.virtualBallWH / 2 >= this.game.p5.height)
+        else if ((this.virtualBallY + (this.virtualBallWH / 2)) >= this.game.p5.height)
         {
             if (this.virtualBallA >= 200 && this.virtualBallA <= 300)
             {
@@ -286,31 +267,8 @@ class Racket
             {
                 this.virtualBallA -= 100;
             }
-            tempAngle = this.virtualBallA;
-            if (this.virtualBallA > 100 && this.virtualBallA < 200)
-                tempAngle = this.virtualBallA - 100;
-            else if (this.virtualBallA >= 200 && this.virtualBallA < 300)
-                tempAngle = this.virtualBallA - 200;
-            else if (this.virtualBallA >= 300 && this.virtualBallA < 400)
-                tempAngle = this.virtualBallA - 300;
-            else if (this.virtualBallA >= 400)
-                tempAngle = this.virtualBallA - 400;
-            radAngle = tempAngle * (Math.PI / 2 / 200);
-            adj = this.game.ball.ballSpeed * Math.tan(radAngle);
-            if (tempAngle === 100 || tempAngle === 300)
-                adj = 0;
-            if (adj < 0)
-                adj *= -1;
-            if (this.virtualBallY >= this.game.p5.height - (this.virtualBallWH / 2))
-                this.virtualBallY = (this.game.p5.height - (this.virtualBallWH / 2)) - adj;
-            else
-                this.virtualBallY -= adj;
+            this.virtualBallY = (this.game.p5.height - (this.virtualBallWH / 2)) - 2;
         }
-        //if (this.game.ball.ballDirection)
-        //    this.virtualBallX += this.game.ball.ballSpeed;
-        //else
-            this.virtualBallX -= this.game.ball.ballSpeed;
-    
     }
 
     getCoordinates ()
@@ -372,61 +330,50 @@ class Racket
                 this.virtualBallUpbottomRebound();       
             }   
         }*/
-        while ((this.virtualBallX  < this.racketX))// && this.game.ball.ballDirection)
+        while ((this.virtualBallX  < this.game.p5.width))//this.racketX))// && this.game.ball.ballDirection)
         {
             if (this.virtualBallY - this.virtualBallWH / 2 > 0 &&  this.virtualBallY + this.virtualBallWH / 2 < this.game.p5.height)
             {
 
-                // tempAngle = this.virtualBallA;
-                // if (this.virtualBallA > 100 && this.virtualBallA < 200)
-                //     tempAngle = this.virtualBallA - 100;
-                // else if (this.virtualBallA >= 200 && this.virtualBallA < 300)
-                //     tempAngle = this.virtualBallA - 200;
-                // else if (this.virtualBallA >= 300 && this.virtualBallA < 400)
-                //     tempAngle = this.virtualBallA - 300;
-                // else if (this.virtualBallA >= 400)
-                //     tempAngle = this.virtualBallA - 400;
-                // radAngle = tempAngle * (Math.PI / 2 / 200);
-                // adj = this.game.ball.ballSpeed * Math.tan(radAngle);
-                // if (tempAngle === 100 || tempAngle === 300)
-                //     adj = 0;
-                // if (adj < 0)
-                //     adj *= -1;
-
-                // if (this.virtualBallA >= 0 && this.virtualBallA < 100)
-                // {
-                //     this.virtualBallY -= adj;
-                //     //console.log("here : ", this.game.ball.ballAngle, this.virtualBallY);
-                // }   
-                // else if (this.virtualBallA >= 100 && this.virtualBallA < 200)
-                //     this.virtualBallY += adj;
-                // else if (this.virtualBallA >= 200 && this.virtualBallA < 300)
-                //     this.virtualBallY += adj;
-                // else if (this.virtualBallA >= 300 && this.virtualBallA <= 400)
-                //     this.virtualBallY -= adj;
-                // if (this.virtualBallY + (this.virtualBallWH / 2) > this.game.p5.height || this.virtualBallY - (this.virtualBallWH / 2) < 0)
-                // {
-                //     //console.log("the call is heppen  ")
-                //     let opp : number = 0;
-                //     if (this.virtualBallY - (this.virtualBallWH / 2) < 0)
-                //     {
-                //         opp = this.virtualBallY + adj;
-                //         this.virtualBallY = this.virtualBallWH / 2;
-                //     }
-                //     else
-                //     {
-                //         opp = this.game.p5.height - (this.virtualBallY - adj);
-                //         this.virtualBallY = this.game.p5.height - this.virtualBallWH / 2;
-                //     }
-                //     this.virtualBallX += (opp/ Math.tan(radAngle)); 
-                // }
-                // else
-                //     this.virtualBallX += this.game.ball.ballSpeed;
+                let adj : number;
+                let radAngle : number;
+                let tmpAngle: number;
+        
+                tmpAngle = this.virtualBallA;
+                if (this.virtualBallA > 100 && this.virtualBallA < 200)
+                    tmpAngle = this.virtualBallA - 100;
+                else if (this.virtualBallA >= 200 && this.virtualBallA < 300)
+                    tmpAngle = this.virtualBallA - 200;
+                else if (this.virtualBallA >= 300 && this.virtualBallA < 400)
+                    tmpAngle = this.virtualBallA - 300;
+                else if (this.virtualBallA >= 400)
+                    tmpAngle = this.virtualBallA - 400;
+                radAngle = tmpAngle  * (Math.PI / 2 / 200);
+                adj = this.game.ball.ballSpeed * Math.tan(radAngle);
+                if (tmpAngle === 100 || tmpAngle === 300)
+                    adj = 0;
+                if (adj < 0)
+                    adj *= -1;
+                if ((this.virtualBallA >= 0 && this.virtualBallA < 100) || (this.virtualBallA >= 300 && this.virtualBallA <= 400))
+                {
+                        this.virtualBallY = this.virtualBallY - adj;
+                }
+                else if ((this.virtualBallA >= 100 && this.virtualBallA < 200) || (this.virtualBallA >= 300 && this.virtualBallA <= 400))
+                {
+                        this.virtualBallY = this.virtualBallY + adj;
+                }
+                if (this.game.ball.ballDirection)
+                    this.virtualBallX += this.game.ball.ballSpeed;
+                else
+                    this.virtualBallX -= this.game.ball.ballSpeed;
+                this.game.p5.fill('green');
+                this.game.p5.circle(this.virtualBallX , this.virtualBallY, this.virtualBallWH);
+                this.game.p5.fill('white');
             }  
             else if (this.virtualBallY - this.virtualBallWH <= 0 || (this.virtualBallY + this.virtualBallWH >= this.game.p5.height))
             {
-                break;
-                //this.virtualBallUpbottomRebound();   
+                //break;
+                this.virtualBallUpbottomRebound();   
             }     
         }
         if (this.virtualBallX < 0)
