@@ -2,35 +2,32 @@ import GameContainer from './gamecontainer';
 
 class Ball
 {
-    constructor ()// (leftRackt : Racket , rightRacket : Racket)
+    constructor ()
     {
-        //this.leftRacket = new Racket(null, undefined, false);
-        //data= new Racket(null, undefined, true);
-        //this.leftRacket = leftRackt;
-       // data= rightRacket;
     }
-    //game : Game;
+    
     ballX : number = 0;
     ballY : number = 0;
     ballWH : number = 0;
-    ballFirstMove : boolean = true;
-    ballDirection : boolean | undefined = undefined;
     ballAngle : number = 0;
     ballSpeed : number = 0;
-    ballFirst50Time : number = 0;
+    ballDirection : boolean | undefined = undefined;
+    
     ballRightTan : number = 0;
     ballLeftTan : number = 0;
     ballTopTan : number = 0;
     ballBottomTan : number = 0;
+    
     width : number = 400;
     height : number = 200;
+    
+    ballFirst50Time : number = 0;
+    ballFirstMove : boolean = true;
     goalRestart : boolean = false;
     
     drawAndMove(data : GameContainer)
     {
-        //this.height = data.height;
-        //this.width = data.width;
-        this.ballSpeed = this.width / 100;
+        this.ballSpeed = this.width / 80;
         if (this.ballFirst50Time < 10)
         {
             this.goalRestart = false;
