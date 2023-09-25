@@ -60,6 +60,7 @@ function draw(game : Game, gameCapsule : GameContainer)
     {
       game.rightRacket.racketY = -100;
       game.rightRacket.keyIsPress = false;
+      game.rightRacket.coordinateAlreadyGot = false;
     } 
 
     if (game.rightRacket.coordinateAlreadyGot === false)

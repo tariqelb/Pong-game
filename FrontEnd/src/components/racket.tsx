@@ -35,6 +35,7 @@ class Racket
     coordinateAlreadyGot : boolean = false;
     racketVibrationUpDown : boolean | undefined = undefined;
     edge : number = 10;
+    steps : number = 0;
 
     drawKeyBoardInitRacket()
     {
@@ -159,25 +160,36 @@ class Racket
             }
             if (this.racketVibrationUpDown === false)
             {
-                if (this.racketY + this.randomRebound >= this.virtualBallY)
+                if (this.steps < 40)
+                {
+                    this.racketY -= this.racketSpeed;
+                    this.steps++;
+                }
+                /*if (this.racketY + this.randomRebound >= this.virtualBallY)
                     this.racketY -= this.racketSpeed;
                 else
                 {
                     let diff = this.racketY + this.randomRebound - this.virtualBallY;
                     this.racketY = this.racketY - diff;
                     this.racketVibrationUpDown = undefined;
-                }
+                }*/
             }
             else if (this.racketVibrationUpDown === true)
             {
-                if (this.racketY + this.randomRebound <= this.virtualBallY)
+
+                if (this.steps < 40)
+                {
+                    this.racketY += this.racketSpeed;
+                    this.steps++;
+                }
+                /*if (this.racketY + this.randomRebound <= this.virtualBallY)
                     this.racketY += this.racketSpeed;
                 else
                 {
                     let diff = this.virtualBallY - (this.racketY + this.randomRebound);
                     this.racketY = this.racketY + diff;
                     this.racketVibrationUpDown = undefined;
-                }
+                }*/
             }
             if (this.racketY < 0)
                 this.racketY = 0;
@@ -207,8 +219,8 @@ class Racket
             if (this.coordinateAlreadyGot === false)
             {
                 this.coordinateAlreadyGot = true;
-                this.getCoordinates();
                 this.randomRebound = Math.floor(Math.random() * (this.racketH - this.edge)) + this.edge;
+                this.getCoordinates();
             }
             else
             {
@@ -304,10 +316,20 @@ class Racket
         this.virtualBallY = (this.virtualBallY * this.game.p5.height / 200);
         this.virtualBallWH =  (this.virtualBallWH * this.game.p5.height / 200);
 
-        if (this.virtualBallY > this.racketY)
+        if (this.virtualBallY > this.racketY + this.randomRebound)
+        {
+            this.racketSpeed = (this.virtualBallY - (this.racketY + this.randomRebound)) / 40;
+            this.steps = 0;
+            console.log("true data : " , this.virtualBallY - this.racketY, this.racketSpeed)
             this.racketVibrationUpDown = true;
+        }
         else
+        {
+            this.racketSpeed = ((this.racketY + this.randomRebound) - this.virtualBallY) / 40;
+            console.log("false data : " , this.virtualBallY - this.racketY, this.racketSpeed)
+            this.steps = 0;
             this.racketVibrationUpDown = false; 
+        }
     }
 
 }
