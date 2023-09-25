@@ -30,7 +30,7 @@ class Ball
     {
         //this.height = data.height;
         //this.width = data.width;
-        this.ballSpeed = this.width / 190;
+        this.ballSpeed = this.width / 100;
         if (this.ballFirst50Time < 10)
         {
             this.goalRestart = false;
@@ -115,12 +115,6 @@ class Ball
 
     calculateTopAndBottomBallRebound()
     {
-        let radAngle : number;
-        let adj : number;
-        let tmpAngle : number;
-
-
-        console.log("-----------------------------> in it")
         if (this.ballTopTan <= 0)
         {
             if (this.ballAngle >= 0 && this.ballAngle <= 100)
@@ -190,7 +184,6 @@ class Ball
         let radAngle : number;
         let tmpAngle : number;
         
-        console.log("spaces:")
         if (data.rRacketY)
         {
             diff = this.ballY - data.rRacketY;
@@ -232,7 +225,6 @@ class Ball
         let radAngle : number;
         let tmpAngle : number ;
         
-        console.log("spaces:l")
         if (data.lRacketY)
         {
             diff = this.ballY - data.lRacketY;

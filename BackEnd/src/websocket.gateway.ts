@@ -123,7 +123,7 @@ export class MyWebSocketGateway implements OnGatewayInit ,OnGatewayConnection, O
       room.container.lRacketH = 50;
       room.container.lLastPosY = data.lastPosY / data.height * 200;
       room.clientTwoWidth = data.width;
-      client.broadcast.emit('customEventDataResponseRacket', data);
+      room.clientOneSocket.emit('customEventDataResponseRacket', data);
     }
     else if (room && room.numberOfClients === 2 && room.clientOneSocket === client)
     {
@@ -132,7 +132,7 @@ export class MyWebSocketGateway implements OnGatewayInit ,OnGatewayConnection, O
       room.container.rRacketW = 5;
       room.container.rRacketH = 50;
       room.container.rLastPosY = data.lastPosY / data.height * 200;
-      client.broadcast.emit('customEventDataResponseRacket', data);
+      room.clientTwoSocket.emit('customEventDataResponseRacket', data);
       room.getBothRacketData = true;
     }
   }

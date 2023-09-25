@@ -9,8 +9,6 @@ let PlayWithMouse : boolean = false; // play with mouse or keyboard
 let canvasResizedHeight : number; // this variable is used when the cancas is resized so we need to change rackets size
 let canvasResizedWidth : number;
 
-//let gameCapsule: GameContainer = new GameContainer();
-
 /* Draw the middle line */
 let line = (game : Game) : void => 
 {
@@ -61,21 +59,27 @@ function draw(game : Game, gameCapsule : GameContainer)
     } 
 
     //console.log("Player  ", game.playerNumber)
+    /*game.rightRacket.virtualBallX = gameCapsule.ball.ballX;
+    game.rightRacket.virtualBallY = gameCapsule.ball.ballY;
+    game.rightRacket.virtualBallWH = gameCapsule.ball.ballWH;
+    game.rightRacket.virtualBallS = gameCapsule.ball.ballSpeed;
+    game.rightRacket.virtualBallA = gameCapsule.ball.ballX;*/
     let ballX =  (gameCapsule.ball.ballX * game.p5.width / 400);
     let ballY = (gameCapsule.ball.ballY * game.p5.height / 200);
-    let ballWH = (game.p5.height / 25);
-    game.ball.ballX = ballX//gameCapsule.ball.ballX;
-    game.ball.ballY = ballY//gameCapsule.ball.ballY;
-    game.ball.ballWH = ballWH//gameCapsule.ball.ballWH;
+    let ballWH =  (gameCapsule.ball.ballWH * game.p5.height / 200);
+    let ballSpeed = (gameCapsule.ball.ballSpeed * game.p5.width / 400);
+    game.ball.ballX = ballX;
+    game.ball.ballY = ballY;
+    game.ball.ballWH = ballWH;
+    game.ball.ballSpeed = ballSpeed;
     game.ball.ballAngle = gameCapsule.ball.ballAngle;
     game.ball.ballDirection = gameCapsule.ball.ballDirection;
-    game.ball.ballSpeed = game.p5.width / 120;//gameCapsule.ball.ballSpeed;
-    if (game.playerNumber === 1)
-      game.rightRacket.automaticRacket();
+    game.rightRacket.automaticRacket(gameCapsule.ball.ballX, gameCapsule.ball.ballY, gameCapsule.ball.ballWH, gameCapsule.ball.ballSpeed, gameCapsule.ball.ballAngle);
+    //if (game.playerNumber === 1)
     // if (game.playerNumber === 1)
     //   game.rightRacket.MoveRacketWithKeyBoard();
-    else if (game.playerNumber === 2)
-      game.rightRacket.drawAndMoveRacketWithMouse();
+    //else if (game.playerNumber === 2)
+    //  game.rightRacket.drawAndMoveRacketWithMouse();
     gameCapsule.sentRacket.racketX = game.rightRacket.racketX;
     gameCapsule.sentRacket.racketY = game.rightRacket.racketY;
     gameCapsule.sentRacket.racketW = game.rightRacket.racketW;
@@ -83,7 +87,7 @@ function draw(game : Game, gameCapsule : GameContainer)
     gameCapsule.sentRacket.lastPosY= game.rightRacket.lastPositionOfRacketY;
     gameCapsule.sentRacket.height = game.p5.height;
     gameCapsule.sentRacket.width = game.p5.width;
-    
+
     gameCapsule.init = true;
       
       
@@ -100,6 +104,7 @@ function draw(game : Game, gameCapsule : GameContainer)
       game.p5.circle(ballX, ballY, ballWH);
       
       game.p5.rect(0, gameCapsule.recvRacket.lastPosY / game.p5.height, game.rightRacket.racketW, game.rightRacket.racketH);
+
     }
     else
       game.p5.text("loading", 20, 20); 
@@ -120,6 +125,7 @@ function setup(game : Game)
       canvasWidth = game.canvasPranetDiv.elt.clientWidth - game.gameBordersPixel;//the 15 for border pixel
       canvasHeight = (game.canvasPranetDiv.elt.clientWidth / 2) - game.gameBordersPixel;
       game.cnv = game.p5.createCanvas( canvasWidth ,  canvasHeight);
+      //game.cnv = game.p5.createCanvas( 400 ,  200);
       game.cnv.parent('root');
     }
     else
