@@ -84,11 +84,11 @@ function draw(game : Game, gameCapsule : GameContainer)
     game.ball.ballAngle = gameCapsule.ball.ballAngle;
     game.ball.ballDirection = gameCapsule.ball.ballDirection;
    
-    game.rightRacket.automaticRacket();
     //if (game.playerNumber === 1)
-    // if (game.playerNumber === 1)
-    //   game.rightRacket.MoveRacketWithKeyBoard();
-    //else if (game.playerNumber === 2)
+    if (game.playerNumber === 1)
+      game.rightRacket.MoveRacketWithKeyBoard();
+    else if (game.playerNumber === 2)
+      game.rightRacket.automaticRacket();
     //  game.rightRacket.drawAndMoveRacketWithMouse();
    
     gameCapsule.sentRacket.racketX = game.rightRacket.racketX;

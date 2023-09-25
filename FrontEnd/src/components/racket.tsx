@@ -146,7 +146,7 @@ class Racket
             this.game.p5.fill('green');
         if (this.startOfSimulation === true)
             this.drawKeyBoardInitRacket();
-        else if (this.coordinateAlreadyGot)//&& (animationData.player == undefined || animationData.player == true))
+        else if (this.coordinateAlreadyGot)
         {
             if (this.game.p5.height !== this.game.canvasResizedHeight || this.game.p5.width !== this.game.canvasResizedWidth)
             {
@@ -160,36 +160,22 @@ class Racket
             }
             if (this.racketVibrationUpDown === false)
             {
-                if (this.steps < 40)
+                if (this.steps < 80)
                 {
-                    this.racketY -= this.racketSpeed;
+                    if (this.steps % 2)
+                        this.racketY -= this.racketSpeed;
                     this.steps++;
                 }
-                /*if (this.racketY + this.randomRebound >= this.virtualBallY)
-                    this.racketY -= this.racketSpeed;
-                else
-                {
-                    let diff = this.racketY + this.randomRebound - this.virtualBallY;
-                    this.racketY = this.racketY - diff;
-                    this.racketVibrationUpDown = undefined;
-                }*/
             }
             else if (this.racketVibrationUpDown === true)
             {
 
-                if (this.steps < 40)
+                if (this.steps < 80)
                 {
-                    this.racketY += this.racketSpeed;
+                    if (this.steps % 2)
+                        this.racketY += this.racketSpeed;
                     this.steps++;
                 }
-                /*if (this.racketY + this.randomRebound <= this.virtualBallY)
-                    this.racketY += this.racketSpeed;
-                else
-                {
-                    let diff = this.virtualBallY - (this.racketY + this.randomRebound);
-                    this.racketY = this.racketY + diff;
-                    this.racketVibrationUpDown = undefined;
-                }*/
             }
             if (this.racketY < 0)
                 this.racketY = 0;
@@ -320,13 +306,11 @@ class Racket
         {
             this.racketSpeed = (this.virtualBallY - (this.racketY + this.randomRebound)) / 40;
             this.steps = 0;
-            console.log("true data : " , this.virtualBallY - this.racketY, this.racketSpeed)
             this.racketVibrationUpDown = true;
         }
         else
         {
             this.racketSpeed = ((this.racketY + this.randomRebound) - this.virtualBallY) / 40;
-            console.log("false data : " , this.virtualBallY - this.racketY, this.racketSpeed)
             this.steps = 0;
             this.racketVibrationUpDown = false; 
         }
