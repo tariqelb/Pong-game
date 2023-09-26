@@ -47,6 +47,7 @@ function draw(game : Game, gameCapsule : GameContainer)
 
   return () => 
   {
+    console.log("draw : ", game.p5.width)
     game.playerNumber = gameCapsule.playerNumber;
     resizeCanvas(game);
     game.p5.background(0);
@@ -65,15 +66,39 @@ function draw(game : Game, gameCapsule : GameContainer)
       gameCapsule.init = false;
     } 
 
+    if (game.playerNumber === 2)
+    {
+      gameCapsule.ball.ballX = 400 - gameCapsule.ball.ballX;
+      if (gameCapsule.ball.ballAngle > 400)
+        gameCapsule.ball.ballAngle = gameCapsule.ball.ballAngle - 400;
+      gameCapsule.ball.ballDirection = !gameCapsule.ball.ballDirection;
+      if (gameCapsule.ball.ballAngle >= 0 && gameCapsule.ball.ballAngle < 100)
+        gameCapsule.ball.ballAngle += 300;
+      if (gameCapsule.ball.ballAngle >= 100 && gameCapsule.ball.ballAngle < 200)
+        gameCapsule.ball.ballAngle += 100;
+      if (gameCapsule.ball.ballAngle >= 200 && gameCapsule.ball.ballAngle < 300)
+        gameCapsule.ball.ballAngle -= 100; 
+      if (gameCapsule.ball.ballAngle >= 300 && gameCapsule.ball.ballAngle <= 400)
+        gameCapsule.ball.ballAngle -= 300;
+    }
+
     if (game.rightRacket.coordinateAlreadyGot === false)
     {
-      game.rightRacket.virtualBallX = gameCapsule.ball.ballX;
-      game.rightRacket.virtualBallY = gameCapsule.ball.ballY;
-      game.rightRacket.virtualBallWH = gameCapsule.ball.ballWH;
-      game.rightRacket.virtualBallS = gameCapsule.ball.ballSpeed;
-      game.rightRacket.virtualBallA = gameCapsule.ball.ballAngle;
+      if (game.ball.ballX > 50 && game.ball.ballY < game.p5.width - 50)
+      {
+        game.rightRacket.virtualBallX = gameCapsule.ball.ballX;
+        game.rightRacket.virtualBallY = gameCapsule.ball.ballY;
+        game.rightRacket.virtualBallWH = gameCapsule.ball.ballWH;
+        game.rightRacket.virtualBallS = gameCapsule.ball.ballSpeed;
+        game.rightRacket.virtualBallA = gameCapsule.ball.ballAngle;
+        game.rightRacket.validCoordinate = true;
+      }
+      else
+        game.rightRacket.validCoordinate = false;
     }
     
+   
+
     ballX     = (gameCapsule.ball.ballX * game.p5.width / 400);
     ballY     = (gameCapsule.ball.ballY * game.p5.height / 200);
     ballWH    = (gameCapsule.ball.ballWH * game.p5.height / 200);
@@ -88,15 +113,11 @@ function draw(game : Game, gameCapsule : GameContainer)
    
     //if (game.playerNumber === 1)
     if (game.playerNumber === 1)
-      game.rightRacket.MoveRacketWithKeyBoard();
+      game.rightRacket.automaticRacket();
     else if (game.playerNumber === 2)
       game.rightRacket.drawAndMoveRacketWithMouse();
-      //game.rightRacket.automaticRacket();
+    //game.rightRacket.MoveRacketWithKeyBoard();
    
-    gameCapsule.sentRacket.racketX = game.rightRacket.racketX;
-    gameCapsule.sentRacket.racketY = game.rightRacket.racketY;
-    gameCapsule.sentRacket.racketW = game.rightRacket.racketW;
-    gameCapsule.sentRacket.racketH = game.rightRacket.racketH;
     gameCapsule.sentRacket.lastPosY= game.rightRacket.lastPositionOfRacketY;
     gameCapsule.sentRacket.height = game.p5.height;
     gameCapsule.sentRacket.width = game.p5.width;
@@ -108,7 +129,7 @@ function draw(game : Game, gameCapsule : GameContainer)
     if (gameCapsule.ball.ballX && gameCapsule.ball.ballY)
     {
       game.p5.circle(ballX, ballY, ballWH);
-      game.p5.rect(0, gameCapsule.recvRacket.lastPosY / game.p5.height, game.rightRacket.racketW, game.rightRacket.racketH);
+      game.p5.rect(0, gameCapsule.recvRacket.lastPosY / gameCapsule.recvRacket.height * game.p5.height, game.p5.width / 80, game.p5.height / 4);
     }
     else
       game.p5.text("loading", 20, 20); 
@@ -129,6 +150,8 @@ function setup(game : Game)
       canvasHeight = (game.canvasPranetDiv.elt.clientWidth / 2) - game.gameBordersPixel;
       game.cnv = game.p5.createCanvas( canvasWidth ,  canvasHeight);
       game.cnv.parent('root');
+      game.canvasResizedHeight = canvasHeight;
+      game.canvasResizedWidth = canvasWidth;
     }
     else
       console.log("Error: in sketch file, failed to select the parent of canvas element.")

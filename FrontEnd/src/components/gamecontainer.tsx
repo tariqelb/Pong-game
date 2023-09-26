@@ -1,6 +1,6 @@
 import RecieveBallData from "./RecieveBallData";
 import SentRacketData from "./SentRacketData";
-import RecieveRacketData from "./RecieveRacketData";
+
 
 class GameContainer 
 {  
@@ -8,7 +8,7 @@ class GameContainer
     {
         console.log("called again and again: __)");
         this.ball = new RecieveBallData();
-        this.recvRacket = new RecieveRacketData();
+        this.recvRacket = new SentRacketData();
         this.sentRacket = new  SentRacketData();
     }
   
@@ -16,11 +16,11 @@ class GameContainer
   loading : boolean = true;
   width : number = 0;
   height : number = 0;
+  playerNumber : number = 0;
   
   ball : RecieveBallData;
-  recvRacket : RecieveRacketData;
+  recvRacket : SentRacketData;
   sentRacket : SentRacketData;
-  playerNumber : number = 0;
 }
 export default GameContainer;
 /*

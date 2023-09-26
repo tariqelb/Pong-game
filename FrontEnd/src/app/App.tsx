@@ -6,7 +6,6 @@ import MySketch from '../components/mySketch';
 import GameContainer from '../components/gamecontainer';
 import SentRacketData from '../components/SentRacketData';
 import RecieveBallData from '../components/RecieveBallData';
-import RecieveRacketData from '../components/RecieveRacketData';
 
 //import { gameCapsule } from '../components/mySketch';
 
@@ -60,14 +59,11 @@ function App()
         if (gameCapsule.ball.goalRestart)
           gameCapsule.init = false;
     });
-    socket.on('customEventDataResponseRacket', (data: RecieveRacketData) => 
+    socket.on('customEventDataResponseRacket', (data: SentRacketData) => 
     {
-      //console.log(`get response from server : ${tabId}`);
-        gameCapsule.recvRacket.racketH = data.racketH;
-        gameCapsule.recvRacket.racketW = data.racketW;
-        gameCapsule.recvRacket.racketX = data.racketX;
-        gameCapsule.recvRacket.racketY = data.racketY * data.height;
-        gameCapsule.recvRacket.lastPosY = data.lastPosY * data.height;
+        gameCapsule.recvRacket.lastPosY = data.lastPosY;
+        gameCapsule.recvRacket.width = data.width;
+        gameCapsule.recvRacket.height = data.height;
     });
 
     socket.on('getPlayerNumber', (plyNumber) =>
@@ -103,86 +99,3 @@ function App()
 }
 
 export default App;
-//export { gameCapsule };
-
-
-/*
-//import { gameCapsule } from '../components/mySketch';
-import { io, Socket } from 'socket.io-client';
-import { gameCapsule } from '../components/mySketch';
-import  GameContainer  from '../components/gamecontainer';
-
-const serverUrl: string = 'ws://localhost:4055';
-
-function App() {
-
-  let socket: Socket | null;
-  socket = io(serverUrl, { path: '/game-container', transports: ['websocket'] });
-
-  let sendDataToServer =  () =>
-  {
-    if (socket && gameCapsule.init)
-      socket.emit('customEventDataRequest', gameCapsule);
-  }
-
-  function generateUniqueTabId(): string 
-  {
-    // You can implement your own logic here to generate a unique ID
-    // For simplicity, you can use a timestamp
-    return Date.now().toString();
-  }
-  const tabId = generateUniqueTabId();
-
-  if (socket)
-  {
-    setInterval(sendDataToServer, 50);
- 
-    socket.on('customEventDataResponse', (data : GameContainer) => 
-    {
-      //console.log(`Connected to WebSocket server in tab ${tabId}`);
-      gameCapsule.ballAngle = data.ballAngle;
-      gameCapsule.ballDirection = data.ballDirection;
-      gameCapsule.ballFirstMove = data.ballFirstMove;
-      gameCapsule.ballFirst50Time = data.ballFirst50Time;
-      gameCapsule.ballWH = data.ballWH;
-      gameCapsule.ballX =  data.ballX;
-      gameCapsule.ballY = data.ballY;
-      gameCapsule.ballWH = data.ballWH;
-      gameCapsule.ballSpeed = data.ballSpeed;
-      
-      gameCapsule.rRacketH = data.rRacketH;
-      gameCapsule.rRacketW = data.rRacketW;
-      gameCapsule.rRacketX = data.rRacketX;
-      gameCapsule.rRacketY = data.rRacketY;
-      gameCapsule.rLastPosY = data.rLastPosY;
-      gameCapsule.lRacketH = data.lRacketH;
-      gameCapsule.lRacketW = data.lRacketW;
-      gameCapsule.lRacketX = data.lRacketX;
-      gameCapsule.lRacketY = data.lRacketY;
-      gameCapsule.lLastPosY = data.lLastPosY;
-      gameCapsule.goalRestart = data.goalRestart;
-    });
-  
-    socket.on('connect', () => {
-      console.log(`Connected to WebSocket server in tab id ${tabId}`);
-    });
-  
-    socket.on('disconnect', () => {
-      console.log(`Disconnected from WebSocket server in tab ${tabId}`);
-    });
-
-    socket.on('connect_error', (error) => {
-      console.error('Error connecting to the WebSocket server:', error.cause, error.message, error.name , error.stack);
-    });
-
-    socket.on('connect_timeout', (timeout) => {
-      console.error('Connection to the WebSocket server timed out:', timeout);
-    });
-  }
-
-  return (
-    <ReactP5Wrapper sketch={MySketch} />
-  );
-}
-
-export default App;*/
