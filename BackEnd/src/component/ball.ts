@@ -27,7 +27,7 @@ class Ball
     
     drawAndMove(data : GameContainer)
     {
-        this.ballSpeed = this.width / 80;
+        this.ballSpeed = this.width / 280;
         if (this.ballFirst50Time < 10)
         {
             this.goalRestart = false;

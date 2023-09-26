@@ -61,7 +61,7 @@ class Racket
 
     MoveRacketWithKeyBoard ()
     {
-        if (this.racketSides)
+        if (this.game.playerNumber === 1)
             this.game.p5.fill('blue')
         else
             this.game.p5.fill('green')
@@ -103,7 +103,7 @@ class Racket
 
     drawAndMoveRacketWithMouse()
     {
-        if (this.racketSides)
+        if (this.game.playerNumber === 1)
             this.game.p5.fill('blue')
         else
             this.game.p5.fill('green')
@@ -146,7 +146,7 @@ class Racket
             this.game.p5.fill('green');
         if (this.startOfSimulation === true)
             this.drawKeyBoardInitRacket();
-        else if (this.coordinateAlreadyGot)
+        else if (this.coordinateAlreadyGot && this.game.goalRestart === false)
         {
             if (this.game.p5.height !== this.game.canvasResizedHeight || this.game.p5.width !== this.game.canvasResizedWidth)
             {
@@ -160,9 +160,9 @@ class Racket
             }
             if (this.racketVibrationUpDown === false)
             {
-                if (this.steps < 80)
+                if (this.steps < 120)
                 {
-                    if (this.steps % 2)
+                    if (this.steps % 3)
                         this.racketY -= this.racketSpeed;
                     this.steps++;
                 }
@@ -170,9 +170,9 @@ class Racket
             else if (this.racketVibrationUpDown === true)
             {
 
-                if (this.steps < 80)
+                if (this.steps < 120)
                 {
-                    if (this.steps % 2)
+                    if (this.steps % 3)
                         this.racketY += this.racketSpeed;
                     this.steps++;
                 }
@@ -195,6 +195,7 @@ class Racket
         {
             this.startOfSimulation = true;
             this.coordinateAlreadyGot = false;
+            this.steps = 0;
             //console.log("start again------------------>");
             //this.racketInitialPositionIsready = 0;
         }

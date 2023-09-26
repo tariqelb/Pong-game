@@ -138,10 +138,11 @@ export class MyWebSocketGateway implements OnGatewayInit ,OnGatewayConnection, O
   }
   
   @SubscribeMessage('customEventDataRequestBall')
-  handleCustomEventBall(client: Socket)
+  handleCustomEventBall(client: Socket, goalStart : boolean)
   {
     let data: RecieveBallData = new RecieveBallData();
     let room : Rooms = getRoomByClientId(client.id);
+    
     
     if (!room) 
     {

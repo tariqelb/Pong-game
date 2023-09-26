@@ -61,6 +61,8 @@ function draw(game : Game, gameCapsule : GameContainer)
       game.rightRacket.racketY = -100;
       game.rightRacket.keyIsPress = false;
       game.rightRacket.coordinateAlreadyGot = false;
+      game.rightRacket.startOfSimulation = true;
+      gameCapsule.init = false;
     } 
 
     if (game.rightRacket.coordinateAlreadyGot === false)
@@ -88,8 +90,8 @@ function draw(game : Game, gameCapsule : GameContainer)
     if (game.playerNumber === 1)
       game.rightRacket.MoveRacketWithKeyBoard();
     else if (game.playerNumber === 2)
-      game.rightRacket.automaticRacket();
-    //  game.rightRacket.drawAndMoveRacketWithMouse();
+      game.rightRacket.drawAndMoveRacketWithMouse();
+      //game.rightRacket.automaticRacket();
    
     gameCapsule.sentRacket.racketX = game.rightRacket.racketX;
     gameCapsule.sentRacket.racketY = game.rightRacket.racketY;

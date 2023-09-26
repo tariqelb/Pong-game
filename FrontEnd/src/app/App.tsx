@@ -56,6 +56,9 @@ function App()
         gameCapsule.ball.ballSpeed = data.ballSpeed;
         gameCapsule.ball.goalRestart = data.goalRestart;
         gameCapsule.ball.ballAngle = data.ballAngle;
+        
+        if (gameCapsule.ball.goalRestart)
+          gameCapsule.init = false;
     });
     socket.on('customEventDataResponseRacket', (data: RecieveRacketData) => 
     {
@@ -84,7 +87,7 @@ function App()
   useEffect(() => {
     setupSocket(); // Initialize WebSocket when the component mounts
 
-    const intervalId = setInterval(sendDataToServer, 50);
+    const intervalId = setInterval(sendDataToServer, 10);
 
     return () => {
       clearInterval(intervalId); // Clean up the interval when the component unmounts
