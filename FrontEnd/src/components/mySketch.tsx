@@ -66,21 +66,7 @@ function draw(game : Game, gameCapsule : GameContainer)
       gameCapsule.init = false;
     } 
 
-    if (game.playerNumber === 2)
-    {
-      gameCapsule.ball.ballX = 400 - gameCapsule.ball.ballX;
-      if (gameCapsule.ball.ballAngle > 400)
-        gameCapsule.ball.ballAngle = gameCapsule.ball.ballAngle - 400;
-      gameCapsule.ball.ballDirection = !gameCapsule.ball.ballDirection;
-      if (gameCapsule.ball.ballAngle >= 0 && gameCapsule.ball.ballAngle < 100)
-        gameCapsule.ball.ballAngle += 300;
-      if (gameCapsule.ball.ballAngle >= 100 && gameCapsule.ball.ballAngle < 200)
-        gameCapsule.ball.ballAngle += 100;
-      if (gameCapsule.ball.ballAngle >= 200 && gameCapsule.ball.ballAngle < 300)
-        gameCapsule.ball.ballAngle -= 100; 
-      if (gameCapsule.ball.ballAngle >= 300 && gameCapsule.ball.ballAngle <= 400)
-        gameCapsule.ball.ballAngle -= 300;
-    }
+   
 
     if (game.rightRacket.coordinateAlreadyGot === false)
     {
@@ -112,12 +98,30 @@ function draw(game : Game, gameCapsule : GameContainer)
     game.ball.ballDirection = gameCapsule.ball.ballDirection;
    
     //if (game.playerNumber === 1)
-    if (game.playerNumber === 1)
+    //if (game.playerNumber === 1)
       game.rightRacket.automaticRacket();
-    else if (game.playerNumber === 2)
-      game.rightRacket.drawAndMoveRacketWithMouse();
+    //else if (game.playerNumber === 2)
+      //game.rightRacket.drawAndMoveRacketWithMouse();
     //game.rightRacket.MoveRacketWithKeyBoard();
    
+    if (game.playerNumber === 2)
+    {
+      gameCapsule.ball.ballX = 400 - gameCapsule.ball.ballX;
+      ballX                  = (gameCapsule.ball.ballX * game.p5.width / 400);
+      game.ball.ballX        = ballX;
+      /*if (gameCapsule.ball.ballAngle > 400)
+        gameCapsule.ball.ballAngle = gameCapsule.ball.ballAngle - 400;
+      gameCapsule.ball.ballDirection = !gameCapsule.ball.ballDirection;
+      if (gameCapsule.ball.ballAngle >= 0 && gameCapsule.ball.ballAngle < 100)
+        gameCapsule.ball.ballAngle += 300;
+      if (gameCapsule.ball.ballAngle >= 100 && gameCapsule.ball.ballAngle < 200)
+        gameCapsule.ball.ballAngle += 100;
+      if (gameCapsule.ball.ballAngle >= 200 && gameCapsule.ball.ballAngle < 300)
+        gameCapsule.ball.ballAngle -= 100; 
+      if (gameCapsule.ball.ballAngle >= 300 && gameCapsule.ball.ballAngle <= 400)
+        gameCapsule.ball.ballAngle -= 300;*/
+    }
+
     gameCapsule.sentRacket.lastPosY= game.rightRacket.lastPositionOfRacketY;
     gameCapsule.sentRacket.height = game.p5.height;
     gameCapsule.sentRacket.width = game.p5.width;

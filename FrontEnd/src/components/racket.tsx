@@ -214,8 +214,8 @@ class Racket
             //this.racketInitialPositionIsready = 0;
         }
         this.drawAutomaticRacket();
-        
-        if ((this.game.playerNumber === 1 && this.game.ball.ballDirection === true ))// || (this.game.playerNumber === 2 && this.game.ball.ballDirection === true))
+        console.log("racket direction : ", this.game.ball.ballDirection);
+        if ((this.game.playerNumber === 1 && this.game.ball.ballDirection === true ) || (this.game.playerNumber === 2 && this.game.ball.ballDirection === false))
         {
             if (this.coordinateAlreadyGot === false && this.validCoordinate)
             {
@@ -270,8 +270,52 @@ class Racket
 
     getCoordinates ()
     {
+        console.log(this.game.ball.ballDirection)
 
-        while ((this.virtualBallX  < 395))//this.racketX))// && this.game.ball.ballDirection)
+        while ((this.virtualBallX  > 0) && !this.game.ball.ballDirection)
+        {
+            if (this.virtualBallY - this.virtualBallWH / 2 > 0 &&  this.virtualBallY + this.virtualBallWH / 2 < 200/*this.game.p5.height*/)
+            {
+
+                let adj : number;
+                let radAngle : number;
+                let tmpAngle: number;
+        
+                tmpAngle = this.virtualBallA;
+                if (this.virtualBallA > 100 && this.virtualBallA < 200)
+                    tmpAngle = this.virtualBallA - 100;
+                else if (this.virtualBallA >= 200 && this.virtualBallA < 300)
+                    tmpAngle = this.virtualBallA - 200;
+                else if (this.virtualBallA >= 300 && this.virtualBallA < 400)
+                    tmpAngle = this.virtualBallA - 300;
+                else if (this.virtualBallA >= 400)
+                    tmpAngle = this.virtualBallA - 400;
+                radAngle = tmpAngle  * (Math.PI / 2 / 200);
+                adj = this.virtualBallS * Math.tan(radAngle);
+                if (tmpAngle === 100 || tmpAngle === 300)
+                    adj = 0;
+                if (adj < 0)
+                    adj *= -1;
+                if ((this.virtualBallA >= 0 && this.virtualBallA < 100) || (this.virtualBallA >= 300 && this.virtualBallA <= 400))
+                {
+                        this.virtualBallY = this.virtualBallY - adj;
+                }
+                else if ((this.virtualBallA >= 100 && this.virtualBallA < 200) || (this.virtualBallA >= 300 && this.virtualBallA <= 400))
+                {
+                        this.virtualBallY = this.virtualBallY + adj;
+                }
+                if (this.game.ball.ballDirection)
+                    this.virtualBallX += this.virtualBallS;
+                else
+                    this.virtualBallX -= this.virtualBallS;
+
+            }  
+            else if (this.virtualBallY - this.virtualBallWH / 2 <= 0 || (this.virtualBallY + this.virtualBallWH / 2 >= 200/*this.game.p5.height*/))
+            {
+                this.virtualBallUpbottomRebound();   
+            }     
+        }
+        while ((this.virtualBallX  < 395) && this.game.ball.ballDirection)
         {
             if (this.virtualBallY - this.virtualBallWH / 2 > 0 &&  this.virtualBallY + this.virtualBallWH / 2 < 200/*this.game.p5.height*/)
             {
