@@ -70,7 +70,7 @@ function draw(game : Game, gameCapsule : GameContainer)
 
     if (game.rightRacket.coordinateAlreadyGot === false)
     {
-      if (game.ball.ballX > 50 && game.ball.ballY < game.p5.width - 50)
+      if (game.ball.ballX > 50 && game.ball.ballX < game.p5.width - 50)
       {
         game.rightRacket.virtualBallX = gameCapsule.ball.ballX;
         game.rightRacket.virtualBallY = gameCapsule.ball.ballY;

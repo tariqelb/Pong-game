@@ -155,7 +155,7 @@ class Racket
 
     drawAutomaticRacket()
     {
-        if (this.racketSides)
+        if (this.game.playerNumber === 1)
             this.game.p5.fill('blue');
         else
             this.game.p5.fill('green');
@@ -174,19 +174,18 @@ class Racket
             }
             if (this.racketVibrationUpDown === false)
             {
-                if (this.steps < 120)
+                if (this.steps < 80)
                 {
-                    if (this.steps % 3)
+                    if (this.steps % 2)
                         this.racketY -= this.racketSpeed;
                     this.steps++;
                 }
             }
             else if (this.racketVibrationUpDown === true)
             {
-
-                if (this.steps < 120)
+                if (this.steps < 80)
                 {
-                    if (this.steps % 3)
+                    if (this.steps % 2)
                         this.racketY += this.racketSpeed;
                     this.steps++;
                 }
@@ -223,12 +222,12 @@ class Racket
                 this.randomRebound = Math.floor(Math.random() * (this.racketH - this.edge)) + this.edge;
                 this.getCoordinates();
             }
-            else
+            else if (this.coordinateAlreadyGot)
             {
                 if (this.game.playerNumber === 1)
                     this.game.p5.fill('red');
                 else
-                    this.game.p5.fill('green');
+                    this.game.p5.fill('yellow');
                 this.game.p5.circle(this.virtualBallX , this.virtualBallY, this.virtualBallWH);
                 this.game.p5.fill('white');
             }
@@ -358,7 +357,10 @@ class Racket
                 this.virtualBallUpbottomRebound();   
             }     
         }
-        this.virtualBallX =  (this.virtualBallX * this.game.p5.width / 400);
+        if (this.game.playerNumber === 1)
+            this.virtualBallX =  (this.virtualBallX * this.game.p5.width / 400);
+        if (this.game.playerNumber === 2)
+            this.virtualBallX =  ((400 - this.virtualBallX) * this.game.p5.width / 400);
         this.virtualBallY = (this.virtualBallY * this.game.p5.height / 200);
         this.virtualBallWH =  (this.virtualBallWH * this.game.p5.height / 200);
 
