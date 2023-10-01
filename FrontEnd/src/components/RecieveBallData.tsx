@@ -2,7 +2,6 @@ class RecieveBallData
 {  
     constructor()
     {
-        console.log("Ball Data __)");
     }
     ballX : number = 0;
     ballY : number = 0;

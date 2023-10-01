@@ -27,9 +27,14 @@ class Ball
     
     drawAndMove(data : GameContainer)
     {
+        if (this.goalRestart)
+        {
+            if (data.lRacketY !== (100 - data.lRacketH / 2) && (data.rRacketY !== ( 100 - data.rRacketH / 2)))
+                return
+        }
         if (this.ballFirst50Time < 250)
         {
-            this.ballSpeed = this.width / 480;
+            this.ballSpeed = this.width / 200;
             this.goalRestart = false;
             this.ballWH = this.height / 25;
             this.ballX = this.width / 2;
@@ -213,8 +218,8 @@ class Ball
             this.ballX += this.ballSpeed;
         else
             this.ballX -= this.ballSpeed;
-        if (this.ballSpeed < 2)
-            this.ballSpeed += 0.2;
+        //if (this.ballSpeed < 2)
+        //    this.ballSpeed += 0.2;
     }
 
     calculateLeftBallRebound(data : GameContainer)
@@ -256,9 +261,9 @@ class Ball
             this.ballX += this.ballSpeed;
         else
             this.ballX -= this.ballSpeed;
-        console.log(this.ballSpeed)
-        if (this.ballSpeed < 2)
-            this.ballSpeed += 0.2;
+        //console.log(this.ballSpeed)
+        //if (this.ballSpeed < 2)
+        //    this.ballSpeed += 0.2;
     }
 
 }

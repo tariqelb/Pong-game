@@ -7,7 +7,6 @@ class GameContainer
 {  
     constructor()
     {
-        console.log("called again and again: __)");
         this.ball = new Ball();
     }
   

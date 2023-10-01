@@ -6,7 +6,6 @@ class GameContainer
 {  
     constructor()
     {
-        console.log("called again and again: __)");
         this.ball = new RecieveBallData();
         this.recvRacket = new SentRacketData();
         this.sentRacket = new  SentRacketData();

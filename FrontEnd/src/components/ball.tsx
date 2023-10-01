@@ -70,8 +70,6 @@ class Ball
                 this.ballX = this.game.leftRacket.racketW - 1;
             this.game.p5.circle(this.ballX, this.ballY, this.ballWH);
         } 
-        if (Number.isNaN(this.ballY))
-            console.log(1);
         if (this.ballFirstMove === false && this.game.rightRacket && this.game.leftRacket)
         {
             if ((this.ballDirection && this.ballX > this.game.p5.width - this.game.rightRacket.racketW  && (this.ballY < this.game.rightRacket.racketY || this.ballY > this.game.rightRacket.racketY + this.game.rightRacket.racketH))

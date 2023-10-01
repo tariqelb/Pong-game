@@ -23,7 +23,7 @@ class Racket
     racketSides : boolean;
 
     keyIsPress : boolean = false;
-    //mouseIsMoved : boolean = false;
+    mouseIsMoved : boolean = false;
 
     virtualBallX : number = 0;
     virtualBallY : number = 0;
@@ -67,7 +67,6 @@ class Racket
 
         if (this.keyIsPress === false)
         {
-            console.log("key false : ", this.game.p5.width);
             this.racketX = (this.game.p5.width) - (this.game.p5.width / 80); 
             this.racketW = (this.game.p5.width / 80); 
             this.racketH = (this.game.p5.height / 4);
@@ -118,13 +117,13 @@ class Racket
         this.racketX = (this.game.p5.width) - (this.game.p5.width / 80); 
         this.racketH = (this.game.p5.height / 4);
         this.racketW = (this.game.p5.width / 80);
-        if (this.racketY === -100)
+        if (this.mouseIsMoved === false)//(this.racketY === -100)
         { 
             this.racketY = (this.game.p5.height / 2) - this.racketH / 2;
             this.lastPositionOfRacketY = this.racketY;
             this.game.p5.rect(this.racketX, this.racketY , this.racketW,  this.racketH);
         }
-        else
+        else if (this.mouseIsMoved)
         {
             if (this.game.p5.height !== this.game.canvasResizedHeight || this.game.p5.width !== this.game.canvasResizedWidth)
             {
@@ -213,13 +212,12 @@ class Racket
             //this.racketInitialPositionIsready = 0;
         }
         this.drawAutomaticRacket();
-        console.log("racket direction : ", this.game.ball.ballDirection);
         if ((this.game.playerNumber === 1 && this.game.ball.ballDirection === true ) || (this.game.playerNumber === 2 && this.game.ball.ballDirection === false))
         {
             if (this.coordinateAlreadyGot === false && this.validCoordinate)
             {
                 this.coordinateAlreadyGot = true;
-                this.randomRebound = Math.floor(Math.random() * (this.racketH - this.edge)) + this.edge;
+                this.randomRebound = Math.floor(Math.random() * (this.racketH - (this.game.p5.height / 23))) + (this.game.p5.height / 23);
                 this.getCoordinates();
             }
             else if (this.coordinateAlreadyGot)
@@ -269,7 +267,6 @@ class Racket
 
     getCoordinates ()
     {
-        console.log(this.game.ball.ballDirection)
 
         while ((this.virtualBallX  > 0) && !this.game.ball.ballDirection)
         {
