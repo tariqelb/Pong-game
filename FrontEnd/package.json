@@ -16,10 +16,15 @@
     "@types/react-dom": "^18.2.7",
     "css-select": "^5.1.0",
     "decimal.js": "^10.4.3",
+    "howler": "^2.2.4",
+    "install": "^0.13.0",
     "nth-check": "^2.0.1",
+    "p5": "^1.8.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-p5": "^1.4.1",
     "react-scripts": "^5.0.1",
+    "resolve-url-loader": "^5.0.0",
     "socket.io-client": "^4.7.2",
     "svgo": "^2.8.0",
     "typescript": "^4.9.5",
@@ -55,6 +60,7 @@
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
     "@babel/preset-env": "^7.22.20",
     "@babel/preset-react": "^7.22.15",
-    "@babel/preset-typescript": "^7.22.15"
+    "@babel/preset-typescript": "^7.22.15",
+    "@types/howler": "^2.2.11"
   }
 }

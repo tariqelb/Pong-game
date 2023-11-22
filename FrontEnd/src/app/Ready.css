@@ -1,0 +1,312 @@
+.ReadyContainer
+{
+    position: relative;
+    display: inline-block;
+    width: 59vw;
+    height: 69vh;
+    z-index: 0;
+    font-size: 0;
+    /* background-color: rgb(48, 48, 151); */
+    background: radial-gradient(25.64% 75.76% at 50% 50%, #134371 0%, #09152B 97.4%);
+
+}
+
+.ReadyState
+{
+    position: absolute;
+    display: inline-block;
+    width: 59vw;
+    height: 15vh;
+    z-index: 2;
+    /* background-color: aqua; */
+}
+
+.ReadyVs
+{
+    position: absolute;
+    display: inline-block;
+    z-index: 2;
+    top: 15vh;
+    width: 59vw;
+    height: 20vh;
+    /* background-color: rgb(36, 103, 103); */
+}
+
+.ReadyCoins
+{
+    position: absolute;
+    display: inline-block;
+    z-index: 2;
+    top: 35vh;
+    width: 59vw;
+    height: 15vh;
+    /* background-color: rgb(72, 170, 170); */
+    font-size: 0;
+    text-align: center;
+}
+
+
+.ReadyState > p , .ReadyVs > p
+{
+    display: inline-block;
+    width: 59vw;
+    height: 15vh;
+    font-size: 6vh;
+    font-weight: bolder;
+    font-style: italic;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    text-align: center;
+    color: white; 
+    z-index: 4;
+}
+
+.ReadyState > p 
+{
+    padding-top: 3vh;
+    font-size: 5vmin;
+}
+
+.ReadyVs > p 
+{
+    padding-top: 13vh;
+    font-size: 5vmin;
+}
+
+.ReadyCoins > p 
+{
+    position: absolute;
+    width: 10vw;
+    height: 5vmin;
+    left: 25vw;
+    border-radius: 1vh;
+    text-align: center;
+    border: 0.1vh solid white;
+    font-size: 2.5vmin;
+    font-weight: bold;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    color: white; 
+    /* padding: auto auto; */
+    margin-top: 6vmin;
+}
+
+.ReadyFlashLight
+{
+    position: absolute;
+    z-index: 0;
+    top: 16vh;
+    left: 22vw;
+    width: 15vw;
+    height: 0.5vh;
+    border-radius: 50%;
+    background-color: rgb(225, 225, 225);
+    box-shadow: 0vh 0vw 0.7vh 0.6vh rgb(199, 199, 199);
+    text-align: center;
+}
+.ReadyFlashLight > p
+{
+    position: absolute;
+    top: -2.7vmin;
+    z-index: 1;
+    color: white;
+    font-size: 6vmin;
+    font-weight: bolder;
+    font-style: italic;
+    font-family: 'Courier New', Courier, monospace;
+    /* margin-bottom: 2vh; */
+}
+
+.ReadyPlayer1
+{
+    position: absolute;
+    display: inline-block;
+    z-index: 5;
+    top: 10vh;
+    left: 5.5vw;
+    width: 16vw;
+    height: 59vh;
+    background-color: #1f70b7;
+
+    transform: skew(5deg);
+}
+
+.ReadyPlyInside1
+{
+    display: inline-block;
+    width: 15vw;
+    height: 54vh;
+    margin: 4vh 0.5vw;
+    background-color: rgba(0, 0, 0, 0.3); 
+}
+
+.ReadyAvatarR1Cover
+{
+    display: inline-block;
+    width: 9vw;
+    height: 10vw;
+    background-color: rgb(10, 36, 59) ;
+    clip-path    : polygon(0% 25%, 0% 75%, 50% 100%, 100% 75%, 100% 25%, 50% 0%);
+    padding: 0.5vw 0.5vw;
+    margin-left: 3vw;
+    margin-top: 10vh;
+    transform: skew(-5deg);
+}
+
+.ReadyAvatarR1
+{
+    display: inline-block;
+    width: 8vw;
+    height: 9vw;
+    background-color: #134371;
+    background-image: url('../../public/question-mark.jpeg');
+    background-size: 8vw 9vw;
+    clip-path    : polygon(0% 25%, 0% 75%, 50% 100%, 100% 75%, 100% 25%, 50% 0%);
+}
+
+.ReadyPlayer2
+{
+    position: absolute;
+    display: inline-block;
+    z-index: 5;
+    left : 37.5vw;
+    top: 10vh;
+    width: 16vw;
+    height: 59vh;
+    background-color:  #DA989E;
+    font-size: 0;
+    transform: skew(-5deg);
+}
+
+.ReadyPlyInside2
+{
+    display: inline-block;
+    width: 15vw;
+    height: 54vh;
+    margin: 4vh 0.5vw;
+    background-color: rgba(0, 0, 0, 0.3); 
+}
+
+.ReadyAvatarR2Cover
+{
+    display: inline-block;
+    width: 9vw;
+    height: 10vw;
+    background-color: rgb(94, 59, 63)  ;
+    clip-path    : polygon(0% 25%, 0% 75%, 50% 100%, 100% 75%, 100% 25%, 50% 0%);
+    padding: 0.5vw 0.5vw;
+    margin-left: 3vw;
+    margin-top: 10vh;
+    transform: skew(5deg);
+}
+
+.ReadyAvatarR2
+{
+    display: inline-block;
+    width: 8vw;
+    height: 9vw;
+    background-image: url('../../public/question-mark.jpeg');
+    background-size: 8vw 9vw;
+    clip-path    : polygon(0% 25%, 0% 75%, 50% 100%, 100% 75%, 100% 25%, 50% 0%);
+}
+
+.ReadyPlayerName2 , .ReadyPlayerName1
+{
+    display: inline-block;
+    width: 15vw;
+    height: 3vh;
+    font-size: 0;
+    margin: 2.5vh 0vw;
+    text-align: center; 
+}
+
+.ReadyPlayerName2 > p , .ReadyPlayerName1 > p
+{
+    display: inline-block;
+    font-size: 2vmin;
+    color: white;
+    vertical-align: top; 
+    font-weight: bold;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+.ReadyDiposit1 , .ReadyDiposit2
+{
+    display: inline-block;
+    width: 7vw;
+    height: 5vmin;
+    border-radius: 1vh;
+    font-size: 0;
+    background-color: #1f70b7;
+    margin: 2.5vh 4vw;   
+    border: 0.1vh solid white;
+    border-radius: 1vh;
+    text-align: center;
+}
+
+.ReadyDiposit1 > p , .ReadyDiposit2 > p
+{
+    display: inline-block;
+    width: 7vw;
+    height: 5vmin;
+    font-size: 1.5vw;
+    color: white;
+    font-weight: bold;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+
+}
+
+/*
+@media screen and (max-height : 450px) 
+{
+    .avatarR1 , .avatarR2
+    {
+        width: 5vw;
+        height: 6vw;
+        background-size: 5vw 6vw;
+    }
+
+    .avatarR2Cover , .avatarR1Cover 
+    {
+        width: 6vw;
+        height: 7vw;
+        padding: 0.5vw 0.5vw;
+        margin-left: 4.5vw;
+        margin-top: 5vh;
+    }
+    
+    .playerName1 ,  .playerName2
+    {
+        height: 6vh;
+    }
+    
+    .playerName1 > p  ,  .playerName2 > p 
+    {
+        height: 6vh;
+        font-size: 3.5vh;
+    }
+
+    .diposite1 , .diposite2
+    {
+        height: 7vh;
+    }
+
+    .diposite1 > p , .diposite2 > p 
+    {
+        height: 7vh;
+        font-size: 3.5vh;
+    }
+}
+*/
+
+#ReadyAvatar1 , #ReadyAvatar2
+{
+    width: 8vw;
+    height: 9vw;
+}
+
+@media (max-width : 400px)
+{
+    .ReadyPlayer1 , .ReadyPlayer2, .ReadyAvatarR2Cover, .ReadyAvatarR1Cover 
+    {
+        transform: skew(0deg);
+    }
+}

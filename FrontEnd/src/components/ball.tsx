@@ -22,6 +22,7 @@ class Ball
     
     drawAndMove()
     {
+        console.log("drw ball")
         this.ballSpeed = this.game.p5.width / 120;
         if (this.ballFirst50Time < 50)
         {
@@ -75,11 +76,11 @@ class Ball
             if ((this.ballDirection && this.ballX > this.game.p5.width - this.game.rightRacket.racketW  && (this.ballY < this.game.rightRacket.racketY || this.ballY > this.game.rightRacket.racketY + this.game.rightRacket.racketH))
                 || (!this.ballDirection && this.ballX < this.game.leftRacket.racketW && (this.ballY < this.game.leftRacket.racketY || this.ballY > this.game.leftRacket.racketY + this.game.leftRacket.racketH)))
             {
-                console.log("You lose ==================== : ");
-                if ((!this.ballDirection && this.ballX < this.game.leftRacket.racketW && (this.ballY < this.game.leftRacket.racketY || this.ballY > this.game.leftRacket.racketY + this.game.leftRacket.racketH)))
-                    this.game.rightPlayerGoals++;
-                else
-                    this.game.leftPlayerGoals++;
+                // console.log("You lose ==================== : ");
+                // if ((!this.ballDirection && this.ballX < this.game.leftRacket.racketW && (this.ballY < this.game.leftRacket.racketY || this.ballY > this.game.leftRacket.racketY + this.game.leftRacket.racketH)))
+                //     this.game.rightPlayerGoals++;
+                // else
+                //     this.game.leftPlayerGoals++;
                 //if (animationData.animOne === false)
                // animationData.animOne = false;
                // animationData.player = undefined;

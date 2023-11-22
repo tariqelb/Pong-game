@@ -1,0 +1,181 @@
+.ModeContainer
+{
+    background-color: rgb(14, 24, 33);
+    display: inline-block;
+    width: 59vw;
+    height: 69vh;
+    font-size: 0;
+}
+
+.ModeTitle
+{
+    display:inline-block;
+    width: 59vw;
+    height: 10vh;
+    font-size: 0;
+}
+.ModeTitle > p
+{
+    width: 59vw;
+    height: 5vh;
+    font-size: 4.5vmin;
+    font-weight: bolder;
+    color: lightgray;
+    text-align: center;
+    margin: 2.5vh 0vw;
+}
+
+.ModeHint
+{
+    display:inline-block;
+    width: 59vw;
+    height: 10vh;
+    font-size: 0vh;
+}
+
+.ModeHint > p
+{
+    width: 59vw;
+    height: 5vh;
+    font-size: 3.2vmin;
+    margin: 2.5vh 0;
+    text-align: center;
+    color: white;
+    font-weight: bold;
+}
+
+.Modes
+{
+    width: 59vw;
+    height: 35vh;
+    display: inline-block;
+}
+
+.ModeSubContainer
+{
+    width: 48vw;
+    height: 24vh;
+    border: 0.5vh solid gray;
+    border-radius: 1vh;
+    margin: 5vh 5.5vw;
+    display: flex;
+    flex-direction: row;
+    /* flex-wrap: wrap; */
+    justify-content: space-around;
+    background-color: rgb(28, 35, 42);
+}
+
+.mode1
+{
+    width: 13vw;
+    height: 18vh;
+    font-size: 0;
+    margin: 2vh 1vw;
+    border-radius: 1vh;
+}
+.mode2
+{
+    width: 13vw;
+    height: 18vh;
+    font-size: 0;
+    margin: 2vh 1vw;
+    border-radius: 1vh;
+}
+.mode3
+{
+    width: 13vw;
+    height: 18vh;
+    font-size: 0;
+    margin: 2vh 1vw;
+    border-radius: 1vh;
+}
+
+.ModeImg
+{
+    width: 12vw;
+    height: 11vh;
+    background-color: #3c5c99;
+    margin: 1vh 0.5vw;
+    border: 0.1vmin solid gray;
+}
+
+.modeName
+{
+    width: 13vw;
+    height: 5vh;
+    font-size: 0;
+}
+
+.modeName > p
+{
+    width: 13vw;
+    height: 5vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 3vmin;
+    color: gray;
+}
+
+.i1
+{
+    /* background: radial-gradient(25.64% 75.76% at 50% 50%, #134371 0%, #09152B 97.4%); */
+    background-image: url('../../public/BackgroundImages/background_image1.jpg') ;
+    background-size: 12vw 11vh;
+}
+.i2
+{
+    background-image: url('../../public/BackgroundImages/background_image2.jpg') ;
+    background-size: 12vw 11vh;
+}
+
+.i3
+{
+    background-image: url('../../public/BackgroundImages/background_image3.jpg') ;
+    background-size: 12vw 11vh;
+}
+
+.ModeConfirm
+{
+    display:inline-block;
+    width: 59vw;
+    height: 14vh;
+    text-align: center;
+    font-size: 0;
+}
+
+.ModeConfirm > button
+{
+    width: 19vmin;
+    height: 5vh;
+    cursor: pointer;
+    background-color: lightgray;
+    border-radius: 1vh;
+    font-size: 2vmin;
+    border: none;
+}
+
+button:hover
+{
+    background-color: #3c5c99;
+}
+
+.mode1:hover > .modeName > p , .mode2:hover > .modeName > p , .mode3:hover > .modeName > p
+{
+    color: white;
+}
+
+.hoverMode1  , .hoverMode2, .hoverMode3
+{
+    background-color:rgb(76, 82, 88);
+    cursor: pointer; 
+}
+/* @media all and (orientation: portrait) {
+    body {
+        -webkit-transform: rotate(90deg); 
+        -moz-transform: rotate(90deg); 
+        -ms-transform: rotate(90deg); 
+        -o-transform: rotate(90deg); 
+        transform: rotate(90deg); 
+    }
+} */

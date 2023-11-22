@@ -1,5 +1,6 @@
 import RecieveBallData from "./RecieveBallData";
 import SentRacketData from "./SentRacketData";
+import SentRobotRacket from "./SentRobotRacket";
 
 
 class GameContainer 
@@ -9,6 +10,7 @@ class GameContainer
         this.ball = new RecieveBallData();
         this.recvRacket = new SentRacketData();
         this.sentRacket = new  SentRacketData();
+        this.robotRacket = new SentRobotRacket();
     }
   
   init : boolean = false;
@@ -20,6 +22,9 @@ class GameContainer
   ball : RecieveBallData;
   recvRacket : SentRacketData;
   sentRacket : SentRacketData;
+  robotRacket : SentRobotRacket;
+  leftPlayerGoals : number = 0;
+  rightPlayerGoals : number = 0;
 }
 export default GameContainer;
 /*

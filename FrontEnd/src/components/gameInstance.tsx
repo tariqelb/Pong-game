@@ -18,7 +18,7 @@ class Game
     p5 : p5Types ;
     cnv : p5Types.Renderer | null = null;
     canvasPranetDiv : p5Types.Element | null = null;
-    gameBordersPixel : number = 15;
+    gameBordersPixel : number = 100;
     canvasResizedWidth : number;
     canvasResizedHeight : number;
     leftRacket : Racket;
@@ -26,8 +26,6 @@ class Game
     modeOfLeftRacket : boolean | undefined = undefined;
     modeOfRightRacket : boolean | undefined = undefined;
     ball : Ball;
-    leftPlayerGoals : number = 0;
-    rightPlayerGoals : number = 0;
     goalRestart : boolean = false;
     playerNumber : number = 0;
 

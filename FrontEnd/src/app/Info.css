@@ -1,0 +1,702 @@
+
+.playersInfo 
+{
+    position: relative; 
+    display: inline-block;
+    width: 59vw;
+    height: 18vh;
+    padding: 0;
+    margin: 0;
+    font-size: 0;
+}
+/* The start first container css */
+
+.container0
+{
+    position: absolute;
+    display: inline-block;
+    z-index: 3; 
+    width: 59vw;
+    height: 18vh;
+    padding: 0;
+    margin: 0;
+    opacity: 1;
+    font-size: 0;
+    transition: opacity 1.5s;    
+    /* background-image: url("../../public/backgroundpng.png"); */
+    /* background-size: 59vw 18vh; */
+    
+}
+
+.hideContainer0
+{
+    z-index: 0;
+    opacity: 0;
+    transition: opacity 1.5s;    
+}
+
+.head0
+{
+    position: absolute;
+    display: inline-block;
+    width: 59vw;
+    height: 2vmin; 
+    background: linear-gradient(to bottom, #007e7e, #008B8B);
+    border-bottom-right-radius: 4vh;
+    border-bottom-left-radius: 4vh;
+    font-size: 0;
+}
+
+
+
+.middle0
+{
+    position: absolute;
+    display: inline-block;
+    top : 2vmin;
+    width: 59vw;
+    height: 12vmin;
+    border-bottom-left-radius: 20vh 15vh;
+    border-bottom-right-radius: 20vh 15vh;
+    background: linear-gradient(to bottom, #008B8B,#08b0b0);
+    margin: 0;
+}
+
+.playersContainer 
+{
+    display: inline-block;
+    width: 16vw;
+    height: 12vmin;
+    font-size: 0;
+    background: linear-gradient(to bottom, #008B8B,#08b0b0);
+}
+.infoPlayers
+{
+    display: inline-block;
+    width: 16vw;
+    height: 10vmin;
+    font-size: 0;
+}
+
+
+.infoFooter0
+{
+    display: inline-block;
+    width: 16vw;
+    height: 2vmin;
+    background-color: rgb(189, 235, 246);
+}
+
+.leftFooter0
+{
+    border-bottom-left-radius: 8vh;
+    display: inline-block;
+    width: 8vw;
+    height: 2vmin;
+    /* background: linear-gradient(to bottom, #02b0b0, #02b0b1); */
+    background:#07a9a9;
+}
+
+.rightFooter0
+{
+    display: inline-block;
+    width: 8vw;
+    height: 2vmin;
+    border-bottom-right-radius: 8vh;
+    /* background: linear-gradient(to bottom, #02b0b0, #02b0b1); */
+    background:#07a9a9;
+
+}
+
+.leftCurve
+{
+    display: inline-block;
+    vertical-align: top;
+    width: 21.5vw;
+    height: 12vmin;
+    background-color: rgb(55, 98, 109);
+    background-color: rgb(189, 235, 246);
+    border-top-right-radius: 15vw 18vh;
+}
+
+.rightCurve
+{
+    display: inline-block;
+    vertical-align: top;
+    width: 21.5vw;
+    height: 12vmin;
+    background-color: rgb(55, 98, 109);
+    background-color: rgb(189, 235, 246);
+    border-top-left-radius: 15vw 18vh ;
+}
+.leftCurve > p
+{
+    height: 12vmin;
+    text-align: center;
+    padding: 3vmin 3vw;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-size: 4vw;
+    font-weight: bold;
+    font-style: italic;
+    color: #02b0b1;
+}
+.rightCurve > p
+{
+    height: 12vmin;
+    text-align: center;
+    padding: 3vmin 3vh;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-size: 4vw;
+    font-weight: bold;
+    font-style: italic;
+    color: #02b0b1;
+}
+.infoVs 
+{
+    display: inline-block;
+    width: 2vw;
+    height: 10vmin;
+    vertical-align: top;
+    text-align: center;
+    /* background: linear-gradient(to bottom, #007e7e, #008B8B); */
+}
+
+.infoVs > p
+{
+    width: 2vw;
+    height: 10vmin;
+    padding: 3vmin 0vmin;
+    font-size: 2vmin;
+    text-align: center;
+    font-style: italic;
+    color: aqua;
+    /* background-color: #1d5395; */
+}
+
+.infoPlayer01
+{
+    display: inline-block;
+    width: 7vw;
+    height: 10vmin;
+    text-align: center;
+    /* background-color: blueviolet; */
+    padding-top: 1vmin;
+}
+
+.hoverExpand1
+{
+    display: inline-block;
+    width: 5.6vw;
+    height: 7.6vmin;
+    padding: 0.3vmin 0.3vw;
+    cursor: pointer;
+    clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+    background-color:rgb(41, 61, 69);
+}
+
+.infoAvatar01
+{
+    display: inline-block;
+    width: 5vw;
+    height: 7vmin;
+    clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+    background-size: 6vw 8vmin;
+    background-image: url(../../public/question-mark.jpeg);
+}
+
+#infoAvatar01
+{
+    width: 5vw;
+    height: 7vmin;
+    font-size: 0;
+    display: inline-block;
+    vertical-align: bottom;
+}
+
+.infoPlayer02
+{
+    display: inline-block;
+    width: 7vw;
+    height: 10vmin;
+    text-align: center;
+    font-size: 0;
+    padding-top: 1vmin;
+}
+
+.hoverExpand2
+{
+    display: inline-block;
+    width: 5.6vw;
+    height: 7.6vmin;
+    padding: 0.3vmin 0.3vw;
+    cursor: pointer;
+    clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+    background-color:rgb(41, 61, 69);
+}
+
+.infoAvatar02
+{
+    display: inline-block;
+    width: 5vw;
+    height: 7vmin;
+    clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+    background-size: 6vw 8vmin;
+    background-image: url(../../public/question-mark.jpeg);
+}
+
+#infoAvatar02
+{
+    width: 5vw;
+    height: 7vmin;
+    font-size: 0;
+    display: inline-block;
+    vertical-align: bottom;
+}
+/* The end of first container css */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* The start of second container css */
+
+.container1
+{
+    position: absolute;
+    display: inline-block;
+    z-index: 2; 
+    width: 59vw;
+    height: 18vh;
+    padding: 0;
+    margin: 0;
+    font-size: 0;
+    opacity: 0;
+    transition: opacity 1.5s;    
+}
+
+.displayContainer1
+{
+    z-index: 3;
+    opacity: 1;
+    transition: opacity 1.5s;    
+}
+
+.head1
+{
+    position: absolute;
+    display: inline-block;
+    width: 59vw;
+    height: 2vmin; 
+    font-size: 0;
+    background: linear-gradient(to bottom, #007e7e, #008B8B);
+    border-bottom-right-radius: 4vh;
+    border-bottom-left-radius: 4vh;
+}
+
+
+.playerShadow
+{
+    display: inline-block;
+    width: 28vw;
+    height: 2vmin;
+    opacity: 1;
+    margin-left: 15.5vw;
+    margin-right: 15.5vw;
+    background-color: rgba(0, 0, 0, 0.4); 
+    transition: opacity 1.5s;
+}
+
+
+.middle1
+{
+    position: absolute;
+    display: inline-block;
+    top : 2vmin;
+    width: 59vw;
+    height: 12vmin;
+    margin: 0;
+    border-bottom-left-radius: 20vh 15vh;
+    border-bottom-right-radius: 20vh 15vh;
+    background: linear-gradient(to bottom, #008B8B, #02b0b0);
+}
+
+.player1Container 
+{
+    display: inline-block;
+    width: 30vw;
+    height: 12vmin;
+    font-size: 0;
+    /* background-color: blue; */
+}
+
+.info1
+{
+    display: inline-block;
+    width: 28vw;
+    height: 10vmin;
+    margin: 0vh 1vw;
+    border-bottom-left-radius: 3vmin;
+    border-bottom-right-radius: 3vmin;
+    background-color: rgba(0, 0, 0, 0.3); 
+}
+
+.leftCurvePlayer1
+{
+    display: inline-block;
+    vertical-align: top;
+    width: 14.5vw;
+    height: 12vmin;
+    border-top-right-radius: 10vw 18vh;
+    background-color: rgb(189, 235, 246);
+
+}
+
+.leftCurvePlayer1 > p
+{
+    height: 12vh;
+    text-align: center;
+    padding: 3vmin 3vw;
+    font-size: 4vw;
+    font-weight: bold;
+    font-style: italic;
+    color: #02b0b1;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+.rightCurvePlayer1
+{
+    display: inline-block;
+    vertical-align: top;
+    width: 14.5vw;
+    height: 12vmin;
+    border-top-left-radius: 10vw 18vh ;
+    background-color: rgb(189, 235, 246);
+
+}
+
+.rightCurvePlayer1 > p
+{
+    height: 12vh;
+    text-align: center;
+    padding: 3vmin 3vh;
+    font-size: 4vw;
+    font-weight: bold;
+    font-style: italic;
+    color: #02b0b1;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+.player1InfoFooter
+{
+    display: inline-block;
+    width: 30vw;
+    height: 2vmin;
+    background-color: rgb(189, 235, 246);
+}
+
+.player1LeftFooter
+{
+    display: inline-block;
+    width: 15vw;
+    height: 2vmin;
+    border-bottom-left-radius: 50%;
+    border-bottom-left-radius: 8vh;
+    background: linear-gradient(to bottom, #02b0b0, #02b0b1);
+}
+
+.player1RightFooter
+{
+    display: inline-block;
+    width: 15vw;
+    height: 2vmin;
+    border-bottom-right-radius: 50%;
+    border-bottom-right-radius: 8vh;
+    background: linear-gradient(to bottom, #02b0b0, #02b0b1);
+
+}
+
+.avatar1Border
+{
+    display: inline-block;
+    width: 5.6vw;
+    height: 8.6vmin;
+    margin: 0.5vmin 0.5vmin;
+    cursor: pointer;
+    padding: 0.3vmin 0.3vw;
+    clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+    background-color:rgb(41, 61, 69);
+    font-size: 0;
+    vertical-align: top;
+}
+
+.info1Avatar1
+{
+    display: inline-block;
+    width: 5vw;
+    height: 8vmin;
+    cursor: pointer;
+    clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+    background-size: 5vw 8vmin;
+    background-image: url(../../public/question-mark.jpeg);
+}
+
+
+
+/* The end of second container css */
+
+
+
+.team
+{
+    display: inline-block;
+    width: 3vw;
+    height: 8vmin;
+    margin: 1vmin 0.5vw;
+    background-color: aliceblue;
+    background-image: url(../../public/HxhLogo.png);
+    background-size: 3vw 8vmin;
+    border-bottom-left-radius: 3vmin;
+    border-bottom-right-radius: 3vmin;
+}
+
+.achievement
+{
+    display: inline-block;
+    vertical-align: top;
+    width: 17vw;
+    height: 8vmin;
+    margin: 1vmin 0vw;
+}
+
+.userName
+{
+    display: inline-block;
+    width: 17vw;
+    height: 2vmin;
+    margin-bottom: 0.5vmin;
+}
+
+.userName > p
+{
+    display: inline-block;
+    width: 17vw;
+    height: 2vmin;
+    color: rgb(175, 240, 240);
+    font-size: 2vmin;
+    font-family: 'Courier New', Courier, monospace;
+    text-align: center;
+}
+
+.shields
+{
+    display: flex;
+    width: 17vw;
+    height: 5.5vmin;
+    justify-content: space-around;
+    flex-direction: row;
+    flex-wrap: wrap; 
+    padding: 0.2vmin 0.2vmin;
+    /* background-color: blueviolet; */
+}
+
+.shld
+{
+    width: 5vw;
+    height: 2vmin;
+    background-color: #b5b2cd ;
+    border-radius: 0.5vmin;
+    font-size: 1vmin;
+    padding: 0vh 0.2vmin;
+    /* margin: 0vh 0.5vmin; */
+}
+
+
+/* The start of third container css */
+
+.container2
+{
+    
+    position: absolute;
+    display: inline-block;
+    opacity: 0;
+    z-index: 2; 
+    width: 59vw;
+    height: 18vh;
+    padding: 0;
+    margin: 0;
+    font-size: 0;
+    transition: opacity 1.5s;    
+}
+
+
+.displayContainer2
+{
+    z-index: 3;
+    opacity: 1;
+    transition: opacity 1.5s;    
+}
+
+.middle2
+{
+    position: absolute;
+    display: inline-block;
+    top : 2vmin;
+    width: 59vw;
+    height: 12vmin;
+    margin: 0;
+    border-bottom-left-radius: 20vh 15vh;
+    border-bottom-right-radius: 20vh 15vh;
+    background: linear-gradient(to bottom, #008B8B, #02b0b0);
+}
+
+
+
+.player2Container 
+{
+    display: inline-block;
+    width: 30vw;
+    height: 12vh;
+    font-size: 0;
+}
+
+.info2
+{
+    display: inline-block;
+    width: 28vw;
+    height: 10vmin;
+    border-bottom-left-radius: 3vmin;
+    border-bottom-right-radius: 3vmin;
+    background-color: rgba(0, 0, 0, 0.3); 
+    font-size: 0;
+    margin: 0vh 1vw;
+}
+
+.leftCurvePlayer2
+{
+    display: inline-block;
+    vertical-align: top;
+    width: 14.5vw;
+    height: 12vmin;
+    border-top-right-radius: 10vw 18vh;
+    background-color: rgb(189, 235, 246);
+
+}
+.leftCurvePlayer2 > p
+{
+    height: 12vmin;
+    text-align: center;
+    padding: 3vmin 3vw;
+    font-size: 4vw;
+    font-weight: bold;
+    font-style: italic;
+    color: #02b0b1;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+.rightCurvePlayer2
+{
+    display: inline-block;
+    vertical-align: top;
+    width: 14.5vw;
+    height: 12vmin;
+    border-top-left-radius: 10vw 18vh ;
+    background-color: rgb(189, 235, 246);
+
+}
+.rightCurvePlayer2 > p
+{
+    /* width: 15vw; */
+    height: 12vmin;
+    text-align: center;
+    padding: 3vmin 3vh;
+    font-size: 4vw;
+    font-weight: bold;
+    font-style: italic;
+    color: #02b0b1;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+.player2InfoFooter
+{
+    display: inline-block;
+    width: 30vw;
+    height: 2vmin;
+    background-color: rgb(189, 235, 246);
+}
+
+.player2LeftFooter
+{
+    display: inline-block;
+    width: 15vw;
+    height: 2vmin;
+    border-bottom-left-radius: 8vh;
+    background: linear-gradient(to bottom, #02b0b0, #02b0b1);
+}
+
+.player2RightFooter
+{
+    display: inline-block;
+    width: 15vw;
+    height: 2vmin;
+    border-bottom-right-radius: 8vh;
+    background: linear-gradient(to bottom, #02b0b0, #02b0b1);
+
+}
+
+
+.info2Avatar2
+{
+    display: inline-block;
+    width: 5vw;
+    height: 8vmin;
+    cursor: pointer;
+    clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+    background-size: 5vw 8vmin;
+    background-image: url(../../public/question-mark.jpeg);
+}
+
+
+
+.avatar2Border
+{
+    display: inline-block;
+    width: 5.6vw;
+    height: 8.6vmin;
+    margin: 0.5vmin 0.5vmin;
+    cursor: pointer;
+    padding: 0.3vmin 0.3vw;
+    clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+    background-color:rgb(41, 61, 69);
+    font-size: 0;
+    vertical-align: top;
+}
+#infoAvatar1, #infoAvatar2
+{
+    width: 5vw;
+    height: 8vmin;
+}
+
+
+
+
+
+
+
+
+
+

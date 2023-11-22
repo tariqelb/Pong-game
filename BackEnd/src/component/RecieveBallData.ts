@@ -9,6 +9,7 @@ class RecieveBallData
     ballSpeed : number = 0;
     goalRestart : boolean = false;
     ballAngle : number = 0;
-
+    leftPlayerGoal : number = 0;
+    rightPlayerGoal : number = 0;
 }
 export default RecieveBallData;

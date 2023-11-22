@@ -10,6 +10,7 @@
 .menu {
   width: 100vw;
   height: 15vh;
+  background-color: antiquewhite;
 }
 
 .center {
@@ -24,37 +25,53 @@
 .footer {
   width: 100vw;
   height: 15vh;
+  background-color: rgb(5, 108, 86);
 }
 
 .chat {
   width: 20vw;
   height: 70vh;
   z-index: 1;
-  ;
+  background-color: burlywood;
 }
 .space {
   width: 20vw;
   height: 70vh;
   z-index: 1;
+  background-color: rgb(185, 185, 151);
 }
 
 .template {
   width: 60vw;
   height: 70vh;
-  z-index: 1;
+  background-color: rgb(189, 235, 246);
+  padding: 0.5vw;
 }
 
-.info {
-  width: 60vw;
-  height: 10vh;
-  z-index: 2;
-}
 .game {
   width: 60vw;
-  height: 30vw;
-  z-index: 2;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  height: 70vw;
+  /* display: flex; */
+  /* justify-content: center; */
+  /* align-items: center; */
+  display: block;
   background-color: red ;
+}
+/* Mobile styles */
+@media (max-width: 768px ) {
+  /* Styles for screens up to 768 pixels wide (typical for mobile) */
+}
+/* @media (orientation : profile)
+{
+    
+} */
+
+/* Tablet styles */
+@media (min-width: 769px) and (max-width: 1024px) {
+  /* Styles for screens between 769 and 1024 pixels wide (typical for tablets) */
+}
+
+/* Desktop styles */
+@media (min-width: 1025px) {
+  /* Styles for screens wider than 1024 pixels (typical for desktops) */
 }

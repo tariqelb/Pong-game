@@ -1,0 +1,134 @@
+.DepositContainer
+{
+    background-color: rgb(14, 24, 33);
+    display: inline-block;
+    width: 59vw;
+    height: 69vh;
+    font-size: 0;
+}
+
+.DepositTitle
+{
+    display:inline-block;
+    width: 59vw;
+    height: 10vh;
+    font-size: 0;
+}
+.DepositeTitle > p
+{
+    width: 59vw;
+    height: 5vh;
+    font-size: 4vmin;
+    font-weight: bolder;
+    color: lightgray;
+    text-align: center;
+    margin: 2.5vh 0vw;
+}
+
+.DepositHint
+{
+    display:inline-block;
+    width: 59vw;
+    height: 10vh;
+    font-size: 0vh;
+}
+
+.DepositHint > p
+{
+    width: 59vw;
+    height: 5vh;
+    font-size: 2.5vmin;
+    margin: 2.5vh 0;
+    text-align: center;
+    color: white;
+    font-weight: bold;
+}
+
+.Deposits
+{
+    width: 53vw;
+    height: 17vh;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    /* padding: 4vh 3vw; */
+    margin: 4vh 3vw;
+    border: 0.5vh solid gray;
+    border-radius: 1vh;
+    background-color: rgb(76, 76, 87);
+}
+
+.wagers
+{
+    display: inline-block;
+    width: 8vw;
+    height: 5vh;
+    font-size: 0;
+    border-radius: 1vh;
+    margin: 1.5vh 0.5vw;
+    background-color: rgb(31, 39, 46);
+    font-size: 0;
+    text-align: center;
+}
+
+.wagers > p
+{
+    width: 8vw;
+    height: 5vh;
+    font-size: 2vmin;
+    border-radius: 1vh;
+    border: 2px solid black;
+    /* padding: 1vmin 0; */
+    font-weight: bold;
+    color: yellow;
+    /* background-color: #3c5c99; */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+.DepositConfirm
+{
+    display:inline-block;
+    width: 59vw;
+    height: 14vh;
+    font-size: 0;
+    text-align: center;
+}
+
+.DepositConfirm > button
+{
+    width: 19vw;
+    height: 5vh;
+    cursor: pointer;
+    background-color: lightgray;
+    border-radius: 1vh;
+    font-size: 2vmin;
+    border: none;
+}
+
+.wagers:hover > p
+{
+   color: white;
+}
+
+.hoverWager
+{
+    background-color:rgb(105, 110, 115);
+}
+
+button:hover
+{
+    background-color: #3c5c99;
+}
+/* @media all and (orientation: portrait) {
+    body {
+        -webkit-transform: rotate(90deg); 
+        -moz-transform: rotate(90deg); 
+        -ms-transform: rotate(90deg); 
+        -o-transform: rotate(90deg); 
+        transform: rotate(90deg); 
+    }
+} */

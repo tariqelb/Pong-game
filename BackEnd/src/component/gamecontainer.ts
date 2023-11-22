@@ -23,5 +23,7 @@ class GameContainer
   rRacketH : number = 0;
   rRacketW : number = 0;
   rLastPosY : number = 0;
+  leftPlayerGoal : number = 0;
+  rightPlayerGoal : number = 0;
 }
 export default GameContainer;

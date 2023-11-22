@@ -1,5 +1,6 @@
 {
   "dependencies": {
-    "create-next-app": "^13.4.19"
+    "create-next-app": "^13.4.19",
+    "howler": "^2.2.4"
   }
 }
