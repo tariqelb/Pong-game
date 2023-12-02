@@ -1,5 +1,4 @@
 import Game from './gameInstance'
-import GameContainer from './gamecontainer';
 
 class Racket
 {
@@ -38,16 +37,17 @@ class Racket
     edge : number = 10;
     steps : number = 0;
     validCoordinate : boolean = true;
+    racketFreezed : boolean = false;
 
     drawKeyBoardInitRacket()
     {
+        console.log("racket ", this.game.playerNumber)
         if (this.game.playerNumber === 1)
             this.game.p5.fill('blue')
         else
             this.game.p5.fill('green')
-        if (this.game.playerNumber === 3 )
-            this.racketX = 0; 
-        else
+        this.racketX = 0; 
+        if (this.game.playerNumber !== 3 )
             this.racketX = (this.game.p5.width) - (this.game.p5.width / 80); 
         this.racketH = (this.game.p5.height / 4);
         this.racketW = (this.game.p5.width / 80); 
@@ -57,7 +57,7 @@ class Racket
         this.startOfSimulation = false;
         this.lastPositionOfRacketY = this.racketY;
         if (this.racketSpeed === 0)
-            this.racketSpeed = this.game.p5.height / 40;
+            this.racketSpeed = this.game.p5.height / 80;
         this.game.p5.fill('white');
     }
 
@@ -78,7 +78,7 @@ class Racket
             this.keyIsPress = true;
             this.game.p5.rect(this.racketX, this.racketY , this.racketW,  this.racketH);
             if (this.racketSpeed === 0)
-                this.racketSpeed = this.game.p5.height / 40;
+                this.racketSpeed = this.game.p5.height / 80;
         }
         if (this.game.p5.height !== this.game.canvasResizedHeight || this.game.p5.width !== this.game.canvasResizedWidth)
         {
@@ -89,7 +89,7 @@ class Racket
             this.game.canvasResizedHeight = this.game.p5.height;
             this.game.canvasResizedWidth = this.game.p5.width;  
         }
-        if (this.game.p5.keyIsPressed && (this.game.p5.keyCode === 40 || this.game.p5.keyCode === 38))
+        if (this.racketFreezed === false && this.game.p5.keyIsPressed && (this.game.p5.keyCode === 40 || this.game.p5.keyCode === 38))
         {
             
             if ((this.game.p5.keyCode === 40 || this.game.p5.keyCode === 38))
@@ -128,7 +128,7 @@ class Racket
         }
         else if (this.mouseIsMoved)
         {
-            if (this.game.p5.height !== this.game.canvasResizedHeight || this.game.p5.width !== this.game.canvasResizedWidth)
+            if (this.racketFreezed === false && ((this.game.p5.height !== this.game.canvasResizedHeight) || (this.game.p5.width !== this.game.canvasResizedWidth)))
             {
                 this.racketH = (this.game.p5.height / 4);
                 this.racketW = (this.game.p5.width / 80); 
@@ -138,7 +138,7 @@ class Racket
                 this.game.canvasResizedWidth = this.game.p5.width; 
             }
             let mY = this.game.p5.constrain(this.game.p5.mouseY, 0, this.game.p5.height - this.racketH);//mY is mouse Y coordinate after constrain
-            if (this.game.p5.mouseX > 0 && this.game.p5.mouseX < this.game.p5.width)
+            if (this.racketFreezed === false && this.game.p5.mouseX > 0 && this.game.p5.mouseX < this.game.p5.width)
             {
                 if (this.lastPositionOfRacketY === this.game.p5.height - this.racketH && mY === 0)
                     this.racketY = this.lastPositionOfRacketY;
@@ -177,7 +177,7 @@ class Racket
                 this.game.canvasResizedHeight = this.game.p5.height;
                 this.game.canvasResizedWidth = this.game.p5.width;
             }
-            if (this.racketVibrationUpDown === false)
+            if (this.racketFreezed === false && this.racketVibrationUpDown === false)
             {
                 if (this.steps < 80)
                 {
@@ -186,7 +186,7 @@ class Racket
                     this.steps++;
                 }
             }
-            else if (this.racketVibrationUpDown === true)
+            else if (this.racketFreezed === false && this.racketVibrationUpDown === true)
             {
                 if (this.steps < 80)
                 {
@@ -218,7 +218,7 @@ class Racket
             //this.racketInitialPositionIsready = 0;
         }
         this.drawAutomaticRacket();
-        if ((this.game.playerNumber === 1 && this.game.ball.ballDirection === true ) || (this.game.playerNumber === 2 && this.game.ball.ballDirection === false) || this.game.playerNumber === 3 && this.game.ball.ballDirection === false)
+        if ((this.game.playerNumber === 1 && this.game.ball.ballDirection === true ) || (this.game.playerNumber === 2 && this.game.ball.ballDirection === false) || (this.game.playerNumber === 3 && this.game.ball.ballDirection === false))
         {
             if (this.coordinateAlreadyGot === false && this.validCoordinate)
             {

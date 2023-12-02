@@ -65,7 +65,7 @@ function ParentComponent ({ playerOne : renamePlayerOne, playerTwo : renamePlaye
     }
 
     // let readyState : boolean = true;
-    const [playerTwo, setPlayerTwoState] = useState(
+    let [playerTwo, setPlayerTwoState] = useState(
         {
             socket         : renamePlayerTwo?.socket,
             playWithRobot  : renamePlayerTwo?.playWithRobot,
@@ -169,6 +169,19 @@ function ParentComponent ({ playerOne : renamePlayerOne, playerTwo : renamePlaye
         robot.modePlaying = playerOne.modePlaying;
         
     }
+    // playerOne.modePlaying = 3;
+    // playerOne.matchWager = 100;
+    // playerOne.playWithMouse = 2;
+    // playerOne.matchId = 'robot123'
+    // playerOne.playWithRobot = true;
+    // gameCapsule.playerNumber = 3
+    // playerTwo = { ...robot}
+    return (
+        <>
+            <Info  playerOne={playerOne} playerTwo={playerTwo as UserInfo} updateMatchState={updateMatchState}/>
+            <App  gameCapsule={gameCapsule} playerOne={playerOne} playerTwo={playerTwo as UserInfo} updateMatchState={updateMatchState} />
+        </>
+    )
 
     if (playerOne.playWithMouse === 0)
         return (< Util playerOne={playerOne} updateUserInfoUtil={UpdateUserInfoUtil}/>);
@@ -187,8 +200,8 @@ function ParentComponent ({ playerOne : renamePlayerOne, playerTwo : renamePlaye
     {
         return (
             <>
-                <Info  playerOne={playerOne} playerTwo={playerTwo as UserInfo} updateMatchState={updateMatchState}/>
-                <App  gameCapsule={gameCapsule} playerOne={playerOne} playerTwo={playerTwo as UserInfo} />
+                <Info  playerOne={playerOne} playerTwo={playerTwo as UserInfo} updateMatchState={updateMatchState} />
+                <App  gameCapsule={gameCapsule} playerOne={playerOne} playerTwo={playerTwo as UserInfo} updateMatchState={updateMatchState} />
             </>
         )
     }

@@ -13,7 +13,7 @@ import Goals from './component/Goals';
 import UserInfo from './component/UserInfo';
 import { isAlreadyWaiting, addPlayerToWaitingList, findMatchigPlayer, updatePlayerObject, removePlayerFromWaitingList } from './component/waitingPlayers'
 import { getRoomByMatchId, clearRoom, getRoomByClientId, findAvailableRoom , addToRoom , checkIfGameNotOver, addInfoSocketToRoom, getRoomByClientInfoSocket} from './component/room'; 
-
+import WeaponTemplate, { moveAlert ,  weaponIndex} from './component/Weapon';
 
 interface PlayersList
 {
@@ -64,41 +64,42 @@ export class MyWebSocketGateway implements OnGatewayInit ,OnGatewayConnection, O
     // console.log(`WebSocket connection from ${clientAddress} client id : ${client.id}  id : `, matchId);
     // if (client.connected)
     //   console.log(`WebSocket connection established for client from ${clientAddress}`);
+    
+    //add player to waiting list
     if (waitingTabsId !== undefined && waitingTabsId.length)
     {
       if (isAlreadyWaiting(waitingPlayers, waitingTabsId) === false)
         addPlayerToWaitingList(waitingPlayers, waitingTabsId, client);
-      // console.log("Add player to waiting list : ", waitingTabsId, ' nbr of plys now :',  waitingPlayers.length);
     }
-    if (matchId && matchId.length && matchId[0] !== 'A') 
+    //add player to room 
+    if (matchId && matchId.length && matchId[0] !== 'r') 
     {
       addToRoom(rooms, client, matchId, tabsId);
       let room : Rooms = getRoomByClientId(rooms, client.id);
     
-      if (room.clientOneSocket == client)
+      if (room && room.clientOneSocket == client)
         playerNumber = 1;
       else
         playerNumber = 2;
-    
-      // console.log("nbr clt : ",room.numberOfClients)
+      if (room)
+        console.log("nbr clt : ",room.numberOfClients)
       if (client)
         client.emit('getPlayerNumber', playerNumber);
     }
-    //play with robot case
+
+    //play with robot case 
     if (matchId && matchId.length && matchId.substring(0, 5) === 'robot')
     {
       playerNumber = 1
       addToRoom(rooms, client, matchId, tabsId);
       let room : Rooms = getRoomByClientId(rooms, client.id)
-      room.numberOfClients = 3;
+      if (!room)
+        console.log('i can not foud a room ===>')
+      if (room)
+        room.numberOfClients = 3;
       if (client)
-      client.emit('getPlayerNumber', playerNumber);
+        client.emit('getPlayerNumber', playerNumber);
     }
-    // if (matchId && matchId[0] === 'A')
-    // {
-    //   console.log("the socket")
-    //   addInfoSocketToRoom(rooms, client, matchId.substring(1, matchId.length));
-    // }
   }
   
   afterInit() 
@@ -150,7 +151,6 @@ export class MyWebSocketGateway implements OnGatewayInit ,OnGatewayConnection, O
   @SubscribeMessage('customGoalsEvent') // Listen for the 'customEventDataRequest' event
   handleGoalsEvent(client: Socket, obj : infoObj )//matchId : string)//, tabsId : string) 
   {
-      //  console.log("match id : ", obj)
       let room = getRoomByMatchId(rooms, obj.ID.substring(1, obj.ID.length));
       if (room !== undefined && room.numberOfClients === 2)
       {
@@ -173,8 +173,6 @@ export class MyWebSocketGateway implements OnGatewayInit ,OnGatewayConnection, O
         }
         if (client)
           client.emit('goalsEvent', goal)
-        // room.clientOneInfoSocket.emit('playerLeaveTheGame')
-        // room.clientTwoInfoSocket.emit('playerLeaveTheGame')
       }
       else if (room !== undefined && room.numberOfClients === 3)
       {
@@ -192,12 +190,46 @@ export class MyWebSocketGateway implements OnGatewayInit ,OnGatewayConnection, O
 
 //____________________________________ end of event come from info component
 
+//------------------------------------- weapon animation mode 3
+//alret Y
+@SubscribeMessage('customWeaponEventRequest') 
+handleWeaponEvent(client: Socket, data: WeaponTemplate)
+{
+  let room : Rooms = getRoomByClientId(rooms, client.id);
+
+  if (room && (room.numberOfClients === 2 || room.numberOfClients === 3))
+  {
+
+    moveAlert(room.container.ball);
+    data.alertY = room.container.ball.alertY;
+    room.clientOneSocket.emit('getWeaponData', data);
+    room.clientTwoSocket.emit('getWeaponData', data);
+  }
+}
+//weapon index
+@SubscribeMessage('randomNumberRequest') 
+handleWeaponrandomNumber(client: Socket)
+{
+  let room : Rooms = getRoomByClientId(rooms, client.id);
+
+  if (room && (room.numberOfClients === 2 || room.numberOfClients === 3))
+  {
+    let random :number = Math.floor(Math.random() * 3);
+
+    room.clientOneSocket.emit('getRandomNumberResponse', random);
+    room.clientTwoSocket.emit('getRandomNumberResponse', random);
+  }
+}
+
+//--------------------------------------------------
+
+
 //------------------------------------ start of event come from App (game) component  
   @SubscribeMessage('customEventDataRequestRacket') // Listen for the 'customEventDataRequest' event
   handleCustomEventRacket(client: Socket, data: SentRacketData) 
   {
     let room : Rooms = getRoomByClientId(rooms, client.id);
-    
+   
     if (room && room.numberOfClients === 2 && room.clientTwoSocket === client)
     {
       room.container.lRacketX = 0;
@@ -205,6 +237,7 @@ export class MyWebSocketGateway implements OnGatewayInit ,OnGatewayConnection, O
       room.container.lRacketH = 50;
       room.container.lRacketY = data.lastPosY  / data.height * 200;
       room.container.lLastPosY = data.lastPosY / data.height * 200;
+     
       room.clientTwoWidth = data.width;
       if (room.clientOneSocket)
         room.clientOneSocket.emit('customEventDataResponseRacket', data);
@@ -243,13 +276,15 @@ export class MyWebSocketGateway implements OnGatewayInit ,OnGatewayConnection, O
     }
   }
   
+  
+
+
   @SubscribeMessage('customEventDataRequestBall')
   handleCustomEventBall(client: Socket, goalStart : boolean)
   {
     let data: RecieveBallData = new RecieveBallData();
     let room : Rooms = getRoomByClientId(rooms, client.id);
     
-    // console.log( 'event is reached', room)
     if (!room) 
     {
       return;
@@ -291,16 +326,13 @@ export class MyWebSocketGateway implements OnGatewayInit ,OnGatewayConnection, O
     room = getRoomByClientInfoSocket(rooms, client)
     if (room)
     {
-      console.log("info leave")
       if (room.clientOneInfoSocket === client)
       {
-        console.log("info leave p1")
         if (room.clientTwoInfoSocket)
           room.clientTwoInfoSocket.emit('playerLeaveTheGame')
       }
       else if (room.clientTwoInfoSocket === client)
       {
-        console.log("info leave p2")
         if (room.clientOneInfoSocket)
           room.clientOneInfoSocket.emit('playerLeaveTheGame')
       }
@@ -315,7 +347,6 @@ export class MyWebSocketGateway implements OnGatewayInit ,OnGatewayConnection, O
       let i : number = 0;
       let size : number = 0;
 
-      console.log("before remove the length is ", waitingPlayers.length)
       while (i < waitingPlayers.length)
       {
           if (waitingPlayers[i].playersSocket !== client)
@@ -332,7 +363,6 @@ export class MyWebSocketGateway implements OnGatewayInit ,OnGatewayConnection, O
       while (++i < tmpList.length)
         waitingPlayers.push(tmpList[i]);
 
-      console.log("Waiting list size : ", waitingPlayers.length)
     }
 
 

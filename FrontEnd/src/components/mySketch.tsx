@@ -1,77 +1,38 @@
-import p5Types, { Image } from 'p5';
+import p5Types from 'p5';
 import Game from './gameInstance';
 import GameContainer from './gamecontainer';
 import UserInfo from '../app/UserInfo';
-
+//import weapon 
+import Weapon from './Weapon';
+import WeaponTemplate from './WeaponTemplate';
 //sound library
-import { Howl, Howler } from 'howler';
-import { relative } from 'path';
-import { hostname } from 'os';
+import { Howler } from 'howler';
+import SoundsClass from './Sound';
+// import Coins from './Coins';
+// import PlayerWeapon from './PlayerWeapon';
 
+interface MySketchProp
+{
+  gameCapsule : GameContainer;
+  p5 : p5Types;
+  playerOne : UserInfo;
+  playerTwo : UserInfo;
+  weaponTemplate : WeaponTemplate;
+  updateMatchState : (val : boolean) => void;
+};
+
+
+let weapon = new Weapon();
 Howler.volume(1.0);
 
-class SoundsClass
-{
-  //racket sound and its adjusment variables
-  racketSound : any;
-  isTap : number = 0;
 
-  //goal sound and its variables
-  goalSound : any;
-  
-  //opponent goal sound
-  opponentGoalSound : any;
-  isOppGoal : boolean = false;
-
-  // top buttom rebound
-  topButtomReboundSound : any;
-  isHitTopOrButtom : number = 0;
-
-  // win the game
-  winSound : any;
-
-  // lose the game
-  loseSound : any;
-
-  mode1Music : any;
-
-  mode2Music : any;
-  
-  mode3Music : any;
-
-  isMusicPlayed : boolean = false;
-  //bounus sounds
-}
-
-let img1 : p5Types.Element | p5Types.Image ;
-let img2 : p5Types.Element | p5Types.Image ;
+let img1 : p5Types.Element | p5Types.Image;
+let img2 : p5Types.Element | p5Types.Image;
 let img3 : p5Types.Element | p5Types.Image;
+// let coins : Coins = new Coins();
+
 let Sounds : SoundsClass = new SoundsClass();
-let muteSound : boolean = true;
-let soundButton : p5Types.Element;
-
-//mute / unmute sound
-let changeSoundOpetion = (playerOne : UserInfo , Sounds : SoundsClass) =>
-{
-  muteSound = !muteSound;
-  if (muteSound)
-  {
-    // Howler.volume(1.0)
-    Howler.mute(false);
-    soundButton.html("mute")
-  }
-  else
-  {
-    // Howler.volume(0.0)
-    // Howler.stop();
-    Howler.mute(true);
-    soundButton.html("unmute")
-  }
-
-}
-
-//let canvasResizedHeight : number; // this variable is used when the cancas is resized so we need to change rackets size
-//let canvasResizedWidth : number;
+// let muteSound : boolean = true;
 
 /* Draw the middle line */
 let line = (game : Game) : void => 
@@ -92,12 +53,18 @@ let resizeCanvas = (game : Game) : void =>
   game.canvasPranetDiv = game.p5.select('#root'); 
   if (game.canvasPranetDiv)
   {
-    canvasWidth = (game.canvasPranetDiv.elt.clientWidth ) -  (game.canvasPranetDiv.elt.clientWidth / 4)// game.gameBordersPixel; //the game..xel is the number of pixel give to canvas borders 
+    canvasWidth = (game.canvasPranetDiv.elt.clientWidth ) -  (game.canvasPranetDiv.elt.clientWidth / 5)// game.gameBordersPixel; //the game..xel is the number of pixel give to canvas borders 
     canvasHeight = ((game.canvasPranetDiv.elt.clientWidth ) / 2.5 ) - 15 //- game.gameBordersPixel;
+    if  (game.canvasPranetDiv.elt.clientHeight <= 300)
+      canvasHeight = 150;
     game.p5.resizeCanvas(canvasWidth, canvasHeight);
-    soundButton.size(game.canvasPranetDiv.elt.clientWidth / 10)
-    soundButton.style("font-size", "2vmin")
-    soundButton.position(game.canvasPranetDiv.elt.clientWidth / 2 - (game.canvasPranetDiv.elt.clientWidth / 10 / 2), 0, 'relative')
+    if (Sounds.soundButton)
+    {
+      Sounds.soundButton.size(game.canvasPranetDiv.elt.clientWidth / 10)
+      Sounds.soundButton.style("font-size", "1.5vmin")
+      Sounds.soundButton.position(game.canvasPranetDiv.elt.clientWidth / 2 - (game.canvasPranetDiv.elt.clientWidth / 10 / 2), 0, 'absolute')
+    }
+
   }
   else
   {
@@ -105,19 +72,31 @@ let resizeCanvas = (game : Game) : void =>
   }
 }
 
+interface drawProps
+{
+  game : Game;
+  gameCapsule : GameContainer;
+  playerOne : UserInfo;
+  playerTwo : UserInfo;
+  weapon : Weapon;
+  weaponTemplate : WeaponTemplate;
+  updateMatchState : (val : boolean) => void;
+}
 
-function draw(game : Game, gameCapsule : GameContainer, playerOne : UserInfo, playerTwo : UserInfo) 
+
+function draw({game , gameCapsule , playerOne , playerTwo , weapon , weaponTemplate , updateMatchState} : drawProps) 
 {
   let ballX; 
   let ballY;
   let ballWH;
   let ballSpeed;
 
+
   return () => 
   {
 
 
-    // get player number from the sirver
+    // get player number from the server
     game.playerNumber = gameCapsule.playerNumber;
     //end
 
@@ -125,39 +104,53 @@ function draw(game : Game, gameCapsule : GameContainer, playerOne : UserInfo, pl
     resizeCanvas(game);
     //end
 
+    //set Weapon emit data
+    weaponTemplate.alertY = weapon.alertY;
+    // end
+
     //assign background image
     if (img1)
       game.p5.image(img1, 0, 0, game.p5.width, game.p5.height)
-    if (img2)
+    else if (img2)
       game.p5.image(img2, 0, 0, game.p5.width, game.p5.height)
-    if (img3)
+    else if (img3)
       game.p5.image(img3, 0, 0, game.p5.width, game.p5.height)
-    //end
+    else
+      game.p5.background(0);
+      //end
 
     // draw middle line
     if (gameCapsule.leftPlayerGoals < 5 && gameCapsule.rightPlayerGoals < 5)
       line(game);
     //end
-    // sound botton
 
+    //mode 3 put images
+    // if (playerOne.modePlaying === 3)
+    // {
+    //     weapon.displayAlert(game);
+    //     weapon.displayPrize(game, gameCapsule.playerNumber)
+    //     weapon.displayHearts(weapon.plyOne.playerHearts, weapon.plyTwo.playerHearts, game)
+    // }
+    //end
     
-    soundButton.mousePressed((playerOne) => changeSoundOpetion(playerOne, Sounds))
+    // display coins images 
+    // if (playerOne.modePlaying === 2 )
+    // {
+    //   coins.displayCoinsImages(game);
+    // }
+
+    // end
+
+
+
+
+    // sound botton click event 
+    if (Sounds && Sounds.soundButton)
+      Sounds.soundButton.mousePressed(() => Sounds.changeSoundOpetion())
+    //end
+    
     //display mode music
-    if (playerOne.modePlaying === 1 && muteSound && Sounds.isMusicPlayed === false)
-    {
-       Sounds.isMusicPlayed = true;
-       Sounds.mode1Music.play();
-    }
-    if (playerOne.modePlaying === 2 && muteSound && Sounds.isMusicPlayed === false)
-    {
-       Sounds.isMusicPlayed = true;
-       Sounds.mode2Music.play();
-    }
-    if (playerOne.modePlaying === 3 && muteSound && Sounds.isMusicPlayed === false)
-    {
-       Sounds.isMusicPlayed = true;
-       Sounds.mode3Music.play();
-    }
+    Sounds.displayModeMusic(playerOne.modePlaying) 
     //end
 
     // get current player canvas width and height
@@ -177,12 +170,16 @@ function draw(game : Game, gameCapsule : GameContainer, playerOne : UserInfo, pl
       game.leftRacket.coordinateAlreadyGot = false;
       game.rightRacket.startOfSimulation = true;
       game.leftRacket.startOfSimulation = true;
-      setTimeout(() => {}, 500);
-      gameCapsule.init = false;
+      setTimeout(() => {
+        gameCapsule.init = false;
+      }, 500);
       game.rightRacket.mouseIsMoved = false;
+      //stop freeze action
+      game.leftRacket.racketFreezed = false;
+      game.rightRacket.racketFreezed = false;
       // play goal sounds
       // if (gameCapsule.leftPlayerGoals < 5 && gameCapsule.rightPlayerGoals < 5)
-      if (muteSound)
+      if (Sounds.muteSound)
       {
         if ((gameCapsule.playerNumber === 1 || gameCapsule.playerNumber === 3) && gameCapsule.ball.ballX < 0 + gameCapsule.ball.ballWH)
           Sounds.goalSound.play();
@@ -242,51 +239,26 @@ function draw(game : Game, gameCapsule : GameContainer, playerOne : UserInfo, pl
     ballY     = (gameCapsule.ball.ballY * game.p5.height / 200);
     ballWH    = (gameCapsule.ball.ballWH * game.p5.height / 200);
     ballSpeed = (gameCapsule.ball.ballSpeed * game.p5.width / 400);
-    // ends
+
+    
+
+
+
+     
 
     // make racket sound
-    if (muteSound)
+    if (Sounds.muteSound)
     {
-      if (gameCapsule.init && ballX  - ballWH < (game.p5.width / 80) && Sounds.isTap === 0 && gameCapsule.ball.ballDirection !== undefined) 
-      {
-        if (ballY > game.rightRacket.racketY && ballY < game.rightRacket.racketY + game.rightRacket.racketH)
-        {
-          Sounds.racketSound.play()
-          Sounds.isTap++;
-        }
-        if (gameCapsule.playerNumber === 3 && ballY > game.leftRacket.racketY && ballY < game.leftRacket.racketY + game.leftRacket.racketH)
-        {
-          Sounds.racketSound.play()
-          Sounds.isTap++;
-        }
-      }
-      else if (gameCapsule.init && ballX + ballWH > game.p5.width - (game.p5.width / 80) && Sounds.isTap === 0 && gameCapsule.ball.ballDirection !== undefined)
-      {
-        if (ballY > game.rightRacket.racketY && ballY < game.rightRacket.racketY + game.rightRacket.racketH)
-        {
-          Sounds.racketSound.play();
-          Sounds.isTap++;
-        }
-      }
-      else if (gameCapsule.init && ballX  - ballWH >= (game.p5.width / 80) && ballX + ballWH < game.p5.width - (game.p5.width / 80))
-      {
-        Sounds.isTap = 0;
-      }
+      Sounds.displayRacketReboundSound(gameCapsule, game, ballX , ballY , ballWH);
     }
     // end
 
 
 
-    // top buttom rebound
-    if (muteSound)
+    // top buttom rebound sound
+    if (Sounds.muteSound)
     {
-      if (ballWH && (ballY + ballWH >= game.p5.height || ballY - ballWH <= 0) && Sounds.isHitTopOrButtom === 0)
-      {
-        Sounds.topButtomReboundSound.play()
-        Sounds.isHitTopOrButtom++;
-      }
-      else if (ballY + ballWH < game.p5.height && ballY - ballWH > 0)
-        Sounds.isHitTopOrButtom = 0;
+      Sounds.displayTopBottomRebound(game , ballY , ballWH)
     }
     // end
 
@@ -304,12 +276,17 @@ function draw(game : Game, gameCapsule : GameContainer, playerOne : UserInfo, pl
     if (playerOne.playWithMouse === 1)
       game.rightRacket.drawAndMoveRacketWithMouse();
     else if (playerOne.playWithMouse === 2)
-     game.rightRacket.MoveRacketWithKeyBoard();
+      game.rightRacket.MoveRacketWithKeyBoard();
     else
       game.rightRacket.automaticRacket();
 
     if (playerOne.playWithRobot === true)
+    {
       game.leftRacket.automaticRacket();
+      // console.log("data not reach the end point ", game.leftRacket.racketX , game.leftRacket.racketY, game.leftRacket.racketH, game.leftRacket.racketW )
+    }
+    // else
+    //   console.log("something go wrong")
     // ends of racket call
     
     // convert ball coordinate depending on player side (both player are in the right side)
@@ -321,10 +298,21 @@ function draw(game : Game, gameCapsule : GameContainer, playerOne : UserInfo, pl
     }
     // end 
 
+    // get/hit a coin
+    //(game : Game, gameCapsule : GameContainer, ballX : number , ballY : number, playerNu)
+    // if (playerOne.modePlaying === 2)
+    // {
+    //   coins.ballHitCoins(game, gameCapsule, ballX, ballY)
+    // }
+    
+    // end>
+
+
+
     // assing racket date to the global object so it will be emited the opponent player
     if (playerOne.playWithRobot === false)
     {
-      gameCapsule.sentRacket.lastPosY= game.rightRacket.lastPositionOfRacketY;
+      gameCapsule.sentRacket.lastPosY = game.rightRacket.lastPositionOfRacketY;
       gameCapsule.sentRacket.height = game.p5.height;
       gameCapsule.sentRacket.width = game.p5.width;
     }
@@ -334,17 +322,46 @@ function draw(game : Game, gameCapsule : GameContainer, playerOne : UserInfo, pl
       gameCapsule.robotRacket.robotLastPosY = game.leftRacket.lastPositionOfRacketY;
       gameCapsule.robotRacket.height = game.p5.height;
       gameCapsule.robotRacket.width = game.p5.width;
+      gameCapsule.playerNumber = 3;
     }
     // end
-
+   
+    
+    //ball hit alert
+    // if (playerOne.modePlaying === 3)
+    // {
+    //   weapon.alertY = gameCapsule.alertY * game.p5.height / 200;
+    //   weapon.isBallHitTheAlert(ballX, ballY, gameCapsule.ball.ballDirection, game, gameCapsule.playerNumber)
+    //   weapon.choseWeapon(game, gameCapsule.playerNumber, gameCapsule.ball.ballDirection as boolean);
+    //   if (weapon.plyOne.displayWeaponImg)
+    //   {
+    //     if (weapon.plyOne.WeaponIndex === 0)
+    //       weapon.heartAction(game)
+    //     else if (weapon.plyOne.WeaponIndex === 1)
+    //       weapon.freezeAction(game);
+    //     else if (weapon.plyOne.WeaponIndex === 2)
+    //       weapon.rocketAction(game, gameCapsule);
+    //   }
+    //   else if (weapon.plyTwo.displayWeaponImg)
+    //   {
+    //     if (weapon.plyTwo.WeaponIndex === 0)
+    //       weapon.heartAction(game)
+    //     else if (weapon.plyTwo.WeaponIndex === 1)
+    //       weapon.freezeAction(game);
+    //     else if (weapon.plyTwo.WeaponIndex === 2)
+    //       weapon.rocketAction(game, gameCapsule);
+    //   }
+    // }
+  
+    //end
+    
     // assign true ti init when all data (ball racket) are ready (we can start the draw!!!)
     gameCapsule.init = true;
     //end
-
     // draw the ball , oppenent racket , the game is <over> and loading
     if (gameCapsule.ball.ballX && gameCapsule.ball.ballY)
     {
-      if (gameCapsule.leftPlayerGoals < 5 && gameCapsule.rightPlayerGoals < 5)
+      if (gameCapsule.leftPlayerGoals < 5 && gameCapsule.rightPlayerGoals < 5 && weapon.plyOne.playerHearts > 0 && weapon.plyTwo.playerHearts > 0)
       {
         game.p5.circle(ballX, ballY, ballWH);
         if (playerOne.playWithRobot === false)
@@ -352,6 +369,25 @@ function draw(game : Game, gameCapsule : GameContainer, playerOne : UserInfo, pl
       }
       else
       {
+        
+        // mode 3 win lose
+        // if (playerOne.modePlaying === 3)
+        // {
+        //   if (weapon.plyOne.playerHearts <= 0)
+        //   {
+        //     setTimeout(() => {
+        //       updateMatchState(false);
+        //     }, 1000)
+        //   }
+        //   else if (weapon.plyTwo.playerHearts <= 0)
+        //   {
+        //     setTimeout(() => {
+        //       updateMatchState(true);
+        //     }, 1000)
+        //   }
+        // }
+        //end
+        Howler.stop();
         game.p5.fill('#bdebf6')
         game.p5.textSize(game.p5.width / 12);
         let txtW = game.p5.textWidth('The game is <over>')
@@ -376,17 +412,21 @@ function setup(game : Game)
     
     if (game.canvasPranetDiv)
     {
-      canvasWidth = game.canvasPranetDiv.elt.clientWidth - (game.canvasPranetDiv.elt.clientWidth / 2)// game.gameBordersPixel;//the 15 for border pixel
+      canvasWidth = game.canvasPranetDiv.elt.clientWidth - (game.canvasPranetDiv.elt.clientWidth / 5)// game.gameBordersPixel;//the 15 for border pixel
       canvasHeight = (game.canvasPranetDiv.elt.clientWidth / 2.5) - 15;// game.gameBordersPixel;
+      if  (game.canvasPranetDiv.elt.clientHeight <= 300)
+        canvasHeight = 150;
       game.cnv = game.p5.createCanvas( canvasWidth ,  canvasHeight);
       game.cnv.parent('root');
       game.canvasResizedHeight = canvasHeight;
       game.canvasResizedWidth = canvasWidth;
-      soundButton = game.p5.createButton('mute')
-      soundButton.parent("#root")
-      soundButton.size(game.canvasPranetDiv.elt.clientWidth / 10)
-      soundButton.style("font-size", "2vmin")
-      soundButton.position(game.canvasPranetDiv.elt.clientWidth / 2 - (game.canvasPranetDiv.elt.clientWidth / 10 / 2), 0, 'relative')
+      Sounds.soundButton = game.p5.createButton('mute')
+      Sounds.soundButton.parent("#muteBtn")
+      Sounds.soundButton.size(game.canvasPranetDiv.elt.clientWidth / 10)
+      Sounds.soundButton.style("font-size", "1.5vmin")
+      Sounds.soundButton.position(game.canvasPranetDiv.elt.clientWidth / 2 - (game.canvasPranetDiv.elt.clientWidth / 10 / 2), 0, 'absolute')
+      Sounds.soundButton.style("z-index", "6");
+
     }
     else
       console.log("Error: in sketch file, failed to select the parent of canvas element.")
@@ -395,122 +435,21 @@ function setup(game : Game)
 
 
 
-let loadSounds = () => 
-{
-  Sounds.racketSound = new Howl({
-    src: ['/Sounds/racketRebound.wav'],
-    onload: () => {
-      console.log('Audio loaded successfully');
-      Howler.volume(0);
-      // Sounds.racketSound.play(); 
-      Howler.volume(1.0);
-      // You can play the sound or perform other actions here
-    },
-    onloaderror: (error) => {
-      console.error('Error loading audio:', error);
-    },
-  });
-
-  Sounds.goalSound = new Howl({
-    src: ['/Sounds/goal.wav'],
-    onload: () => {
-      console.log('Audio loaded successfully');
-      // You can play the sound or perform other actions here
-    },
-    onloaderror: (error) => {
-      console.error('Error loading audio:', error);
-    },
-  });
-
-  Sounds.opponentGoalSound = new Howl({
-    src: ['/Sounds/opponentGoal.wav'],
-    onload: () => {
-      console.log('Audio loaded successfully');
-      // You can play the sound or perform other actions here
-    },
-    onloaderror: (error) => {
-      console.error('Error loading audio:', error);
-    },
-  });
-
-  Sounds.topButtomReboundSound = new Howl({
-    src: ['/Sounds/topButtomRebound.mp3'],
-    onload: () => {
-      console.log('Audio loaded successfully');
-      // You can play the sound or perform other actions here
-    },
-    onloaderror: (error) => {
-      console.error('Error loading audio:', error);
-    },
-  });
-
-  Sounds.winSound = new Howl({
-    src: ['/Sounds/successGameOver.wav'],
-    onload: () => {
-      console.log('Audio loaded successfully');
-      // You can play the sound or perform other actions here
-    },
-    onloaderror: (error) => {
-      console.error('Error loading audio:', error);
-    },
-  });
-
-  Sounds.loseSound = new Howl({
-    src: ['/Sounds/loseGameOver.wav'],
-    onload: () => {
-      console.log('Audio loaded successfully');
-      // You can play the sound or perform other actions here
-    },
-    onloaderror: (error) => {
-      console.error('Error loading audio:', error);
-    },
-  });
-
-  Sounds.mode1Music = new Howl({
-    src: ['/Sounds/mode1Music.mp3'],
-    onload: () => {
-      console.log('Audio loaded successfully');
-      // You can play the sound or perform other actions here
-    },
-    onloaderror: (error) => {
-      console.error('Error loading audio:', error);
-    },
-  });
-
-  Sounds.mode2Music = new Howl({
-    src: ['/Sounds/mode2Music.mp3'],
-    onload: () => {
-      console.log('Audio loaded successfully');
-      // You can play the sound or perform other actions here
-    },
-    onloaderror: (error) => {
-      console.error('Error loading audio:', error);
-    },
-  });
 
 
-  Sounds.mode3Music = new Howl({
-    src: ['/Sounds/mode3Music.mp3'],
-    onload: () => {
-      console.log('Audio loaded successfully');
-      // You can play the sound or perform other actions here
-    },
-    onloaderror: (error) => {
-      console.error('Error loading audio:', error);
-    },
-  });
-
-}
 
 
-function MySketch(gameCapsule : GameContainer,  p5: p5Types , playerOne : UserInfo, playerTwo : UserInfo )
+// function MySketch(gameCapsule : GameContainer,  p5: p5Types , playerOne : UserInfo, playerTwo : UserInfo, weaponTemplate : WeaponTemplate, updateMatchState )
+function MySketch({gameCapsule ,  p5 , playerOne , playerTwo , weaponTemplate , updateMatchState } : MySketchProp )
 {
   let game: Game | null = null;
-
+  // let weapon : 
   const setupGame = () => 
   {
     game = new Game(p5);
+    
     // load images for background and sounds effect 
+
     game.p5.preload = () =>
     {
       if (game && playerOne.modePlaying === 1)
@@ -519,11 +458,16 @@ function MySketch(gameCapsule : GameContainer,  p5: p5Types , playerOne : UserIn
         img2 = game.p5.loadImage("./BackgroundImages/background_image2.jpg")
       if (game && playerOne.modePlaying === 3)
         img3 = game.p5.loadImage("./BackgroundImages/background_image3.jpg")
-      loadSounds();
+      Sounds.loadSounds();
+      //animation make it the game slow
+      // if (playerOne.modePlaying === 2 && game && coins )
+      //   coins.coinImage = game.p5.loadImage("./animationImages/coin.png")
+      // if (game && playerOne.modePlaying === 3)
+      //   weapon.loadImages(game)
       
     }
     game.p5.setup = setup(game);
-    game.p5.draw = draw(game, gameCapsule, playerOne, playerTwo);
+    game.p5.draw = draw({game, gameCapsule, playerOne, playerTwo, weapon, weaponTemplate, updateMatchState});
   };
 
   // Call setupGame once when the component mounts
@@ -533,3 +477,4 @@ function MySketch(gameCapsule : GameContainer,  p5: p5Types , playerOne : UserIn
   }
 }
 export default MySketch;
+export { Sounds, weapon };

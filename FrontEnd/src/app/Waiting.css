@@ -114,24 +114,24 @@
 .WaitingAvatarR1Cover
 {
     display: inline-block;
-    width: 9vw;
-    height: 10vw;
+    width: 10vmin;
+    height: 11vmin;
     background-color: rgb(10, 36, 59) ;
     clip-path    : polygon(0% 25%, 0% 75%, 50% 100%, 100% 75%, 100% 25%, 50% 0%);
-    padding: 0.5vw 0.5vw;
+    padding: 0.5vmin 0.5vmin;
     /* margin-left: 3vw; */
-    margin-top: 10vh;
+    margin-top: 10vmin;
     transform: skew(-5deg);
 }
 
 .WaitingAvatarR1
 {
     display: inline-block;
-    width: 8vw;
-    height: 9vw;
+    width: 9vmin;
+    height: 10vmin;
     background-color: #134371;
     background-image: url('../../public/question-mark.jpeg');
-    background-size: 8vw 9vw;
+    background-size: 9vmin 10vmin;
     clip-path    : polygon(0% 25%, 0% 75%, 50% 100%, 100% 75%, 100% 25%, 50% 0%);
 }
 
@@ -165,13 +165,13 @@
 .WaitingAvatarR2Cover
 {
     display: inline-block;
-    width: 9vw;
-    height: 10vw;
+    width: 10vmin;
+    height: 11vmin;
     background-color: rgb(94, 59, 63)  ;
     clip-path    : polygon(0% 25%, 0% 75%, 50% 100%, 100% 75%, 100% 25%, 50% 0%);
-    padding: 0.5vw 0.5vw;
+    padding: 0.5vmin 0.5vmin;
     /* margin-left: 3vw; */
-    margin-top: 10vh;
+    margin-top: 10vmin;
     transform: skew(5deg);
     /* animation: neon0 1s ease-in-out infinite alternate; */
 }
@@ -179,10 +179,10 @@
 .WaitingAvatarR2
 {
     display: inline-block;
-    width: 8vw;
-    height: 9vw;
+    width: 9vmin;
+    height: 10vmin;
     background-image: url('../../public/question-mark.jpeg');
-    background-size: 8vw 9vw;
+    background-size: 9vmin 10vmin;
     clip-path    : polygon(0% 25%, 0% 75%, 50% 100%, 100% 75%, 100% 25%, 50% 0%);
 }
 
@@ -209,8 +209,8 @@
 }
 #WaitingAvatarR1 , #WaitingAvatarR2
 {
-    width: 8vw;
-    height: 9vw;
+    width: 9vmin;
+    height: 10vmin;
 }
 
 .playWithRobot

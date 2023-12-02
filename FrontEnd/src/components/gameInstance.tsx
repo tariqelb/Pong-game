@@ -28,7 +28,6 @@ class Game
     ball : Ball;
     goalRestart : boolean = false;
     playerNumber : number = 0;
-
 }
 
 export default Game;

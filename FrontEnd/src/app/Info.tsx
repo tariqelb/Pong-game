@@ -165,7 +165,7 @@ function Info({playerOne, playerTwo, updateMatchState} : InfoProps)
     // }
 
     return (
-        <div className="playersInfo">
+        <div id="muteBtn" className="playersInfo">
             
             <div className={`container0 ${hovered1 ? "hideContainer0" : ""}  ${hovered2 ? "hideContainer0" : ""}`}>
                 <div className="head0"></div>

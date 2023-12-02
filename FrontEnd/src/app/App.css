@@ -4,10 +4,13 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: auto auto;
+  padding: auto auto; 
   border-top: 1vmin solid rgb(4, 130, 130);
   border-bottom: 1vmin solid rgb(4, 130, 130) ;
-
+  height: 50vh;
+  width: 59vw;
+  display: inline-block;
+  text-align: center;
 }
 .react-p5-wrapper
 {

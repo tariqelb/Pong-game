@@ -24,7 +24,9 @@ class GameContainer
   sentRacket : SentRacketData;
   robotRacket : SentRobotRacket;
   leftPlayerGoals : number = 0;
-  rightPlayerGoals : number = 0;
+  rightPlayerGoals : number = 0; 
+  alertY : number = 0;
+  
 }
 export default GameContainer;
 /*

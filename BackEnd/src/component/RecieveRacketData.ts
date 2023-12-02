@@ -5,5 +5,6 @@ class RecieveRacketData
   width : number  = 0
   
   lastPosY : number = 0;
+
 }
 export default RecieveRacketData;

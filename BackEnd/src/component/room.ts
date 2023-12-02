@@ -91,7 +91,16 @@ function addToRoom(rooms : Rooms[],  client: Socket, matchID : string, tabsId : 
   }
 
   // Assign the client to the room
-  if (room.numberOfClients === 0) 
+  if (matchID.length && matchID.substring(0, 5) === 'robot')
+  {
+    room.clientOneId = client.id;
+    room.clientOneTabId = tabsId;
+    room.clientOneSocket = client;
+    room.numberOfClients = 3
+    console.log('robot number 3')
+
+  }
+  else if (room.numberOfClients === 0) 
   {
     room.clientOneId = client.id;
     room.clientOneTabId = tabsId;

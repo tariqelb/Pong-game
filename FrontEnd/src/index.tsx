@@ -1,8 +1,7 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
 import './index.css';
-import './socket/connectToServer';
-import ParentComponent, { gameCapsule } from './app/ParentComponent';
+import ParentComponent from './app/ParentComponent';
 import UserInfo from './app/UserInfo';
 import { tabId } from './app/App';
 import {  playerOne, playerTwo} from './app/ParentComponent'

@@ -21,8 +21,11 @@ let Congratulation = ({playerOne, playerTwo} : CongraProps) =>
           console.error('Error loading audio:', error);
         },
       });
-
-    winSound.play();
+    
+    Howler.stop();
+    setTimeout(() => {
+        winSound.play();
+    }, 1000)
 
     return (
         <div className='congcontainer'>

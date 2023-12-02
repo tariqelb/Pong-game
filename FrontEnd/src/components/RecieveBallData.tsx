@@ -1,8 +1,8 @@
 class RecieveBallData
 {  
     constructor()
-    {
-    }
+    {}
+
     ballX : number = 0;
     ballY : number = 0;
     ballWH : number = 0;
@@ -12,5 +12,6 @@ class RecieveBallData
     goalRestart : boolean = false;
     leftPlayerGoal : number = 0;
     rightPlayerGoal : number = 0;
+
 }
 export default RecieveBallData;

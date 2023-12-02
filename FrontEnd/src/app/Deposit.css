@@ -100,7 +100,7 @@
 
 .DepositConfirm > button
 {
-    width: 19vw;
+    width: 19vmin;
     height: 5vh;
     cursor: pointer;
     background-color: lightgray;

@@ -20,8 +20,10 @@ let BetterLuck = ({ playerOne, playerTwo} : BetterProps) =>
         },
       });
 
-    loseSound.play();
-
+    Howler.stop();
+    setTimeout(() => {
+          loseSound.play();
+    }, 1000)
 
     return (
         <div className='betterContainer'>

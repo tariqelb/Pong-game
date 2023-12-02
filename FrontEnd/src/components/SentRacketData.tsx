@@ -7,4 +7,5 @@ class SentRacketData
   
   lastPosY : number = 0;
 }
+ 
 export default SentRacketData;

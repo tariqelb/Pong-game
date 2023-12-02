@@ -24,6 +24,9 @@ class Ball
     ballFirst50Time : number = 0;
     ballFirstMove : boolean = true;
     goalRestart : boolean = false;
+    alertY : number = 0;
+    alertDirection : boolean = true;
+
     
     drawAndMove(data : GameContainer)
     {
@@ -35,7 +38,7 @@ class Ball
         // }
         if (this.ballFirst50Time < 250)
         {
-            this.ballSpeed = this.width / 250;
+            this.ballSpeed = this.width / 200;
             this.goalRestart = false;
             this.ballWH = this.height / 25;
             this.ballX = this.width / 2;
@@ -58,7 +61,7 @@ class Ball
         this.ballBottomTan = this.ballY + this.ballWH / 2;
         if (this.ballDirection === undefined)
         {
-            this.ballDirection = true;//(Math.floor(Math.random() * (2))) ? true : false;
+            this.ballDirection = (Math.floor(Math.random() * (2))) ? true : false;
             if (this.ballDirection === true)
                 this.ballAngle = 100;
             else

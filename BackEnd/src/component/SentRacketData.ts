@@ -10,5 +10,6 @@ class SentRacketData
   racketH : number = 0;
   racketW : number = 0;
   lastPosY : number = 0;
+
 }
 export default SentRacketData;

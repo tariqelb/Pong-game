@@ -71,6 +71,7 @@ let Waiting = ({ playerOne, playerTwo, updateRobotOpetion , updateMatchId, updat
                     plyTwoImg?.setAttribute('src', "question-mark.jpeg");
                     setTimeout(() => 
                     {
+                        console.log('match id ', playerOne.matchId)
                         if (PlayWithRobot)
                             PlayWithRobot.style.display = 'inline-block';
                     }, 100);
