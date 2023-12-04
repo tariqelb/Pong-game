@@ -1,6 +1,5 @@
 import UserInfo from "./UserInfo";
 import { Socket } from "socket.io";
-import { waitingPlayers } from "src/websocket.gateway";
 
 
 interface PlayersList
@@ -33,7 +32,6 @@ let addPlayerToWaitingList = (waitingPlayers: PlayersList[], tabId : string, cli
     } 
     newPlayer.playersInfo.tabId = tabId;
     waitingPlayers.push(newPlayer);
-    console.log("adding player to list : " , tabId)
 }
 
 let removePlayerFromWaitingList = (waitingPlayers: PlayersList[], client : Socket) : PlayersList[] => 

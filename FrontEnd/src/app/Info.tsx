@@ -1,10 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { io, Socket } from 'socket.io-client';
 import './Info.css';
-import GameContainer from "../components/gamecontainer";
-import { gameCapsule } from "./ParentComponent";
-// import { userInfo1 as Usr , userInfo2 as Usr2 } from "./App";
-import { tabId } from './App'
 import Goals from "./Goals";
 import UserInfo from "./UserInfo";
 

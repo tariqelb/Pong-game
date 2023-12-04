@@ -1,7 +1,6 @@
 import './ParentComponent.css'
 import App from "./App";
 import Info from "./Info";
-import Goals from "./Goals";
 import GameContainer from "../components/gamecontainer";
 import UserInfo from './UserInfo';
 import Modes from "./Modes";
@@ -9,29 +8,33 @@ import Deposit from "./Deposit";
 import Waiting from "./Waiting";
 import Ready from "./Ready";
 import Util from "./Util";
-import getPlayerData from "./GetPlayerData";
 import { useEffect, useState } from "react";
 import { tabId } from "./App";
 import Congratulation from "./Congratulation";
 import BetterLuck from "./BetterLuck";
-// let goals : Goals = new Goals();  
 
-
-let playerData : getPlayerData = new getPlayerData(); 
 let gameCapsule: GameContainer = new GameContainer();
 
-let playerOne : UserInfo = new UserInfo(tabId, "", 0, 0, "hunter X111", "kilua.jpg", "", 0, 0, 0, 0, 0, 0);
-let playerTwo : UserInfo | undefined = new UserInfo(tabId, "", 0, 0, "machi +", "machi.jpg", "", 0, 0, 0, 0, 0, 0);
-let robot     : UserInfo = new UserInfo(tabId, "", playerOne.matchWager, playerOne.modePlaying, "Mr Robot <|o_o|>", "robot.jpg", "", 0, 0 ,0, 12, 0, 0)
+let playerOne : UserInfo = new UserInfo(tabId, "", 0, 0, "hunter X111", "/images/kilua.jpg", "", 0, 0, 0, 0, 0, 0);
+let playerTwo : UserInfo | undefined = new UserInfo(tabId, "", 0, 0, "machi +", "/images/machi.jpg", "", 0, 0, 0, 0, 0, 0);
+let robot     : UserInfo = new UserInfo(tabId, "", playerOne.matchWager, playerOne.modePlaying, "Mr Robot <|o_o|>", "/images/robot.jpg", "", 0, 0 ,0, 12, 0, 0)
 
 function ParentComponent ({ playerOne : renamePlayerOne, playerTwo : renamePlayerTwo} : { playerOne : UserInfo , playerTwo : UserInfo | undefined })
 {
     let isMobileSet: boolean = false;
 
-    function isMobileOrTablet() 
+    function isMobileOrTablet() : boolean 
     {
         const userAgent = navigator.userAgent.toLowerCase();
         return /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(userAgent);
+    }
+
+    function isLandscape(): boolean 
+    {
+        const aspectRatio = window.innerWidth / window.innerHeight;
+        const isLandscape = aspectRatio > 1; // Landscape if aspect ratio is greater than 1
+    
+        return isLandscape;
     }
 
     useEffect(() => 
@@ -42,14 +45,18 @@ function ParentComponent ({ playerOne : renamePlayerOne, playerTwo : renamePlaye
           {
             console.log("It's a mobile");
             document.body.classList.add('bodyMobileClass');
+
             isMobileSet = true;
           }
           else if (isMobileOrTablet() === false && isMobileSet === true) 
           {
             console.log('It is not a mobile');
+
             document.body.classList.remove('bodyMobileClass');
             isMobileSet = false;
           }
+
+          
         }, 1000);
     
         return () => {
@@ -176,12 +183,12 @@ function ParentComponent ({ playerOne : renamePlayerOne, playerTwo : renamePlaye
     // playerOne.playWithRobot = true;
     // gameCapsule.playerNumber = 3
     // playerTwo = { ...robot}
-    return (
-        <>
-            <Info  playerOne={playerOne} playerTwo={playerTwo as UserInfo} updateMatchState={updateMatchState}/>
-            <App  gameCapsule={gameCapsule} playerOne={playerOne} playerTwo={playerTwo as UserInfo} updateMatchState={updateMatchState} />
-        </>
-    )
+    // return (
+    //     <>
+    //         <Info  playerOne={playerOne} playerTwo={playerTwo as UserInfo} updateMatchState={updateMatchState}/>
+    //         <App  gameCapsule={gameCapsule} playerOne={playerOne} playerTwo={playerTwo as UserInfo} updateMatchState={updateMatchState} />
+    //     </>
+    // )
 
     if (playerOne.playWithMouse === 0)
         return (< Util playerOne={playerOne} updateUserInfoUtil={UpdateUserInfoUtil}/>);
@@ -215,7 +222,5 @@ function ParentComponent ({ playerOne : renamePlayerOne, playerTwo : renamePlaye
 export default ParentComponent;
 
 export { gameCapsule };
-
-export { playerData };
 
 export { playerOne, playerTwo }

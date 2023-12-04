@@ -53,10 +53,24 @@ let resizeCanvas = (game : Game) : void =>
   game.canvasPranetDiv = game.p5.select('#root'); 
   if (game.canvasPranetDiv)
   {
-    canvasWidth = (game.canvasPranetDiv.elt.clientWidth ) -  (game.canvasPranetDiv.elt.clientWidth / 5)// game.gameBordersPixel; //the game..xel is the number of pixel give to canvas borders 
-    canvasHeight = ((game.canvasPranetDiv.elt.clientWidth ) / 2.5 ) - 15 //- game.gameBordersPixel;
-    if  (game.canvasPranetDiv.elt.clientHeight <= 300)
-      canvasHeight = 150;
+    canvasWidth = (game.canvasPranetDiv.elt.clientWidth )// game.gameBordersPixel; //the game..xel is the number of pixel give to canvas borders 
+    canvasHeight = game.canvasPranetDiv.elt.clientHeight //- game.gameBordersPixel;
+    if (canvasWidth > canvasHeight)
+    {
+      canvasWidth = canvasHeight - canvasHeight / 4
+      canvasHeight = canvasWidth / 2
+    }
+    else 
+    {
+      canvasWidth = canvasWidth - canvasWidth / 5
+      canvasHeight = canvasWidth / 2
+    }
+    // canvasWidth = (game.canvasPranetDiv.elt.clientWidth ) -  (game.canvasPranetDiv.elt.clientWidth / 5)// game.gameBordersPixel; //the game..xel is the number of pixel give to canvas borders 
+    // canvasHeight = ((game.canvasPranetDiv.elt.clientWidth ) / 2.5 ) - 15 //- game.gameBordersPixel;
+    // if  (game.canvasPranetDiv.elt.clientHeight <= 300)
+    //   canvasHeight = 100;
+    console.log("responsive : ", game.canvasPranetDiv.elt.clientHeight, game.canvasPranetDiv.elt.clientWidth ,canvasHeight)
+    // console.log("elt : ", game.canvasPranetDiv.elt)
     game.p5.resizeCanvas(canvasWidth, canvasHeight);
     if (Sounds.soundButton)
     {
@@ -477,4 +491,5 @@ function MySketch({gameCapsule ,  p5 , playerOne , playerTwo , weaponTemplate , 
   }
 }
 export default MySketch;
-export { Sounds, weapon };
+export { Sounds };
+export { weapon };

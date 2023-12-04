@@ -1,7 +1,6 @@
 import './Util.css'
 import UserInfo from './UserInfo';
 import { useState } from 'react';
-import { playerData } from './ParentComponent';
 import { Howl, Howler } from 'howler';
 
 Howler.volume(1.0);
@@ -26,23 +25,23 @@ let Util = ({ playerOne , updateUserInfoUtil} : UtilProps ) =>
       });
 
 
-    function forcePortrait() 
-    {
-      if (typeof window.screen !== 'undefined')
-      {
-        console.log("defined screen")
-        if (window.screen.orientation)
-        {
-          window.screen.orientation.lock('portrait');
-        }
-      }
-      else console.log("undefined val")
-    }
-    setTimeout(() => {
+    // function forcePortrait() 
+    // {
+    //   if (typeof window.screen !== 'undefined')
+    //   {
+    //     console.log("defined screen")
+    //     if (window.screen.orientation)
+    //     {
+    //       window.screen.orientation.lock('portrait');
+    //     }
+    //   }
+    //   else console.log("undefined val")
+    // }
+    // setTimeout(() => {
 
-        //window.addEventListener('load', forcePortrait);
-        //forcePortrait()
-    }, 100)
+    //     //window.addEventListener('load', forcePortrait);
+    //     //forcePortrait()
+    // }, 100)
 
     const [Util, setUtil] = useState(0)
     

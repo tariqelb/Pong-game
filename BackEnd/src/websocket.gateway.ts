@@ -1,8 +1,4 @@
 // websocket.gateway.ts
-import GameContainer from './component/gamecontainer';
-import Ball from './component/ball';
-import RacketData from './component/SentRacketData';
-
 import { OnGatewayConnection, OnGatewayDisconnect, OnGatewayInit, SubscribeMessage, WebSocketGateway, WebSocketServer} from '@nestjs/websockets';
 import { Server, Socket } from 'socket.io';
 import SentRacketData from './component/SentRacketData';
@@ -13,7 +9,7 @@ import Goals from './component/Goals';
 import UserInfo from './component/UserInfo';
 import { isAlreadyWaiting, addPlayerToWaitingList, findMatchigPlayer, updatePlayerObject, removePlayerFromWaitingList } from './component/waitingPlayers'
 import { getRoomByMatchId, clearRoom, getRoomByClientId, findAvailableRoom , addToRoom , checkIfGameNotOver, addInfoSocketToRoom, getRoomByClientInfoSocket} from './component/room'; 
-import WeaponTemplate, { moveAlert ,  weaponIndex} from './component/Weapon';
+import WeaponTemplate, { moveAlert} from './component/Weapon';
 
 interface PlayersList
 {
@@ -60,10 +56,6 @@ export class MyWebSocketGateway implements OnGatewayInit ,OnGatewayConnection, O
     const waitingTabsId : string  = query.waitingTabsId as string ;
 
     // console.log("query : ", query)
-    //logs
-    // console.log(`WebSocket connection from ${clientAddress} client id : ${client.id}  id : `, matchId);
-    // if (client.connected)
-    //   console.log(`WebSocket connection established for client from ${clientAddress}`);
     
     //add player to waiting list
     if (waitingTabsId !== undefined && waitingTabsId.length)
@@ -81,8 +73,6 @@ export class MyWebSocketGateway implements OnGatewayInit ,OnGatewayConnection, O
         playerNumber = 1;
       else
         playerNumber = 2;
-      if (room)
-        console.log("nbr clt : ",room.numberOfClients)
       if (client)
         client.emit('getPlayerNumber', playerNumber);
     }
@@ -93,8 +83,7 @@ export class MyWebSocketGateway implements OnGatewayInit ,OnGatewayConnection, O
       playerNumber = 1
       addToRoom(rooms, client, matchId, tabsId);
       let room : Rooms = getRoomByClientId(rooms, client.id)
-      if (!room)
-        console.log('i can not foud a room ===>')
+      
       if (room)
         room.numberOfClients = 3;
       if (client)
@@ -117,7 +106,6 @@ export class MyWebSocketGateway implements OnGatewayInit ,OnGatewayConnection, O
   handleMatchingRequest(client : Socket, obj : UserInfo)
   {
     let findPlayer : PlayersList | undefined = undefined
-    let caller : PlayersList ;
     let matchId : string = "";
     
     if (waitingPlayers.length)
@@ -127,7 +115,6 @@ export class MyWebSocketGateway implements OnGatewayInit ,OnGatewayConnection, O
       matchId = (Math.floor(Math.random() * 10000) + 1).toString() + Date.now().toString();
       findPlayer.playersInfo.matchId = matchId;
       obj.matchId = matchId;
-      console.log('the match id is : ', matchId)
       findPlayer.playersInfo.socket = null;
       if (client)
         client.emit('machingResponse', findPlayer.playersInfo);
@@ -293,7 +280,7 @@ handleWeaponrandomNumber(client: Socket)
     {
       if (room.getBothRacketData)
       {
-        room.container.ball.drawAndMove(room.container);
+        room.container.ball.drawAndMove(room.container, room.numberOfClients);
         
         data.ballX = room.container.ball.ballX;
         data.ballY = room.container.ball.ballY;

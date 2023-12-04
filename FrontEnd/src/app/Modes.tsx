@@ -1,7 +1,6 @@
 import './Modes.css'
 import UserInfo from './UserInfo';
 import { useState } from 'react';
-import { playerData } from './ParentComponent';
 import { Howl, Howler } from 'howler';
 
 Howler.volume(1.0);

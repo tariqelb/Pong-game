@@ -116,13 +116,13 @@
 
 .U1
 {
-    background-image: url('../../public/mouse.jpg') ;
+    background-image: url('../../public/images/mouse.jpg') ;
     background-size: 14vw 11vh;
 }
 
 .U2
 {
-    background-image: url('../../public/keyboard.jpg') ;
+    background-image: url('../../public/images/keyboard.jpg') ;
     background-size: 14vw 11vh;
 }
 

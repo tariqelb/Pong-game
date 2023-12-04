@@ -2,7 +2,7 @@ import './Waiting.css'
 import UserInfo from './UserInfo';
 import { io, Socket } from 'socket.io-client';
 import { tabId as waitingTabsId } from './App'
-import { useEffect , useState} from 'react';
+import { useEffect } from 'react';
 import { Howl, Howler } from 'howler';
 
 Howler.volume(1.0);
@@ -27,7 +27,7 @@ let Waiting = ({ playerOne, playerTwo, updateRobotOpetion , updateMatchId, updat
     let plyTwoImg : HTMLElement | null = null;
     let PlayWithRobot : HTMLElement | null = null;
     let TheSwitch : boolean = false;
-    let playersImages : string [] = ["broko.jpg", "flamingo.jpg", "franky.jpg", "Mihawk.jpg", "paji.jpg", "sabo.jpg", "usopp.jpg", "zoro.jpg", "ice.jpg", "bigMama.jpg", "illumi.jpg", "miluki.jpg", "pakunda.jpg", "shalnark.jpg", "shizuku.jpg", "corollo.jpg", "kurapika.jpeg", "sanji.jpg", "chopper.jpg", "nami.jpg", "luffy.jpg", "perona.jpg", "robin.jpg"];
+    let playersImages : string [] = ["/images/broko.jpg", "/images/flamingo.jpg", "/images/franky.jpg", "/images/Mihawk.jpg", "/images/paji.jpg", "/images/sabo.jpg", "/images/usopp.jpg", "/images/zoro.jpg", "/images/ice.jpg", "/images/bigMama.jpg", "/images/illumi.jpg", "/images/miluki.jpg", "/images/pakunda.jpg", "/images/shalnark.jpg", "/images/shizuku.jpg", "images/corollo.jpg", "/images/kurapika.jpeg", "/images/sanji.jpg", "/images/chopper.jpg", "/images/nami.jpg", "/images/luffy.jpg", "/images/perona.jpg", "/images/robin.jpg"];
     let index : number = 0;
 
     let slideSound = new Howl({
@@ -68,7 +68,7 @@ let Waiting = ({ playerOne, playerTwo, updateRobotOpetion , updateMatchId, updat
             {
                 if (player === null)
                 {
-                    plyTwoImg?.setAttribute('src', "question-mark.jpeg");
+                    plyTwoImg?.setAttribute('src', "/images/question-mark.jpeg");
                     setTimeout(() => 
                     {
                         console.log('match id ', playerOne.matchId)
@@ -142,7 +142,7 @@ let Waiting = ({ playerOne, playerTwo, updateRobotOpetion , updateMatchId, updat
     document.addEventListener('DOMContentLoaded', function() 
     {
         plyOneImg?.setAttribute('src', playerOne.userAvatar);
-        plyTwoImg?.setAttribute('src', "question-mark.jpeg");
+        plyTwoImg?.setAttribute('src', "/images/question-mark.jpeg");
     });
 
     let setRobotOpetion = (val : boolean) =>
@@ -172,7 +172,7 @@ let Waiting = ({ playerOne, playerTwo, updateRobotOpetion , updateMatchId, updat
                 <div className='WaitingPlyInside1'>
                     {/* <p className="winLose"> </p> */}
                     <div className="WaitingAvatarR1Cover">
-                        <div className="WaitingAvatarR1"><img id="WaitingAvatarR2" src="question-mark.jpeg" alt="Avatar" ></img></div>
+                        <div className="WaitingAvatarR1"><img id="WaitingAvatarR2" src="/images/question-mark.jpeg" alt="Avatar" ></img></div>
                     </div>
                     <div className='WaitingPlayerName1'>
                         <p>{playerTwo?.userName}</p>
@@ -190,7 +190,7 @@ let Waiting = ({ playerOne, playerTwo, updateRobotOpetion , updateMatchId, updat
                 <div className='WaitingPlyInside2'>
                     {/* <p className="winLose">Winner</p> */}
                     <div className="WaitingAvatarR2Cover">
-                        <div className="WaitingAvatarR2"><img id="WaitingAvatarR1" src="question-mark.jpeg" alt="Avatar"></img></div>
+                        <div className="WaitingAvatarR2"><img id="WaitingAvatarR1" src="/images/question-mark.jpeg" alt="Avatar"></img></div>
                     </div>
                     <div className='WaitingPlayerName2'>
                         <p>{playerOne.userName}</p>

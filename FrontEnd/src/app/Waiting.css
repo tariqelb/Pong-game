@@ -130,7 +130,7 @@
     width: 9vmin;
     height: 10vmin;
     background-color: #134371;
-    background-image: url('../../public/question-mark.jpeg');
+    background-image: url('../../public/images/question-mark.jpeg');
     background-size: 9vmin 10vmin;
     clip-path    : polygon(0% 25%, 0% 75%, 50% 100%, 100% 75%, 100% 25%, 50% 0%);
 }
@@ -181,7 +181,7 @@
     display: inline-block;
     width: 9vmin;
     height: 10vmin;
-    background-image: url('../../public/question-mark.jpeg');
+    background-image: url('../../public/images/question-mark.jpeg');
     background-size: 9vmin 10vmin;
     clip-path    : polygon(0% 25%, 0% 75%, 50% 100%, 100% 75%, 100% 25%, 50% 0%);
 }

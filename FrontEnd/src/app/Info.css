@@ -114,7 +114,7 @@
     vertical-align: top;
     width: 21.5vw;
     height: 12vmin;
-    background-color: rgb(55, 98, 109);
+    /* background-color: rgb(55, 98, 109); */
     background-color: rgb(189, 235, 246);
     border-top-right-radius: 15vw 18vh;
 }
@@ -201,7 +201,7 @@
     height: 7vmin;
     clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
     background-size: 6vw 8vmin;
-    background-image: url(../../public/question-mark.jpeg);
+    background-image: url(../../public/images/question-mark.jpeg);
 }
 
 #infoAvatar01
@@ -241,7 +241,7 @@
     height: 7vmin;
     clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
     background-size: 6vw 8vmin;
-    background-image: url(../../public/question-mark.jpeg);
+    background-image: url(../../public/images/question-mark.jpeg);
 }
 
 #infoAvatar02
@@ -452,7 +452,7 @@
     cursor: pointer;
     clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
     background-size: 5vw 8vmin;
-    background-image: url(../../public/question-mark.jpeg);
+    background-image: url(../../public/images/question-mark.jpeg);
 }
 
 
@@ -468,7 +468,7 @@
     height: 8vmin;
     margin: 1vmin 0.5vw;
     background-color: aliceblue;
-    background-image: url(../../public/HxhLogo.png);
+    background-image: url(../../public/images/HxhLogo.png);
     background-size: 3vw 8vmin;
     border-bottom-left-radius: 3vmin;
     border-bottom-right-radius: 3vmin;
@@ -667,7 +667,7 @@
     cursor: pointer;
     clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
     background-size: 5vw 8vmin;
-    background-image: url(../../public/question-mark.jpeg);
+    background-image: url(../../public/images/question-mark.jpeg);
 }
 
 

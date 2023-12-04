@@ -153,7 +153,7 @@
     width: 9vmin;
     height: 10vmin;
     background-color: #134371;
-    background-image: url('../../public/kilua.jpg');
+    background-image: url('../../public/images/kilua.jpg');
     background-size: 9vmin 9vmin;
     clip-path    : polygon(0% 25%, 0% 75%, 50% 100%, 100% 75%, 100% 25%, 50% 0%);
 }
@@ -201,7 +201,7 @@
     display: inline-block;
     width: 9vmin;
     height: 10vmin;
-    background-image: url('../../public/machi.jpg');
+    background-image: url('../../public/images/machi.jpg');
     background-size: 9vmin 10vmin;
     clip-path    : polygon(0% 25%, 0% 75%, 50% 100%, 100% 75%, 100% 25%, 50% 0%);
 }

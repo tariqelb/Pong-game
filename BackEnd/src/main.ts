@@ -31,27 +31,5 @@ async function bootstrap()
   let IPV4 = "0.0.0.0";
   await app.listen(port , IPV4,  () => console.log(`Listening on port ${port}`));
 }
+
 bootstrap();
-
-
-
-//import cors from '@fastify/cors';
-//import { ConnectionLoggerMiddleware } from './connection-logger.middleware'; // Import the middleware
-//app.register(cors, { origin: true, credentials: true, methods: 'GET,POST'});
-/*
-import { NestFactory } from '@nestjs/core';
-import { AppModule } from './app.module';
-import { NestExpressApplication } from '@nestjs/platform-express';
-import { join } from 'path';
-
-async function bootstrap() {
-  const app = await NestFactory.create<NestExpressApplication>(AppModule);
-  app.enableCors({
-    origin: 'http://localhost:3000', // Replace with your React app's URL
-    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-    credentials: true,
-  });
-  app.useStaticAssets(join(__dirname, '..', 'static'));
-  await app.listen(3011);
-}
-bootstrap();*/

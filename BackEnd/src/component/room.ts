@@ -1,7 +1,3 @@
-import RecieveBallData from "./RecieveBallData";
-import SentRacketData from "./SentRacketData";
-import RecieveRacketData from "./RecieveRacketData";
-import Ball from './ball'
 import GameContainer from "./gamecontainer";
 import { Socket } from "socket.io";
 
@@ -97,7 +93,6 @@ function addToRoom(rooms : Rooms[],  client: Socket, matchID : string, tabsId : 
     room.clientOneTabId = tabsId;
     room.clientOneSocket = client;
     room.numberOfClients = 3
-    console.log('robot number 3')
 
   }
   else if (room.numberOfClients === 0) 

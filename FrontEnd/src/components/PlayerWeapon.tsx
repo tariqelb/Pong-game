@@ -1,12 +1,6 @@
-import Game from './gameInstance'
 
 class PlayerWeapon
 {
-    // constructor (plyNumber : number, weapon : WeaponImg)
-    // {
-    //     this.playerNumber = plyNumber;
-    //     this.weapon = weapon
-    // }
 
    
     random : number = 0;

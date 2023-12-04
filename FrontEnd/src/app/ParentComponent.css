@@ -1,13 +1,13 @@
 
-/* .bodyMobileClass
+.bodyMobileClass
 {
-    -webkit-transform: rotate(90deg); 
+    /* -webkit-transform: rotate(90deg); 
     -moz-transform: rotate(90deg); 
     -ms-transform: rotate(90deg); 
     -o-transform: rotate(90deg); 
-    transform: rotate(90deg); 
-} */
-@media screen and (max-device-width: 767px) and (orientation: landscape) {
+    transform: rotate(90deg);  */
+}
+/* @media screen and (max-device-width: 767px) and (orientation: landscape) {
     .bodyMobileClass {
         -webkit-transform: rotate(90deg); 
         -moz-transform: rotate(90deg); 
@@ -15,4 +15,4 @@
         -o-transform: rotate(90deg); 
         transform: rotate(90deg); 
     }
-}
+} */

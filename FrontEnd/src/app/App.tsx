@@ -149,8 +149,8 @@ function App({ gameCapsule, playerOne, playerTwo , updateMatchState }: AppProps 
   };
 
   useEffect(() => {
-    setupSocket(playerOne.matchId, playerOne.tabId); // Initialize WebSocket when the component mounts
-    const intervalId = setInterval(sendDataToServer, 10);
+     setupSocket(playerOne.matchId, playerOne.tabId); // Initialize WebSocket when the component mounts
+    const intervalId =  setInterval(sendDataToServer, 10);
 
     return () => {
       clearInterval(intervalId); // Clean up the interval when the component unmounts

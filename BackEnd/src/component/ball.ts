@@ -28,7 +28,7 @@ class Ball
     alertDirection : boolean = true;
 
     
-    drawAndMove(data : GameContainer)
+    drawAndMove(data : GameContainer, nbrOfclt : number)
     {
         // if (this.goalRestart) the goal behind this code re to return racket to the middle after a goal  
         // {
@@ -38,7 +38,10 @@ class Ball
         // }
         if (this.ballFirst50Time < 250)
         {
-            this.ballSpeed = this.width / 200;
+            if (nbrOfclt === 3)
+                this.ballSpeed = 2.2//this.width / 200;
+            else
+                this.ballSpeed = 1.5//this.width / 200;
             this.goalRestart = false;
             this.ballWH = this.height / 25;
             this.ballX = this.width / 2;
