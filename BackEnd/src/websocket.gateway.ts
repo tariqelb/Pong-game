@@ -11,6 +11,8 @@ import { isAlreadyWaiting, addPlayerToWaitingList, findMatchigPlayer, updatePlay
 import { getRoomByMatchId, clearRoom, getRoomByClientId, findAvailableRoom , addToRoom , checkIfGameNotOver, addInfoSocketToRoom, getRoomByClientInfoSocket} from './component/room'; 
 import WeaponTemplate, { moveAlert} from './component/Weapon';
 
+import { GraphqlModule } from './graphql/graphql.module';
+
 interface PlayersList
 {
     playersInfo   : UserInfo;
@@ -27,15 +29,6 @@ class infoObj
 
 let rooms : Rooms[] = [];
 
-
-
-function startGame(room: Rooms) 
-{
-  if (room.clientOneSocket)
-    room.clientOneSocket.emit('start-game', 'Game has started!');
-  if (room.clientTwoSocket)
-    room.clientTwoSocket.emit('start-game', 'Game has started!');
-}
 
 
 //@WebSocketGateway(4056,{ path:G '/game-container', transports: ['websocket'] })
@@ -90,11 +83,17 @@ export class MyWebSocketGateway implements OnGatewayInit ,OnGatewayConnection, O
         client.emit('getPlayerNumber', playerNumber);
     }
   }
-  
-  afterInit() 
+
+  async afterInit() 
   {
+    // await GraphqlModule.configureGraphQL(); // Configure GraphQL after WebSocketGateway initialization
     console.log('WebSocket server initialized');
   }
+  
+  // afterInit() 
+  // {
+  //   console.log('WebSocket server initialized');
+  // }
 //--------------------------------------- start of events come from wainting component -------
   @SubscribeMessage('updatePlayerObject')
   handlePlayerObject(client: Socket, obj : UserInfo)
